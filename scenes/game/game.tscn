@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://lk2763otwgx3"]
+
+[ext_resource type="PackedScene" uid="uid://de7h8jm6m2wyh" path="res://scenes/player/player.tscn" id="1_7h61r"]
+[ext_resource type="Script" uid="uid://bo4graajv0pcp" path="res://scripts/game/world_generator.gd" id="1_sul5r"]
+
+[node name="Game" type="Node2D" unique_id=1378207982]
+
+[node name="Actors" type="Node2D" parent="." unique_id=1378740191]
+
+[node name="Player" parent="Actors" unique_id=1390145703 instance=ExtResource("1_7h61r")]
+z_index = 1
+position = Vector2(640, 360)
+
+[node name="Interface" type="Node2D" parent="." unique_id=1147520033]
+
+[node name="World" type="Node2D" parent="." unique_id=822583601]
+script = ExtResource("1_sul5r")
+map_height = 22
