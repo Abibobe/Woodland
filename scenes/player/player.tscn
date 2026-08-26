@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://de7h8jm6m2wyh"]
 
 [ext_resource type="Script" uid="uid://b5dbqslj8i6rq" path="res://scripts/player/player.gd" id="1_8afob"]
+[ext_resource type="Script" uid="uid://634uwshw7nv3" path="res://scripts/player/player_interaction.gd" id="2_dovo2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(20, 28)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4v7s"]
+radius = 42.0
+
 [node name="Player" type="CharacterBody2D" unique_id=1390145703]
 script = ExtResource("1_8afob")
+minimum_position = Vector2(10, 60)
+maximum_position = Vector2(1270, 706)
 
 [node name="PlayerVisual" type="Polygon2D" parent="." unique_id=914764962]
 color = Color(0.9098039, 0.72156864, 0.36078432, 1)
@@ -15,3 +21,9 @@ uv = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 24, -45, -4, -42)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1807857183]
 shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="PlayerInteraction" type="Area2D" parent="." unique_id=299803811]
+script = ExtResource("2_dovo2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteraction" unique_id=1194462231]
+shape = SubResource("CircleShape2D_g4v7s")

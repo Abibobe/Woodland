@@ -18,6 +18,7 @@ const SOIL_COLOR := Color("#8a6748")
 var noise := FastNoiseLite.new()
 var generated_seed: int
 
+@onready var resource_spawner: ResourceSpawner = $ResourceSpawner
 
 func _ready() -> void:
 	generate_world()
@@ -27,13 +28,20 @@ func generate_world() -> void:
 	generated_seed = world_seed
 
 	if generated_seed == 0:
-		generated_seed = randi()
+		generated_seed = randi_range(1, 2_000_000_000)
 
 	noise.seed = generated_seed
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
 	noise.frequency = 0.08
 
 	queue_redraw()
+
+	resource_spawner.generate_resources(
+		generated_seed,
+		map_width,
+		map_height,
+		tile_size
+	)
 
 	print("Generated world with seed: ", generated_seed)
 
