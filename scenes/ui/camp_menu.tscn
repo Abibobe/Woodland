@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://cqiauisgcm63r"]
+
+[ext_resource type="Script" uid="uid://db8gt014ap2n7" path="res://scripts/ui/camp_menu.gd" id="1_l3imh"]
+
+[node name="CampMenu" type="Control" unique_id=1019713792]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_l3imh")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1097532919]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=2066736328]
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="Content" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=235327967]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/Content" unique_id=2049276205]
+layout_mode = 2
+text = "Build Campfire
+"
+
+[node name="CostLabel" type="Label" parent="Panel/MarginContainer/Content" unique_id=1631489784]
+layout_mode = 2
+text = "Cost: 5 Woods"
+
+[node name="MessageLabel" type="Label" parent="Panel/MarginContainer/Content" unique_id=1860516540]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/MarginContainer/Content" unique_id=1367119557]
+layout_mode = 2
+alignment = 1
+
+[node name="BuildButton" type="Button" parent="Panel/MarginContainer/Content/Buttons" unique_id=963643579]
+layout_mode = 2
+text = "Build"
+
+[node name="CloseButton" type="Button" parent="Panel/MarginContainer/Content/Buttons" unique_id=1978587449]
+layout_mode = 2
+text = "Close"

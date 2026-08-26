@@ -9,8 +9,14 @@ extends CharacterBody2D
 @export var minimum_position := Vector2(10.0, 14.0)
 @export var maximum_position := Vector2(1270.0, 690.0)
 
+var movement_enabled: bool = true
 
 func _physics_process(_delta: float) -> void:
+	
+	if not movement_enabled:
+		velocity = Vector2.ZERO
+		return
+	
 	var input_direction := Input.get_vector(
 		"move_left",
 		"move_right",
@@ -36,3 +42,10 @@ func _keep_inside_map() -> void:
 		minimum_position.y,
 		maximum_position.y
 	)
+
+
+func set_movement_enabled(enabled: bool) -> void:
+	movement_enabled = enabled
+
+	if not movement_enabled:
+		velocity = Vector2.ZERO

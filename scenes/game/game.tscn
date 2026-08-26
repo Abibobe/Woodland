@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://b8y2fn4vmrt0v" path="res://scenes/resources/resource_node.tscn" id="3_0sr1o"]
 [ext_resource type="PackedScene" uid="uid://u5i0l7jwer37" path="res://scenes/ui/hud.tscn" id="3_bdhmt"]
 [ext_resource type="Script" uid="uid://cwgqet65ub2gk" path="res://scripts/game/resource_spawner.gd" id="3_kelw5"]
+[ext_resource type="PackedScene" uid="uid://cqiauisgcm63r" path="res://scenes/ui/camp_menu.tscn" id="4_2a8rs"]
 [ext_resource type="Script" uid="uid://c1qwsvjbln17i" path="res://scripts/game/resource_inventory.gd" id="5_lfrn8"]
+[ext_resource type="PackedScene" uid="uid://sedfcx8yhbn2" path="res://scenes/buildings/camp.tscn" id="7_87uf6"]
 
 [node name="Game" type="Node2D" unique_id=1378207982]
 script = ExtResource("1_5i0tg")
@@ -15,11 +17,14 @@ script = ExtResource("1_5i0tg")
 
 [node name="Player" parent="Actors" unique_id=1390145703 instance=ExtResource("1_7h61r")]
 z_index = 1
-position = Vector2(640, 360)
+position = Vector2(640, 440)
 
 [node name="Interface" type="CanvasLayer" parent="." unique_id=1423675154]
 
 [node name="HUD" parent="Interface" unique_id=143992237 instance=ExtResource("3_bdhmt")]
+
+[node name="CampMenu" parent="Interface" unique_id=1019713792 instance=ExtResource("4_2a8rs")]
+visible = false
 
 [node name="World" type="Node2D" parent="." unique_id=822583601]
 script = ExtResource("1_sul5r")
@@ -27,6 +32,9 @@ script = ExtResource("1_sul5r")
 [node name="ResourceSpawner" type="Node2D" parent="World" unique_id=1053585402]
 script = ExtResource("3_kelw5")
 resource_scene = ExtResource("3_0sr1o")
+
+[node name="Camp" parent="World" unique_id=1349754192 instance=ExtResource("7_87uf6")]
+position = Vector2(640, 352)
 
 [node name="ResourceInventory" type="Node" parent="." unique_id=1444687244]
 script = ExtResource("5_lfrn8")

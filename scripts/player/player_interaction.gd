@@ -2,13 +2,11 @@ class_name PlayerInteraction
 extends Area2D
 
 
-signal resource_collected(
-	resource_type: int,
-	amount: int
-)
+signal interaction_completed(result: Dictionary)
+signal interaction_prompt_changed(text: String)
 
 
-var nearby_resources: Array[ResourceNode] = []
+var nearby_targets: Array[InteractionTarget] = []
 
 
 func _ready() -> void:
@@ -22,53 +20,74 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func interact() -> void:
-	var resource := _get_closest_resource()
+	var target := _get_closest_target()
 
-	if resource == null:
+	if target == null:
 		return
 
-	var collected_amount := resource.gather(1)
+	var result := target.interact()
 
-	if collected_amount <= 0:
+	if not result.is_empty():
+		interaction_completed.emit(result)
+
+	if target.is_queued_for_deletion():
+		nearby_targets.erase(target)
+	
+	# Opening the camp menu disables interaction.
+	# In that case, do not show the prompt again.
+	if not is_processing_unhandled_input():
 		return
 
-	resource_collected.emit(
-		resource.resource_type,
-		collected_amount
-	)
-
-	print(
-		"Collected ",
-		collected_amount,
-		" ",
-		resource.get_resource_name()
-	)
+	_refresh_interaction_prompt()
 
 
-func _get_closest_resource() -> ResourceNode:
-	var closest_resource: ResourceNode = null
+func _get_closest_target() -> InteractionTarget:
+	var closest_target: InteractionTarget = null
 	var closest_distance := INF
 
-	for resource in nearby_resources:
-		if not is_instance_valid(resource):
+	for target in nearby_targets:
+		if not is_instance_valid(target):
+			continue
+
+		if target.is_queued_for_deletion():
 			continue
 
 		var distance := global_position.distance_to(
-			resource.global_position
+			target.global_position
 		)
 
 		if distance < closest_distance:
 			closest_distance = distance
-			closest_resource = resource
+			closest_target = target
 
-	return closest_resource
+	return closest_target
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is ResourceNode:
-		nearby_resources.append(body)
+	if body is InteractionTarget:
+		if not nearby_targets.has(body):
+			nearby_targets.append(body)
+
+		_refresh_interaction_prompt()
 
 
 func _on_body_exited(body: Node2D) -> void:
-	if body is ResourceNode:
-		nearby_resources.erase(body)
+	if body is InteractionTarget:
+		nearby_targets.erase(body)
+		_refresh_interaction_prompt()
+
+
+func _refresh_interaction_prompt() -> void:
+	var target := _get_closest_target()
+
+	if target == null:
+		interaction_prompt_changed.emit("")
+		return
+
+	interaction_prompt_changed.emit(
+		target.get_interaction_text()
+	)
+
+
+func refresh_prompt() -> void:
+	_refresh_interaction_prompt()

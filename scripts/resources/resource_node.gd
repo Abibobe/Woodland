@@ -1,5 +1,5 @@
 class_name ResourceNode
-extends StaticBody2D
+extends InteractionTarget
 
 
 enum ResourceType {
@@ -33,6 +33,23 @@ func get_resource_name() -> String:
 			return "Food"
 
 	return "Unknown"
+
+
+func get_interaction_text() -> String:
+	return "E — Gather %s" % get_resource_name()
+
+
+func interact() -> Dictionary:
+	var gathered_amount := gather(1)
+
+	if gathered_amount <= 0:
+		return {}
+
+	return {
+		"action": "resource_collected",
+		"resource_type": resource_type,
+		"amount": gathered_amount
+	}
 
 func gather(requested_amount: int = 1) -> int:
 	if requested_amount <= 0:
