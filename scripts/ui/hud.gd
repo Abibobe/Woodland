@@ -27,13 +27,13 @@ func set_resource_amount(
 	amount: int
 ) -> void:
 	match resource_type:
-		ResourceNode.ResourceType.WOOD:
+		ResourceTypes.Type.WOOD:
 			wood_label.text = "Wood %s" % amount
 
-		ResourceNode.ResourceType.STONE:
+		ResourceTypes.Type.STONE:
 			stone_label.text = "Stone %s" % amount
 
-		ResourceNode.ResourceType.FOOD:
+		ResourceTypes.Type.FOOD:
 			food_label.text = "Food %s" % amount
 
 
@@ -42,8 +42,15 @@ func _ready() -> void:
 	call_deferred("_apply_layout")
 
 
-func set_day(day: int) -> void:
-	day_label.text = "Day %s" % day
+
+func set_day(
+	day: int,
+	phase: String
+) -> void:
+	day_label.text = "Day %s · %s" % [
+		day,
+		phase
+	]
 
 func _apply_layout() -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
@@ -73,5 +80,4 @@ func show_interaction_prompt(text: String) -> void:
 
 
 func hide_interaction_prompt() -> void:
-	print("@#!@#!@#!@#")
 	interaction_prompt.hide()

@@ -11,7 +11,12 @@ extends Node2D
 
 @onready var player: Player = $Actors/Player
 @onready var camp_menu: CampMenu = $Interface/CampMenu
+@onready var day_cycle: DayCycle = $DayCycle
 
+@onready var camp: Camp = $World/Camp
+@onready var result_screen: ResultScreen = $Interface/ResultScreen
+
+var game_finished: bool = false
 var active_camp: Camp
 
 
@@ -34,6 +39,27 @@ func _ready() -> void:
 
 	camp_menu.close_requested.connect(
 		_close_camp_menu
+	)
+	
+	day_cycle.display_changed.connect(
+		_on_time_display_changed
+	)
+
+	day_cycle.day_ended.connect(
+		_on_day_ended
+	)
+
+	day_cycle.survival_period_completed.connect(
+		_on_survival_period_completed
+	)
+
+	_on_time_display_changed(
+		day_cycle.current_day,
+		day_cycle.get_phase_name()
+	)
+	
+	result_screen.restart_requested.connect(
+		_on_restart_requested
 	)
 	
 	_update_entire_hud()
@@ -86,18 +112,18 @@ func _on_inventory_resource_changed(
 
 func _update_entire_hud() -> void:
 	hud.set_resource_amount(
-		ResourceNode.ResourceType.WOOD,
-		inventory.get_amount(ResourceNode.ResourceType.WOOD)
+		ResourceTypes.Type.WOOD,
+		inventory.get_amount(ResourceTypes.Type.WOOD)
 	)
 
 	hud.set_resource_amount(
-		ResourceNode.ResourceType.STONE,
-		inventory.get_amount(ResourceNode.ResourceType.STONE)
+		ResourceTypes.Type.STONE,
+		inventory.get_amount(ResourceTypes.Type.STONE)
 	)
 
 	hud.set_resource_amount(
-		ResourceNode.ResourceType.FOOD,
-		inventory.get_amount(ResourceNode.ResourceType.FOOD)
+		ResourceTypes.Type.FOOD,
+		inventory.get_amount(ResourceTypes.Type.FOOD)
 	)
 
 
@@ -111,13 +137,13 @@ func _on_interaction_prompt_changed(text: String) -> void:
 
 func _open_camp_menu(camp: Camp) -> void:
 	active_camp = camp
-	print("CCC")
+	
 	hud.hide_interaction_prompt()
 	
 	player.set_movement_enabled(false)
 	player_interaction.set_process_unhandled_input(false)
 	
-
+	day_cycle.set_running(false)
 	_refresh_camp_menu()
 
 
@@ -148,6 +174,13 @@ func _on_camp_build_requested() -> void:
 
 	_pay_cost(costs)
 	active_camp.advance_construction()
+
+	if active_camp.current_stage == Camp.CampStage.CABIN:
+		_finish_game(
+			"Victory",
+			"The cabin is complete. You are ready for winter."
+		)
+		return
 
 	_refresh_camp_menu()
 
@@ -180,7 +213,7 @@ func _format_cost(costs: Dictionary) -> String:
 	var parts := PackedStringArray()
 
 	for resource_type in costs:
-		var resource_name := _get_resource_name(
+		var resource_name := ResourceTypes.get_display_name(
 			int(resource_type)
 		)
 
@@ -194,19 +227,6 @@ func _format_cost(costs: Dictionary) -> String:
 	return ", ".join(parts)
 
 
-func _get_resource_name(resource_type: int) -> String:
-	match resource_type:
-		ResourceNode.ResourceType.WOOD:
-			return "Wood"
-
-		ResourceNode.ResourceType.STONE:
-			return "Stone"
-
-		ResourceNode.ResourceType.FOOD:
-			return "Food"
-
-	return "Unknown"
-
 
 func _close_camp_menu() -> void:
 	camp_menu.close_menu()
@@ -215,5 +235,73 @@ func _close_camp_menu() -> void:
 	player.set_movement_enabled(true)
 	player_interaction.set_process_unhandled_input(true)
 	player_interaction.refresh_prompt()
+	day_cycle.set_running(true)
 	
-	
+func _on_time_display_changed(
+	day: int,
+	phase: String
+) -> void:
+	hud.set_day(day, phase)
+
+
+func _on_day_ended(day: int) -> void:
+	if game_finished:
+		return
+
+	var food_type := ResourceTypes.Type.FOOD
+	var food_consumed := inventory.remove_resource(
+		food_type,
+		1
+	)
+
+	if not food_consumed:
+		_finish_game(
+			"Defeat",
+			"You had no food at the end of day %s."
+				% day
+		)
+		return
+
+	print("Day %s ended. One food consumed." % day)
+
+
+func _on_survival_period_completed() -> void:
+	if game_finished:
+		return
+
+	if camp.current_stage == Camp.CampStage.CABIN:
+		_finish_game(
+			"Victory",
+			"The cabin is ready for winter."
+		)
+	else:
+		_finish_game(
+			"Defeat",
+			"Winter arrived before the cabin was completed."
+		)
+
+func _finish_game(
+	title: String,
+	message: String
+) -> void:
+	if game_finished:
+		return
+
+	game_finished = true
+	active_camp = null
+
+	day_cycle.set_running(false)
+	player.set_movement_enabled(false)
+	player_interaction.set_process_unhandled_input(false)
+
+	hud.hide_interaction_prompt()
+	camp_menu.close_menu()
+
+	result_screen.show_result(
+		title,
+		message
+	)
+
+
+func _on_restart_requested() -> void:
+	get_tree().reload_current_scene()

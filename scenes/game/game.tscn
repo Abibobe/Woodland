@@ -7,8 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://u5i0l7jwer37" path="res://scenes/ui/hud.tscn" id="3_bdhmt"]
 [ext_resource type="Script" uid="uid://cwgqet65ub2gk" path="res://scripts/game/resource_spawner.gd" id="3_kelw5"]
 [ext_resource type="PackedScene" uid="uid://cqiauisgcm63r" path="res://scenes/ui/camp_menu.tscn" id="4_2a8rs"]
+[ext_resource type="PackedScene" uid="uid://duyh0un27umb6" path="res://scenes/ui/result_screen.tscn" id="5_kp23o"]
 [ext_resource type="Script" uid="uid://c1qwsvjbln17i" path="res://scripts/game/resource_inventory.gd" id="5_lfrn8"]
 [ext_resource type="PackedScene" uid="uid://sedfcx8yhbn2" path="res://scenes/buildings/camp.tscn" id="7_87uf6"]
+[ext_resource type="Script" uid="uid://dlaaj1d87wtfg" path="res://scripts/game/day_cycle.gd" id="10_4j704"]
 
 [node name="Game" type="Node2D" unique_id=1378207982]
 script = ExtResource("1_5i0tg")
@@ -26,6 +28,8 @@ position = Vector2(640, 440)
 [node name="CampMenu" parent="Interface" unique_id=1019713792 instance=ExtResource("4_2a8rs")]
 visible = false
 
+[node name="ResultScreen" parent="Interface" unique_id=513272366 instance=ExtResource("5_kp23o")]
+
 [node name="World" type="Node2D" parent="." unique_id=822583601]
 script = ExtResource("1_sul5r")
 
@@ -38,3 +42,6 @@ position = Vector2(640, 352)
 
 [node name="ResourceInventory" type="Node" parent="." unique_id=1444687244]
 script = ExtResource("5_lfrn8")
+
+[node name="DayCycle" type="Node2D" parent="." unique_id=367428266]
+script = ExtResource("10_4j704")

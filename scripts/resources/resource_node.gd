@@ -9,7 +9,7 @@ enum ResourceType {
 }
 
 
-@export var resource_type: ResourceType = ResourceType.WOOD:
+@export var resource_type: ResourceTypes.Type = ResourceTypes.Type.WOOD:
 	set(value):
 		resource_type = value
 		queue_redraw()
@@ -22,17 +22,9 @@ func _ready() -> void:
 
 
 func get_resource_name() -> String:
-	match resource_type:
-		ResourceType.WOOD:
-			return "Wood"
-
-		ResourceType.STONE:
-			return "Stone"
-
-		ResourceType.FOOD:
-			return "Food"
-
-	return "Unknown"
+	return ResourceTypes.get_display_name(
+		resource_type
+	)
 
 
 func get_interaction_text() -> String:
@@ -69,15 +61,14 @@ func gather(requested_amount: int = 1) -> int:
 
 func _draw() -> void:
 	match resource_type:
-		ResourceType.WOOD:
+		ResourceTypes.Type.WOOD:
 			_draw_tree()
 
-		ResourceType.STONE:
+		ResourceTypes.Type.STONE:
 			_draw_rock()
 
-		ResourceType.FOOD:
+		ResourceTypes.Type.FOOD:
 			_draw_berry_bush()
-
 
 func _draw_tree() -> void:
 	draw_rect(

@@ -34,7 +34,7 @@ func generate_resources(
 	)
 
 	_spawn_resource_type(
-		ResourceNode.ResourceType.WOOD,
+		ResourceTypes.Type.WOOD,
 		tree_count,
 		map_width,
 		map_height,
@@ -43,7 +43,7 @@ func generate_resources(
 	)
 
 	_spawn_resource_type(
-		ResourceNode.ResourceType.STONE,
+		ResourceTypes.Type.STONE,
 		rock_count,
 		map_width,
 		map_height,
@@ -52,7 +52,7 @@ func generate_resources(
 	)
 
 	_spawn_resource_type(
-		ResourceNode.ResourceType.FOOD,
+		ResourceTypes.Type.FOOD,
 		bush_count,
 		map_width,
 		map_height,

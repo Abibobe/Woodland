@@ -19,9 +19,9 @@ var resources: Dictionary = {}
 
 func _ready() -> void:
 	resources = {
-		ResourceNode.ResourceType.WOOD: starting_wood,
-		ResourceNode.ResourceType.STONE: starting_stone,
-		ResourceNode.ResourceType.FOOD: starting_food
+		ResourceTypes.Type.WOOD: starting_wood,
+		ResourceTypes.Type.STONE: starting_stone,
+		ResourceTypes.Type.FOOD: starting_food
 	}
 
 

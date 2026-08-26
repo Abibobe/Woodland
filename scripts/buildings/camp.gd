@@ -58,19 +58,19 @@ func get_next_stage_cost() -> Dictionary:
 	match current_stage:
 		CampStage.SITE:
 			return {
-				ResourceNode.ResourceType.WOOD: 5
+				ResourceTypes.Type.WOOD: 5
 			}
 
 		CampStage.CAMPFIRE:
 			return {
-				ResourceNode.ResourceType.WOOD: 10,
-				ResourceNode.ResourceType.STONE: 5
+				ResourceTypes.Type.WOOD: 10,
+				ResourceTypes.Type.STONE: 5
 			}
 
 		CampStage.FOUNDATION:
 			return {
-				ResourceNode.ResourceType.WOOD: 20,
-				ResourceNode.ResourceType.STONE: 10
+				ResourceTypes.Type.WOOD: 20,
+				ResourceTypes.Type.STONE: 10
 			}
 
 	return {}
