@@ -1,0 +1,228 @@
+{
+  "main": {
+    "id": "9d01abbf8c3f347f",
+    "type": "split",
+    "children": [
+      {
+        "id": "8052c513a20360b9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f88b6803c8e8f813",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Nuova scheda"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "77aaa69502f77e04",
+    "type": "split",
+    "children": [
+      {
+        "id": "c686d20f8fbf6701",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e49624104dbfb0a2",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Esplora file"
+            }
+          },
+          {
+            "id": "0a97ece320025682",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Ricerca"
+            }
+          },
+          {
+            "id": "9870f00771cea85b",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Segnalibri"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "82b6a4700c6a6312",
+    "type": "split",
+    "children": [
+      {
+        "id": "a3fc014be96481ab",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fad22deaa8c3cbd9",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "## Phase 1 — Create the project foundation.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Riferimenti"
+            }
+          },
+          {
+            "id": "950699abbb96407c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "## Phase 1 — Create the project foundation.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Collegamenti in uscita"
+            }
+          },
+          {
+            "id": "86353208c15cabcf",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etichette"
+            }
+          },
+          {
+            "id": "c434d7b15977fdee",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Tutte le proprietà"
+            }
+          },
+          {
+            "id": "3cae4ee151581e91",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "## Phase 1 — Create the project foundation.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Struttura"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Apri selettore rapido": false,
+      "graph:Apri vista grafo": false,
+      "canvas:Crea nuova lavagna": false,
+      "daily-notes:Apri nota giornaliera": false,
+      "templates:Inserisci modello": false,
+      "command-palette:Apri riquadro comandi": false,
+      "bases:Crea nuova Base": false
+    }
+  },
+  "active": "f88b6803c8e8f813",
+  "lastOpenFiles": [
+    "Step 2 - Polish/Visual Phase 16 — Walk behind trees.md",
+    "Step 2 - Polish/Visual Phase 15 — Camp construction artwork.md",
+    "camp_stages_strip.png",
+    "Step 2 - Polish/Phase 0.md",
+    "Step 2 - Polish/Visual Phase 14 — Complete directional movement.md",
+    "player_up_strip.png",
+    "Step 2 - Polish/Visual Phase 13 — Left and right movement.md",
+    "player_side_strip.png",
+    "Step 2 - Polish/Visual Phase 12 — Walking animation.md",
+    "player_walk_down_strip.png",
+    "Step 2 - Polish/Visual Phase 11 — Replace the placeholder player.md",
+    "player_idle_down_01.png",
+    "Step 2 - Polish/Visual Phase 10 — Complete the resource artwork.md",
+    "berry_bush_01.png",
+    "Step 2 - Polish/Visual Phase 9 — Replace the temporary rock.md",
+    "rock_01.png",
+    "Step 2 - Polish/Visual Phase 8 — Replace the temporary tree.md",
+    "tree_01.png",
+    "Step 2 - Polish/Visual Phase 7 — Irregular soil edges.md",
+    "Step 2 - Polish/Visual Phase 6 — Complete ground variation.md",
+    "soil_tile_02.png",
+    "Step 2 - Polish/Visual Phase 5 — Add ground variation.md",
+    "grass_tile_02.png",
+    "Step 2 - Polish/Visual Phase 4 — Separate generation and rendering.md",
+    "Step 2 - Polish/Visual Phase 3 — Add the soil texture.md",
+    "Step 2 - Polish/Visual Phase 2 — Use the grass tile.md",
+    "Step 2 - Polish/Visual Phase 1 — Prepare the project.md",
+    "Step 1 - Prototype/Phase 0 — Create the project foundation.md",
+    "Step 2 - Polish",
+    "Step 1 - Prototype",
+    "Step 1 - Prototype/Phase 2 — Generate random ground.md",
+    "Step 1 - Prototype/Phase 15 — Move shared resource types out of ResourceNode.md",
+    "Step 1 - Prototype/Phase 14 — Victory and defeat.md",
+    "Step 1 - Prototype/Phase 13 — Day cycle.md",
+    "Step 1 - Prototype/Phase 12 — Camp construction menu.md",
+    "Step 1 - Prototype/Phase 11 — Create the camp.md",
+    "Step 1 - Prototype/Phase 10 — Generic interaction system.md",
+    "Step 1 - Prototype/Phase 9 — Contextual interaction prompt.md"
+  ]
+}

@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://sedfcx8yhbn2"]
 
+[ext_resource type="Texture2D" uid="uid://bv3fdrhx306b1" path="res://assets/building/camp_stages_strip.png" id="2_6r7xy"]
 [ext_resource type="Script" uid="uid://do0xlf7yx1y1v" path="res://scripts/buildings/camp.gd" id="2_vpn2c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
@@ -7,6 +8,7 @@ size = Vector2(64, 48)
 
 [node name="Camp" type="StaticBody2D" unique_id=122272583]
 script = ExtResource("2_vpn2c")
+stages_texture = ExtResource("2_6r7xy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1806692309]
 position = Vector2(0, -8)

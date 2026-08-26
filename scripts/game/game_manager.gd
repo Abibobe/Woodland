@@ -5,15 +5,15 @@ extends Node2D
 @onready var inventory: ResourceInventory = $ResourceInventory
 
 @onready var player_interaction: PlayerInteraction = (
-	$Actors/Player/PlayerInteraction
+	$Entities/Player/PlayerInteraction
 )
 @onready var hud: HUD = $Interface/HUD
 
-@onready var player: Player = $Actors/Player
+@onready var player: Player = $Entities/Player
 @onready var camp_menu: CampMenu = $Interface/CampMenu
 @onready var day_cycle: DayCycle = $DayCycle
 
-@onready var camp: Camp = $World/Camp
+@onready var camp: Camp = $Entities/Camp
 @onready var result_screen: ResultScreen = $Interface/ResultScreen
 
 var game_finished: bool = false

@@ -8,6 +8,10 @@ enum ResourceType {
 	FOOD
 }
 
+@export_category("Visuals")
+@export var tree_texture: Texture2D
+@export var rock_texture: Texture2D
+@export var bush_texture: Texture2D
 
 @export var resource_type: ResourceTypes.Type = ResourceTypes.Type.WOOD:
 	set(value):
@@ -18,6 +22,7 @@ enum ResourceType {
 
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	queue_redraw()
 
 
@@ -71,6 +76,23 @@ func _draw() -> void:
 			_draw_berry_bush()
 
 func _draw_tree() -> void:
+	if tree_texture == null:
+		_draw_tree_fallback()
+		return
+
+	var texture_size := tree_texture.get_size()
+
+	var draw_position := Vector2(
+		-texture_size.x / 2.0,
+		-texture_size.y + 6.0
+	)
+
+	draw_texture(
+		tree_texture,
+		draw_position
+	)
+
+func _draw_tree_fallback() -> void:
 	draw_rect(
 		Rect2(-5, -20, 10, 24),
 		Color("#6B4423")
@@ -94,8 +116,24 @@ func _draw_tree() -> void:
 		Color("#347052")
 	)
 
-
 func _draw_rock() -> void:
+	if rock_texture == null:
+		_draw_rock_fallback()
+		return
+
+	var texture_size := rock_texture.get_size()
+
+	var draw_position := Vector2(
+		-texture_size.x / 2.0,
+		-texture_size.y + 8.0
+	)
+
+	draw_texture(
+		rock_texture,
+		draw_position
+	)	
+
+func _draw_rock_fallback() -> void:
 	var rock_shape := PackedVector2Array([
 		Vector2(-14, 4),
 		Vector2(-11, -9),
@@ -111,8 +149,25 @@ func _draw_rock() -> void:
 		Color("#70777D")
 	)
 
-
 func _draw_berry_bush() -> void:
+	if bush_texture == null:
+		_draw_berry_bush_fallback()
+		return
+
+	var texture_size := bush_texture.get_size()
+
+	var draw_position := Vector2(
+		-texture_size.x / 2.0,
+		-texture_size.y + 6.0
+	)
+
+	draw_texture(
+		bush_texture,
+		draw_position
+	)
+
+
+func _draw_berry_bush_fallback() -> void:
 	draw_circle(
 		Vector2.ZERO,
 		15,

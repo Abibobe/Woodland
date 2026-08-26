@@ -12,6 +12,8 @@ enum CampStage {
 	CABIN
 }
 
+@export_category("Visuals")
+@export var stages_texture: Texture2D
 
 @export var current_stage: CampStage = CampStage.SITE:
 	set(value):
@@ -20,6 +22,7 @@ enum CampStage {
 
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	queue_redraw()
 
 
@@ -87,6 +90,10 @@ func advance_construction() -> bool:
 
 
 func _draw() -> void:
+	if stages_texture != null:
+		_draw_stage_texture()
+		return
+		
 	match current_stage:
 		CampStage.SITE:
 			_draw_site()
@@ -178,4 +185,27 @@ func _draw_cabin() -> void:
 	draw_rect(
 		Rect2(-22, -13, 10, 10),
 		Color("#B8D5D1")
+	)
+
+
+func _draw_stage_texture() -> void:
+	var frame_size := Vector2(64.0, 64.0)
+
+	var source_rect := Rect2(
+		Vector2(
+			int(current_stage) * frame_size.x,
+			0.0
+		),
+		frame_size
+	)
+
+	var destination_rect := Rect2(
+		Vector2(-32.0, -48.0),
+		frame_size
+	)
+
+	draw_texture_rect_region(
+		stages_texture,
+		destination_rect,
+		source_rect
 	)

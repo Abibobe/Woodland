@@ -1,3 +1,38 @@
+Now we can replace the three test objects with procedurally placed resources.
+
+### 1. Prepare the spawner node
+
+In `game.tscn`:
+
+1. Delete `TestTree`, `TestRock`, and `TestBush`.
+2. Rename `ResourceObjects` to:
+
+```
+ResourceSpawner
+```
+
+The tree should look like:
+
+```
+Game
+├── World
+│   └── ResourceSpawner
+├── Actors
+│   └── Player
+└── Interface
+```
+
+### 2. Create the spawner script
+
+Attach a script to `ResourceSpawner` and save it as:
+
+```
+res://scripts/world/resource_spawner.gd
+```
+
+Add:
+
+```
 class_name ResourceSpawner
 extends Node2D
 
@@ -6,17 +41,13 @@ extends Node2D
 @export var resource_scene: PackedScene
 
 @export_category("Resource Counts")
-@export_range(0, 200) var tree_count: int = 150
-@export_range(0, 100) var rock_count: int = 20
-@export_range(0, 100) var bush_count: int = 30
+@export_range(0, 200) var tree_count: int = 55
+@export_range(0, 100) var rock_count: int = 14
+@export_range(0, 100) var bush_count: int = 18
 
 @export_category("Starting Area")
 @export_range(1, 10) var clear_radius: int = 4
 
-@export_category("Spawn Destination")
-@export var resource_parent: Node2D
-
-var spawned_resources: Array[ResourceNode] = []
 var random := RandomNumberGenerator.new()
 var occupied_cells: Dictionary = {}
 
@@ -100,7 +131,7 @@ func _find_available_cell(
 	for attempt in range(maximum_attempts):
 		var candidate := Vector2i(
 			random.randi_range(1, map_width - 2),
-			random.randi_range(2, map_height - 2)
+			random.randi_range(1, map_height - 2)
 		)
 
 		if occupied_cells.has(candidate):
@@ -132,13 +163,7 @@ func _spawn_resource(
 
 	resource.resource_type = resource_type
 
-	var destination := resource_parent
-
-	if destination == null:
-		destination = self
-
-	destination.add_child(resource)
-	spawned_resources.append(resource)
+	add_child(resource)
 
 	resource.position = Vector2(
 		(cell.x + 0.5) * tile_size,
@@ -147,8 +172,74 @@ func _spawn_resource(
 
 
 func _clear_existing_resources() -> void:
-	for resource in spawned_resources:
-		if is_instance_valid(resource):
-			resource.queue_free()
+	for child in get_children():
+		child.queue_free()
+```
 
-	spawned_resources.clear()
+### 3. Assign the resource scene
+
+Select `ResourceSpawner`.
+
+In the Inspector, find **Resource Scene** and drag this file into it:
+
+```
+res://scenes/resources/resource_node.tscn
+```
+
+Without this step, the spawner won’t know which scene to create.
+
+## 4. Connect it to world generation
+
+Open:
+
+```
+res://scripts/world/world_generator.gd
+```
+
+Below the existing variables, add:
+
+```
+@onready var resource_spawner: ResourceSpawner = $ResourceSpawner
+```
+
+Then update `generate_world()`:
+
+```
+func generate_world() -> void:
+	generated_seed = world_seed
+
+	if generated_seed == 0:
+		generated_seed = randi_range(1, 2_000_000_000)
+
+	noise.seed = generated_seed
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
+	noise.frequency = 0.08
+
+	queue_redraw()
+
+	resource_spawner.generate_resources(
+		generated_seed,
+		map_width,
+		map_height,
+		tile_size
+	)
+
+	print("Generated world with seed: ", generated_seed)
+```
+
+Run the game. You should now have:
+
+- Randomly distributed trees, rocks, and bushes
+- No overlapping resources
+- An open area around the player
+- Identical resource placement when using the same fixed seed
+- Different placement when `World Seed` is `0`
+
+The responsibility split is now clean:
+
+- `WorldGenerator` creates the ground and starts world generation.
+- `ResourceSpawner` chooses resource positions.
+- `ResourceNode` defines an individual resource.
+- `Player` handles movement.
+
+We haven’t added gathering yet, so every new piece remains easy to test independently.

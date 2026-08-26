@@ -9,17 +9,26 @@
 [ext_resource type="PackedScene" uid="uid://cqiauisgcm63r" path="res://scenes/ui/camp_menu.tscn" id="4_2a8rs"]
 [ext_resource type="PackedScene" uid="uid://duyh0un27umb6" path="res://scenes/ui/result_screen.tscn" id="5_kp23o"]
 [ext_resource type="Script" uid="uid://c1qwsvjbln17i" path="res://scripts/game/resource_inventory.gd" id="5_lfrn8"]
+[ext_resource type="Texture2D" uid="uid://c1ldwjqdg0n3u" path="res://assets/ground/grass_tile_01.png" id="7_5jirj"]
 [ext_resource type="PackedScene" uid="uid://sedfcx8yhbn2" path="res://scenes/buildings/camp.tscn" id="7_87uf6"]
+[ext_resource type="Texture2D" uid="uid://dkgtltmmplg3x" path="res://assets/ground/soil_tile_01.png" id="8_vaxfo"]
+[ext_resource type="Script" uid="uid://bgy5cm58xrama" path="res://scripts/game/ground_render.gd" id="9_ftsea"]
+[ext_resource type="Texture2D" uid="uid://d0g7887sxmwhp" path="res://assets/ground/grass_tile_02.png" id="9_otnwt"]
 [ext_resource type="Script" uid="uid://dlaaj1d87wtfg" path="res://scripts/game/day_cycle.gd" id="10_4j704"]
+[ext_resource type="Texture2D" uid="uid://wtqhq01ow4xb" path="res://assets/ground/soil_tile_02.png" id="11_3xj4h"]
 
 [node name="Game" type="Node2D" unique_id=1378207982]
 script = ExtResource("1_5i0tg")
 
-[node name="Actors" type="Node2D" parent="." unique_id=1378740191]
+[node name="Entities" type="Node2D" parent="." unique_id=1378740191]
+y_sort_enabled = true
 
-[node name="Player" parent="Actors" unique_id=1390145703 instance=ExtResource("1_7h61r")]
+[node name="Player" parent="Entities" unique_id=1390145703 instance=ExtResource("1_7h61r")]
 z_index = 1
 position = Vector2(640, 440)
+
+[node name="Camp" parent="Entities" unique_id=1349754192 instance=ExtResource("7_87uf6")]
+position = Vector2(640, 352)
 
 [node name="Interface" type="CanvasLayer" parent="." unique_id=1423675154]
 
@@ -33,12 +42,18 @@ visible = false
 [node name="World" type="Node2D" parent="." unique_id=822583601]
 script = ExtResource("1_sul5r")
 
-[node name="ResourceSpawner" type="Node2D" parent="World" unique_id=1053585402]
+[node name="GroundRenderer" type="Node2D" parent="World" unique_id=169465105]
+script = ExtResource("9_ftsea")
+grass_texture = ExtResource("7_5jirj")
+grass_texture_alt = ExtResource("9_otnwt")
+soil_texture = ExtResource("8_vaxfo")
+soil_texture_alt = ExtResource("11_3xj4h")
+
+[node name="ResourceSpawner" type="Node2D" parent="World" unique_id=1053585402 node_paths=PackedStringArray("resource_parent")]
+z_index = 1
 script = ExtResource("3_kelw5")
 resource_scene = ExtResource("3_0sr1o")
-
-[node name="Camp" parent="World" unique_id=1349754192 instance=ExtResource("7_87uf6")]
-position = Vector2(640, 352)
+resource_parent = NodePath("../../Entities")
 
 [node name="ResourceInventory" type="Node" parent="." unique_id=1444687244]
 script = ExtResource("5_lfrn8")

@@ -3,22 +3,23 @@ extends Node2D
 
 
 @export_category("Map Size")
-@export var map_width: int = 40
+@export var map_width: int = 40 
 @export var map_height: int = 23
 @export var tile_size: int = 32
 
 @export_category("Generation")
-@export var world_seed: int = 12345
+@export var world_seed: int = 0
 @export_range(-1.0, 1.0, 0.05) var soil_threshold: float = 0.25
 
-const GRASS_COLOR := Color("#5f8f4f")
-const GRASS_ALT_COLOR := Color("#679957")
-const SOIL_COLOR := Color("#8a6748")
+
+@onready var ground_renderer: GroundRenderer = $GroundRenderer
+@onready var resource_spawner: ResourceSpawner = $ResourceSpawner
+
 
 var noise := FastNoiseLite.new()
 var generated_seed: int
+var ground_cells: Array = []
 
-@onready var resource_spawner: ResourceSpawner = $ResourceSpawner
 
 func _ready() -> void:
 	generate_world()
@@ -28,13 +29,21 @@ func generate_world() -> void:
 	generated_seed = world_seed
 
 	if generated_seed == 0:
-		generated_seed = randi_range(1, 2_000_000_000)
+		generated_seed = randi_range(
+			1,
+			2_000_000_000
+		)
 
 	noise.seed = generated_seed
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
 	noise.frequency = 0.08
 
-	queue_redraw()
+	_generate_ground_data()
+
+	ground_renderer.render_ground(
+		ground_cells,
+		tile_size
+	)
 
 	resource_spawner.generate_resources(
 		generated_seed,
@@ -46,29 +55,21 @@ func generate_world() -> void:
 	print("Generated world with seed: ", generated_seed)
 
 
-func _draw() -> void:
+func _generate_ground_data() -> void:
+	ground_cells.clear()
+
 	for y in range(map_height):
+		var row: Array[bool] = []
+
 		for x in range(map_width):
-			var tile_position := Vector2(
-				x * tile_size,
-				y * tile_size
+			row.append(
+				_is_soil_tile(x, y)
 			)
 
-			var tile_color := _get_tile_color(x, y)
-
-			draw_rect(
-				Rect2(tile_position, Vector2(tile_size, tile_size)),
-				tile_color
-			)
+		ground_cells.append(row)
 
 
-func _get_tile_color(x: int, y: int) -> Color:
+func _is_soil_tile(x: int, y: int) -> bool:
 	var noise_value := noise.get_noise_2d(x, y)
 
-	if noise_value > soil_threshold:
-		return SOIL_COLOR
-
-	if (x + y) % 2 == 0:
-		return GRASS_COLOR
-
-	return GRASS_ALT_COLOR
+	return noise_value > soil_threshold
