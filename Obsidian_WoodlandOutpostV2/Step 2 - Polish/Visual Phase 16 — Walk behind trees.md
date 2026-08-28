@@ -162,6 +162,10 @@ func _ready() -> void:
 
 This permanently places the ground behind all entities.
 
+-----
+In case of 'player' not correctly showed behind other sprites: check the z-index: have to be 0. If it's 1, the sprite will be always over the other sprites....
+---
+
 ### 7. Test depth
 
 Run the game and walk:

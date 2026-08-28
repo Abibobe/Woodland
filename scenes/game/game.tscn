@@ -24,7 +24,6 @@ script = ExtResource("1_5i0tg")
 y_sort_enabled = true
 
 [node name="Player" parent="Entities" unique_id=1390145703 instance=ExtResource("1_7h61r")]
-z_index = 1
 position = Vector2(640, 440)
 
 [node name="Camp" parent="Entities" unique_id=1349754192 instance=ExtResource("7_87uf6")]

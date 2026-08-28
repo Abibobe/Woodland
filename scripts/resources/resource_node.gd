@@ -20,6 +20,7 @@ enum ResourceType {
 
 @export_range(1, 10) var resource_amount: int = 3
 
+const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -65,6 +66,7 @@ func gather(requested_amount: int = 1) -> int:
 	return gathered_amount
 
 func _draw() -> void:
+	_draw_shadow()
 	match resource_type:
 		ResourceTypes.Type.WOOD:
 			_draw_tree()
@@ -177,3 +179,22 @@ func _draw_berry_bush_fallback() -> void:
 	draw_circle(Vector2(-7, -5), 3, Color("#A83E5B"))
 	draw_circle(Vector2(6, -7), 3, Color("#A83E5B"))
 	draw_circle(Vector2(3, 5), 3, Color("#A83E5B"))
+
+func _draw_shadow() -> void:
+	draw_set_transform(
+		Vector2(0.0, 3.0),
+		0.0,
+		Vector2(1.0, 0.35)
+	)
+
+	draw_circle(
+		Vector2.ZERO,
+		12.0,
+		SHADOW_COLOR
+	)
+
+	draw_set_transform(
+		Vector2.ZERO,
+		0.0,
+		Vector2.ONE
+	)

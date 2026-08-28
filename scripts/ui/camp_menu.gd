@@ -13,7 +13,7 @@ signal close_requested
 )
 
 @onready var cost_label: Label = (
-	$Panel/MarginContainer/Content/CostLabel
+	$Panel/MarginContainer/Content/CostRow/CostLabel
 )
 
 @onready var message_label: Label = (
@@ -60,8 +60,13 @@ func open_menu(
 	else:
 		title_label.text = "Build %s" % next_stage_name
 		cost_label.text = "Cost: %s" % cost_text
+		
 		build_button.show()
 		build_button.disabled = not can_build
+		if build_button.disabled:
+			cost_label.modulate = Color("#e06c68")
+		else:
+			cost_label.modulate = Color("#f2e7c9")
 
 	show()
 	_apply_layout()

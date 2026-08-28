@@ -111,6 +111,10 @@ script = ExtResource("1_8afob")
 minimum_position = Vector2(10, 60)
 maximum_position = Vector2(1270, 706)
 
+[node name="PlayerShadow" type="Polygon2D" parent="." unique_id=314496028]
+color = Color(0.050980393, 0.08235294, 0.0627451, 0.32156864)
+polygon = PackedVector2Array(-8, 10, -6, 8, 6, 8, 8, 10, 6, 12, -6, 12)
+
 [node name="PlayerVisual" type="AnimatedSprite2D" parent="." unique_id=1946173879]
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_g4v7s")

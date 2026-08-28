@@ -12,6 +12,8 @@ enum CampStage {
 	CABIN
 }
 
+const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
+
 @export_category("Visuals")
 @export var stages_texture: Texture2D
 
@@ -90,6 +92,9 @@ func advance_construction() -> bool:
 
 
 func _draw() -> void:
+	if current_stage != CampStage.SITE:
+		_draw_shadow()
+	
 	if stages_texture != null:
 		_draw_stage_texture()
 		return
@@ -208,4 +213,24 @@ func _draw_stage_texture() -> void:
 		stages_texture,
 		destination_rect,
 		source_rect
+	)
+
+
+func _draw_shadow() -> void:
+	draw_set_transform(
+		Vector2(0.0, 5.0),
+		0.0,
+		Vector2(1.0, 0.3)
+	)
+
+	draw_circle(
+		Vector2.ZERO,
+		22.0,
+		SHADOW_COLOR
+	)
+
+	draw_set_transform(
+		Vector2.ZERO,
+		0.0,
+		Vector2.ONE
 	)

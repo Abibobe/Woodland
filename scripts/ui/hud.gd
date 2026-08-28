@@ -38,6 +38,7 @@ func set_resource_amount(
 
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	get_viewport().size_changed.connect(_apply_layout)
 	call_deferred("_apply_layout")
 
