@@ -92,8 +92,7 @@ func advance_construction() -> bool:
 
 
 func _draw() -> void:
-	if current_stage != CampStage.SITE:
-		_draw_shadow()
+	_draw_stage_shadow()
 	
 	if stages_texture != null:
 		_draw_stage_texture()
@@ -216,16 +215,34 @@ func _draw_stage_texture() -> void:
 	)
 
 
-func _draw_shadow() -> void:
+func _draw_stage_shadow() -> void:
+	match current_stage:
+		CampStage.SITE:
+			return
+
+		CampStage.CAMPFIRE:
+			_draw_shadow(9.0, 3.0)
+
+		CampStage.FOUNDATION:
+			_draw_shadow(18.0, 5.0)
+
+		CampStage.CABIN:
+			_draw_shadow(22.0, 5.0)
+			
+
+func _draw_shadow(
+	radius: float,
+	y_offset: float
+) -> void:
 	draw_set_transform(
-		Vector2(0.0, 5.0),
+		Vector2(0.0, y_offset),
 		0.0,
 		Vector2(1.0, 0.3)
 	)
 
 	draw_circle(
 		Vector2.ZERO,
-		22.0,
+		radius,
 		SHADOW_COLOR
 	)
 

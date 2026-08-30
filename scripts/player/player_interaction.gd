@@ -8,6 +8,8 @@ signal interaction_prompt_changed(text: String)
 
 var nearby_targets: Array[InteractionTarget] = []
 
+var highlighted_target: InteractionTarget = null
+
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -79,6 +81,8 @@ func _on_body_exited(body: Node2D) -> void:
 
 func _refresh_interaction_prompt() -> void:
 	var target := _get_closest_target()
+	
+	_set_highlighted_target(target)
 
 	if target == null:
 		interaction_prompt_changed.emit("")
@@ -91,3 +95,24 @@ func _refresh_interaction_prompt() -> void:
 
 func refresh_prompt() -> void:
 	_refresh_interaction_prompt()
+
+
+func _set_highlighted_target(
+	new_target: InteractionTarget
+) -> void:
+	if highlighted_target == new_target:
+		return
+
+	if (
+		is_instance_valid(highlighted_target)
+		and highlighted_target.has_method("set_highlighted")
+	):
+		highlighted_target.set_highlighted(false)
+
+	highlighted_target = new_target
+
+	if (
+		is_instance_valid(highlighted_target)
+		and highlighted_target.has_method("set_highlighted")
+	):
+		highlighted_target.set_highlighted(true)

@@ -20,7 +20,13 @@ enum ResourceType {
 
 @export_range(1, 10) var resource_amount: int = 3
 
+@onready var interaction_highlight: Node2D = (
+	$InteractionHighlight
+)
+
 const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
+const HIGHLIGHT_COLOR := Color("#f2d479")
+var is_highlighted: bool = false
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -67,6 +73,7 @@ func gather(requested_amount: int = 1) -> int:
 
 func _draw() -> void:
 	_draw_shadow()
+	
 	match resource_type:
 		ResourceTypes.Type.WOOD:
 			_draw_tree()
@@ -198,3 +205,8 @@ func _draw_shadow() -> void:
 		0.0,
 		Vector2.ONE
 	)
+
+
+func set_highlighted(value: bool) -> void:
+	is_highlighted = value
+	interaction_highlight.visible = value
