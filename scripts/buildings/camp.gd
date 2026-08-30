@@ -22,9 +22,19 @@ const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
 		current_stage = value
 		queue_redraw()
 
+		if is_node_ready():
+			_update_stage_light()
+
+@onready var warm_light: PointLight2D = $WarmLight
+
+var night_lighting_enabled: bool = false
+var light_animation_time: float = 0.0
+
+var construction_tween: Tween
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_update_stage_light()
 	queue_redraw()
 
 
@@ -86,6 +96,9 @@ func advance_construction() -> bool:
 		return false
 
 	current_stage += 1
+	
+	_play_construction_animation()
+		
 	stage_changed.emit(current_stage)
 
 	return true
@@ -250,4 +263,90 @@ func _draw_shadow(
 		Vector2.ZERO,
 		0.0,
 		Vector2.ONE
+	)
+
+
+func set_night_lighting(enabled: bool) -> void:
+	night_lighting_enabled = enabled
+	_update_stage_light()
+
+
+func _update_stage_light() -> void:
+	if not night_lighting_enabled:
+		warm_light.hide()
+		return
+
+	match current_stage:
+		CampStage.CAMPFIRE:
+			light_animation_time = 0.0
+			warm_light.position = Vector2(0.0, -4.0)
+			warm_light.energy = 0.9
+			warm_light.texture_scale = 0.9
+			warm_light.show()
+
+		CampStage.CABIN:
+			warm_light.position = Vector2(0.0, -18.0)
+			warm_light.energy = 0.7
+			warm_light.texture_scale = 1.35
+			warm_light.show()
+
+		_:
+			warm_light.hide()
+
+
+func _process(delta: float) -> void:
+	if current_stage != CampStage.CAMPFIRE:
+		return
+
+	if not warm_light.visible:
+		return
+
+	light_animation_time += delta
+
+	var primary_flicker := sin(
+		light_animation_time * 7.0
+	) * 0.07
+
+	var secondary_flicker := sin(
+		light_animation_time * 13.0
+	) * 0.03
+
+	warm_light.energy = (
+		0.9
+		+ primary_flicker
+		+ secondary_flicker
+	)
+
+	warm_light.texture_scale = (
+		0.9
+		+ primary_flicker * 0.35
+	)
+
+
+func _play_construction_animation() -> void:
+	if construction_tween != null:
+		construction_tween.kill()
+
+	scale = Vector2(0.82, 0.82)
+	modulate.a = 0.45
+
+	construction_tween = create_tween()
+	construction_tween.set_parallel(true)
+
+	construction_tween.tween_property(
+		self,
+		"scale",
+		Vector2.ONE,
+		0.28
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	construction_tween.tween_property(
+		self,
+		"modulate:a",
+		1.0,
+		0.18
 	)

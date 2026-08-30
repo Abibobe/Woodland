@@ -29,6 +29,8 @@ position = Vector2(640, 440)
 [node name="Camp" parent="Entities" unique_id=1349754192 instance=ExtResource("7_87uf6")]
 position = Vector2(640, 352)
 
+[node name="WorldTint" type="CanvasModulate" parent="." unique_id=1739035885]
+
 [node name="Interface" type="CanvasLayer" parent="." unique_id=1423675154]
 
 [node name="HUD" parent="Interface" unique_id=143992237 instance=ExtResource("3_bdhmt")]

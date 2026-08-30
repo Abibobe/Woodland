@@ -32,7 +32,14 @@ func interact() -> void:
 	if not result.is_empty():
 		interaction_completed.emit(result)
 
-	if target.is_queued_for_deletion():
+	var target_depleted := bool(
+		result.get("target_depleted", false)
+	)
+
+	if (
+		target_depleted
+		or target.is_queued_for_deletion()
+	):
 		nearby_targets.erase(target)
 	
 	# Opening the camp menu disables interaction.

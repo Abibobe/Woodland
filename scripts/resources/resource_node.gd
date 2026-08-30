@@ -20,13 +20,24 @@ enum ResourceType {
 
 @export_range(1, 10) var resource_amount: int = 3
 
+@export_category("Audio")
+@export var wood_gather_sound: AudioStream
+
 @onready var interaction_highlight: Node2D = (
 	$InteractionHighlight
+)
+
+@onready var gather_sound: AudioStreamPlayer2D = (
+	$GatherSound
 )
 
 const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
 const HIGHLIGHT_COLOR := Color("#f2d479")
 var is_highlighted: bool = false
+var interaction_tween: Tween
+var is_gather_animation_playing: bool = false
+var is_depleted: bool = false
+
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -44,19 +55,25 @@ func get_interaction_text() -> String:
 
 
 func interact() -> Dictionary:
+	if is_gather_animation_playing or is_depleted:
+		return {}
+
 	var gathered_amount := gather(1)
 
 	if gathered_amount <= 0:
 		return {}
-
+	
+	_play_gather_sound()
+	
 	return {
 		"action": "resource_collected",
 		"resource_type": resource_type,
-		"amount": gathered_amount
+		"amount": gathered_amount,
+		"target_depleted": is_depleted
 	}
 
 func gather(requested_amount: int = 1) -> int:
-	if requested_amount <= 0:
+	if requested_amount <= 0 or is_depleted:
 		return 0
 
 	var gathered_amount := mini(
@@ -67,9 +84,14 @@ func gather(requested_amount: int = 1) -> int:
 	resource_amount -= gathered_amount
 
 	if resource_amount <= 0:
-		queue_free()
+		is_depleted = true
+		set_highlighted(false)
+		_play_depletion_animation()
+	else:
+		_play_gather_animation()
 
 	return gathered_amount
+
 
 func _draw() -> void:
 	_draw_shadow()
@@ -210,3 +232,85 @@ func _draw_shadow() -> void:
 func set_highlighted(value: bool) -> void:
 	is_highlighted = value
 	interaction_highlight.visible = value
+
+
+func _play_gather_animation() -> void:
+	is_gather_animation_playing = true
+
+	if interaction_tween != null:
+		interaction_tween.kill()
+
+	var original_position := position
+
+	interaction_tween = create_tween()
+
+	interaction_tween.tween_property(
+		self,
+		"position",
+		original_position + Vector2(-2.0, 0.0),
+		0.04
+	)
+
+	interaction_tween.tween_property(
+		self,
+		"position",
+		original_position + Vector2(2.0, 0.0),
+		0.06
+	)
+
+	interaction_tween.tween_property(
+		self,
+		"position",
+		original_position,
+		0.04
+	)
+
+	interaction_tween.tween_callback(
+		func() -> void:
+			is_gather_animation_playing = false
+	)
+
+func _play_depletion_animation() -> void:
+	is_gather_animation_playing = true
+
+	if interaction_tween != null:
+		interaction_tween.kill()
+
+	interaction_tween = create_tween()
+	interaction_tween.set_parallel(true)
+
+	interaction_tween.tween_property(
+		self,
+		"scale",
+		Vector2(0.75, 0.75),
+		0.2
+	)
+
+	interaction_tween.tween_property(
+		self,
+		"modulate:a",
+		0.0,
+		0.2
+	)
+
+	interaction_tween.set_parallel(false)
+
+	interaction_tween.tween_callback(
+		queue_free
+	)
+
+
+func _play_gather_sound() -> void:
+	if resource_type != ResourceTypes.Type.WOOD:
+		return
+
+	if wood_gather_sound == null:
+		return
+
+	gather_sound.stream = wood_gather_sound
+	gather_sound.pitch_scale = randf_range(
+		0.94,
+		1.06
+	)
+
+	gather_sound.play()

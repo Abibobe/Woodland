@@ -161,3 +161,15 @@ vertical_alignment = 1
 
 [node name="PromptLabel" type="Label" parent="InteractionPrompt/MarginContainer/PromptRow" unique_id=677758621]
 layout_mode = 2
+
+[node name="ResourceGainPopup" type="Label" parent="." unique_id=1020230300]
+visible = false
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 24.0
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_colors/font_outline_color = Color(0.09019608, 0.1254902, 0.09803922, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1

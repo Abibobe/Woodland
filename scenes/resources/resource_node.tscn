@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cbf7fqnx41yfh" path="res://assets/resources/rock_01.png" id="3_4krdk"]
 [ext_resource type="Texture2D" uid="uid://dq7otkpj25ojq" path="res://assets/resources/berry_bush_01.png" id="4_avvav"]
 [ext_resource type="Script" uid="uid://c1hekrqo7fmui" path="res://scripts/resources/interaction_highlight.gd" id="5_avvav"]
+[ext_resource type="AudioStream" uid="uid://d1wtljd6xa20h" path="res://assets/audio/sfx/wood_gather_01.wav" id="5_tcvet"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(24, 24)
@@ -14,6 +15,7 @@ script = ExtResource("1_o7r71")
 tree_texture = ExtResource("2_73mkm")
 rock_texture = ExtResource("3_4krdk")
 bush_texture = ExtResource("4_avvav")
+wood_gather_sound = ExtResource("5_tcvet")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=686198733]
 position = Vector2(0, -6)
@@ -31,3 +33,7 @@ polygon = PackedVector2Array(-19, 4, -17, 4, -17, 8, -12, 8, -12, 10, -19, 10)
 [node name="RightBracket" type="Polygon2D" parent="InteractionHighlight" unique_id=715311730]
 color = Color(0.9490196, 0.83137256, 0.4745098, 1)
 polygon = PackedVector2Array(19, 4, 17, 4, 17, 8, 12, 8, 12, 10, 19, 10)
+
+[node name="GatherSound" type="AudioStreamPlayer2D" parent="." unique_id=145635455]
+volume_db = -4.0
+max_distance = 600.0

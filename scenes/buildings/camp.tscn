@@ -6,6 +6,17 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(64, 48)
 
+[sub_resource type="Gradient" id="Gradient_6r7xy"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_57qmd"]
+gradient = SubResource("Gradient_6r7xy")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
 [node name="Camp" type="StaticBody2D" unique_id=122272583]
 script = ExtResource("2_vpn2c")
 stages_texture = ExtResource("2_6r7xy")
@@ -13,3 +24,10 @@ stages_texture = ExtResource("2_6r7xy")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1806692309]
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="WarmLight" type="PointLight2D" parent="." unique_id=285371996]
+visible = false
+position = Vector2(0, -8)
+color = Color(1, 0.7058824, 0.37254903, 1)
+energy = 0.85
+texture = SubResource("GradientTexture2D_57qmd")

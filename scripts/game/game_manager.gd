@@ -16,6 +16,11 @@ extends Node2D
 @onready var camp: Camp = $Entities/Camp
 @onready var result_screen: ResultScreen = $Interface/ResultScreen
 
+@onready var world_tint: CanvasModulate = $WorldTint
+
+var world_tint_tween: Tween
+
+
 var game_finished: bool = false
 var active_camp: Camp
 
@@ -87,6 +92,21 @@ func _on_interaction_completed(
 				resource_type,
 				amount
 			)
+			var resource_name := (
+				ResourceTypes.get_display_name(resource_type)
+			)
+			var player_screen_position := (
+				get_viewport().get_canvas_transform()
+				* player.global_position
+			)
+			hud.show_resource_gain(
+				"+%d %s" % [
+					amount,
+					resource_name
+				],
+				player_screen_position
+			)
+
 
 		"camp_opened":
 			var camp := result.get("camp") as Camp
@@ -242,7 +262,7 @@ func _on_time_display_changed(
 	phase: String
 ) -> void:
 	hud.set_day(day, phase)
-
+	_update_world_tint(phase)
 
 func _on_day_ended(day: int) -> void:
 	if game_finished:
@@ -305,3 +325,37 @@ func _finish_game(
 
 func _on_restart_requested() -> void:
 	get_tree().reload_current_scene()
+
+func _update_world_tint(phase: String) -> void:
+	var target_color := Color.WHITE
+
+	match phase.to_lower():
+		"morning":
+			target_color = Color("#fff1d6")
+
+		"afternoon":
+			target_color = Color("#ffffff")
+
+		"evening":
+			target_color = Color("#ddb29f")
+
+		"night":
+			target_color = Color("#8497bd")
+
+	if world_tint_tween != null:
+		world_tint_tween.kill()
+
+	world_tint_tween = create_tween()
+
+	world_tint_tween.tween_property(
+		world_tint,
+		"color",
+		target_color,
+		1.5
+	)
+	var normalized_phase := phase.to_lower()
+
+	camp.set_night_lighting(
+		normalized_phase == "evening"
+		or normalized_phase == "night"
+	)

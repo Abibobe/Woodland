@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Step 2 - Polish/Visual Phase 25 — Pixel-style interaction prompt.md",
+                "file": "Step3 - Sound/Audio Phase 1 — Wood gathering.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Visual Phase 25 — Pixel-style interaction prompt"
+              "title": "Audio Phase 1 — Wood gathering"
             }
           }
         ]
@@ -190,8 +190,18 @@
   },
   "active": "f88b6803c8e8f813",
   "lastOpenFiles": [
-    "Step 2 - Polish/Visual Phase 24 — Animated target highlight.md",
+    "Step 2 - Polish/Visual Phase 33 — Construction-stage animation.md",
+    "Step3 - Sound/Audio Phase 1 — Wood gathering.md",
+    "Step3 - Sound",
+    "Step 2 - Polish/Visual Phase 32 — Gathering feedback.md",
+    "Step 2 - Polish/Visual Phase 31 — Campfire flicker.md",
+    "Step 2 - Polish/Visual Phase 30 — Warm camp lighting.md",
+    "Step 2 - Polish/Visual Phase 29 — Day and night world tint.md",
+    "Step 2 - Polish/Visual Phase 28 — Animated resource counters.md",
+    "Step 2 - Polish/Visual Phase 27 — Floating resource gain.md",
+    "Step 2 - Polish/Visual Phase 26 — Prompt fade animation.md",
     "Step 2 - Polish/Visual Phase 25 — Pixel-style interaction prompt.md",
+    "Step 2 - Polish/Visual Phase 24 — Animated target highlight.md",
     "Step 2 - Polish/Visual Phase 23 — Highlight the nearest resource.md",
     "Step 2 - Polish/Senza nome",
     "Step 2 - Polish/Visual Phase 22 — Stage-aware camp shadows.md",
@@ -216,18 +226,9 @@
     "player_idle_down_01.png",
     "Step 2 - Polish/Visual Phase 10 — Complete the resource artwork.md",
     "berry_bush_01.png",
-    "Step 2 - Polish/Visual Phase 9 — Replace the temporary rock.md",
     "rock_01.png",
-    "Step 2 - Polish/Visual Phase 8 — Replace the temporary tree.md",
     "tree_01.png",
-    "Step 2 - Polish/Visual Phase 7 — Irregular soil edges.md",
-    "Step 2 - Polish/Visual Phase 6 — Complete ground variation.md",
     "soil_tile_02.png",
-    "Step 2 - Polish/Visual Phase 5 — Add ground variation.md",
-    "Step 2 - Polish/Visual Phase 4 — Separate generation and rendering.md",
-    "Step 2 - Polish/Visual Phase 3 — Add the soil texture.md",
-    "Step 2 - Polish/Visual Phase 2 — Use the grass tile.md",
-    "Step 2 - Polish/Visual Phase 1 — Prepare the project.md",
     "Step 2 - Polish",
     "Step 1 - Prototype"
   ]
