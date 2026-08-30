@@ -18,7 +18,14 @@ extends Control
 	$TopBar/MarginContainer/ResourceRow/FoodLabel
 )
 
-@onready var interaction_prompt: Label = $InteractionPrompt
+@onready var interaction_prompt: PanelContainer = (
+	$InteractionPrompt
+)
+
+@onready var interaction_prompt_label: Label = (
+	$InteractionPrompt/MarginContainer/
+	PromptRow/PromptLabel
+)
 
 @onready var top_bar: PanelContainer = $TopBar
 
@@ -75,8 +82,19 @@ func _apply_layout() -> void:
 		viewport_size.y - 58.0
 	)
 	
+
 func show_interaction_prompt(text: String) -> void:
-	interaction_prompt.text = text
+	var clean_text := text
+
+	if clean_text.begins_with("Press E to "):
+		clean_text = clean_text.trim_prefix(
+			"Press E to "
+		)
+
+	interaction_prompt_label.text = (
+		clean_text.capitalize()
+	)
+
 	interaction_prompt.show()
 
 

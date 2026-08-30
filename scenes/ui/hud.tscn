@@ -27,12 +27,21 @@ region = Rect2(16, 0, 16, 16)
 atlas = ExtResource("2_hqnrr")
 region = Rect2(32, 0, 16, 16)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf5fn"]
-bg_color = Color(0.09019608, 0.13725491, 0.11372549, 0.9019608)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
+bg_color = Color(0.09411765, 0.13725491, 0.12156863, 0.87058824)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.050980393, 0.08235294, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_57qmd"]
+bg_color = Color(0.84705883, 0.76862746, 0.48235294, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.9411765, 0.6784314, 1)
 
 [node name="HUD" type="Control" unique_id=143992237]
 layout_mode = 3
@@ -117,13 +126,38 @@ theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
 theme_override_font_sizes/font_size = 12
 text = "Stone 0"
 
-[node name="InteractionPrompt" type="Label" parent="." unique_id=1736241895]
+[node name="InteractionPrompt" type="PanelContainer" parent="." unique_id=1157376547]
 visible = false
-custom_minimum_size = Vector2(240, 36)
+custom_minimum_size = Vector2(360, 32)
 layout_mode = 0
 offset_right = 40.0
-offset_bottom = 23.0
-theme_override_styles/normal = SubResource("StyleBoxFlat_yf5fn")
-text = "E - Gather"
+offset_bottom = 40.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
+
+[node name="MarginContainer" type="MarginContainer" parent="InteractionPrompt" unique_id=1905668209]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="PromptRow" type="HBoxContainer" parent="InteractionPrompt/MarginContainer" unique_id=1038926683]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="KeyBadge" type="PanelContainer" parent="InteractionPrompt/MarginContainer/PromptRow" unique_id=1563874394]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_57qmd")
+
+[node name="KeyLabel" type="Label" parent="InteractionPrompt/MarginContainer/PromptRow/KeyBadge" unique_id=343238890]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.14901961, 0.2, 0.16078432, 1)
+theme_override_font_sizes/font_size = 12
+text = "E"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="InteractionPrompt/MarginContainer/PromptRow" unique_id=677758621]
+layout_mode = 2
