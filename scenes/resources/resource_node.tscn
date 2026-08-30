@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://dq7otkpj25ojq" path="res://assets/resources/berry_bush_01.png" id="4_avvav"]
 [ext_resource type="Script" uid="uid://c1hekrqo7fmui" path="res://scripts/resources/interaction_highlight.gd" id="5_avvav"]
 [ext_resource type="AudioStream" uid="uid://d1wtljd6xa20h" path="res://assets/audio/sfx/wood_gather_01.wav" id="5_tcvet"]
+[ext_resource type="AudioStream" uid="uid://5ob1t8aot1j4" path="res://assets/audio/sfx/stone_gather_01.wav" id="6_k0ob4"]
+[ext_resource type="AudioStream" uid="uid://cqwsx687xlais" path="res://assets/audio/sfx/food_gather_01.wav" id="7_mewod"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(24, 24)
@@ -16,6 +18,8 @@ tree_texture = ExtResource("2_73mkm")
 rock_texture = ExtResource("3_4krdk")
 bush_texture = ExtResource("4_avvav")
 wood_gather_sound = ExtResource("5_tcvet")
+stone_gather_sound = ExtResource("6_k0ob4")
+food_gather_sound = ExtResource("7_mewod")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=686198733]
 position = Vector2(0, -6)

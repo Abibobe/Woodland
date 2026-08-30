@@ -22,6 +22,9 @@ enum ResourceType {
 
 @export_category("Audio")
 @export var wood_gather_sound: AudioStream
+@export var stone_gather_sound: AudioStream
+@export var food_gather_sound: AudioStream
+
 
 @onready var interaction_highlight: Node2D = (
 	$InteractionHighlight
@@ -301,16 +304,26 @@ func _play_depletion_animation() -> void:
 
 
 func _play_gather_sound() -> void:
-	if resource_type != ResourceTypes.Type.WOOD:
+	var selected_sound: AudioStream = null
+
+	match resource_type:
+		ResourceTypes.Type.WOOD:
+			selected_sound = wood_gather_sound
+
+		ResourceTypes.Type.STONE:
+			selected_sound = stone_gather_sound
+
+		ResourceTypes.Type.FOOD:
+			selected_sound = food_gather_sound
+	
+	if selected_sound == null:
 		return
 
-	if wood_gather_sound == null:
-		return
-
-	gather_sound.stream = wood_gather_sound
-	gather_sound.pitch_scale = randf_range(
-		0.94,
-		1.06
+	gather_sound.stream = selected_sound
+	gather_sound.pitch_scale = randf_range( #change here for more heavy pitch vars
+		0.6, 1.5
+		#0.94,
+		#1.06
 	)
 
 	gather_sound.play()

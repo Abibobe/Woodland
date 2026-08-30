@@ -18,6 +18,13 @@ extends Node2D
 
 @onready var world_tint: CanvasModulate = $WorldTint
 
+@onready var ui_sound: AudioStreamPlayer = (
+	$Interface/UISound
+)
+@onready var ui_denied_sound: AudioStreamPlayer = (
+	$Interface/UIDeniedSound
+)
+
 var world_tint_tween: Tween
 
 
@@ -157,6 +164,7 @@ func _on_interaction_prompt_changed(text: String) -> void:
 
 func _open_camp_menu(camp: Camp) -> void:
 	active_camp = camp
+	_play_ui_click()
 	
 	hud.hide_interaction_prompt()
 	
@@ -185,11 +193,14 @@ func _refresh_camp_menu() -> void:
 func _on_camp_build_requested() -> void:
 	if active_camp == null:
 		return
-
+	
+	_play_ui_click()
+	
 	var costs := active_camp.get_next_stage_cost()
 
 	if not _can_afford(costs):
 		camp_menu.show_message("Not enough resources")
+		_play_ui_denied()
 		return
 
 	_pay_cost(costs)
@@ -249,6 +260,7 @@ func _format_cost(costs: Dictionary) -> String:
 
 
 func _close_camp_menu() -> void:
+	_play_ui_click()
 	camp_menu.close_menu()
 	active_camp = null
 
@@ -359,3 +371,21 @@ func _update_world_tint(phase: String) -> void:
 		normalized_phase == "evening"
 		or normalized_phase == "night"
 	)
+
+
+func _play_ui_click() -> void:
+	if ui_sound.stream == null:
+		return
+
+	ui_sound.pitch_scale = randf_range(
+		0.98,
+		1.02
+	)
+
+	ui_sound.play()
+
+func _play_ui_denied() -> void:
+	if ui_denied_sound.stream == null:
+		return
+
+	ui_denied_sound.play()

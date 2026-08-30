@@ -10,7 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://duyh0un27umb6" path="res://scenes/ui/result_screen.tscn" id="5_kp23o"]
 [ext_resource type="Script" uid="uid://c1qwsvjbln17i" path="res://scripts/game/resource_inventory.gd" id="5_lfrn8"]
 [ext_resource type="Texture2D" uid="uid://c1ldwjqdg0n3u" path="res://assets/ground/grass_tile_01.png" id="7_5jirj"]
+[ext_resource type="AudioStream" uid="uid://cjrxamvkvcv20" path="res://assets/audio/sfx/ui_click_01.wav" id="7_5v6r0"]
 [ext_resource type="PackedScene" uid="uid://sedfcx8yhbn2" path="res://scenes/buildings/camp.tscn" id="7_87uf6"]
+[ext_resource type="AudioStream" uid="uid://y1xir85g4iwd" path="res://assets/audio/sfx/ui_denied_01.wav" id="8_uyinl"]
 [ext_resource type="Texture2D" uid="uid://dkgtltmmplg3x" path="res://assets/ground/soil_tile_01.png" id="8_vaxfo"]
 [ext_resource type="Script" uid="uid://bgy5cm58xrama" path="res://scripts/game/ground_render.gd" id="9_ftsea"]
 [ext_resource type="Texture2D" uid="uid://d0g7887sxmwhp" path="res://assets/ground/grass_tile_02.png" id="9_otnwt"]
@@ -39,6 +41,14 @@ position = Vector2(640, 352)
 visible = false
 
 [node name="ResultScreen" parent="Interface" unique_id=513272366 instance=ExtResource("5_kp23o")]
+
+[node name="UISound" type="AudioStreamPlayer" parent="Interface" unique_id=999439271]
+stream = ExtResource("7_5v6r0")
+volume_db = -8.0
+
+[node name="UIDeniedSound" type="AudioStreamPlayer" parent="Interface" unique_id=996399071]
+stream = ExtResource("8_uyinl")
+volume_db = -6.0
 
 [node name="World" type="Node2D" parent="." unique_id=822583601]
 script = ExtResource("1_sul5r")

@@ -5,7 +5,7 @@ The first sound will be tuned for frequent repetition: about 0.16 seconds, with 
 The WAV is finished and verified as `44.1 kHz`, mono, 16-bit PCM with a `0.16 s` duration. I’m saving the final sound now, then we’ll connect it only to wood resources and add slight pitch variation.
 
 ### 1. Import the sound
-
+![[wood_gather_01 1.wav]]
 Place it here:
 
 ```

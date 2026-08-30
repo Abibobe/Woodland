@@ -8,9 +8,18 @@ enum Facing {
 	SIDE
 }
 
+var last_footstep_time_ms: int = -1000
 
 @onready var player: Player = get_parent()
+@onready var footstep_sound: AudioStreamPlayer = (
+	$"../FootstepSound"
+)
 
+func _ready() -> void:
+	frame_changed.connect(
+		_on_animation_frame_changed
+	)
+	
 
 var last_facing: Facing = Facing.DOWN
 var last_side_was_left: bool = false
@@ -68,3 +77,35 @@ func _play_if_changed(
 		return
 
 	play(animation_name)
+
+	if String(animation_name).begins_with("walk_"):
+		_play_footstep()
+
+func _on_animation_frame_changed() -> void:
+	var animation_text := String(animation)
+
+	if not animation_text.begins_with("walk_"):
+		return
+
+	if frame != 0:
+		return
+	
+	_play_footstep()
+
+func _play_footstep() -> void:
+	if footstep_sound.stream == null:
+		return
+
+	var current_time_ms := Time.get_ticks_msec()
+
+	if current_time_ms - last_footstep_time_ms < 120:
+		return
+
+	last_footstep_time_ms = current_time_ms
+
+	footstep_sound.pitch_scale = randf_range(
+		0.94,
+		1.06
+	)
+
+	footstep_sound.play()

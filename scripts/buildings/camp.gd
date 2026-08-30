@@ -25,6 +25,13 @@ const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
 		if is_node_ready():
 			_update_stage_light()
 
+@export_category("Audio")
+@export var build_sound_stream: AudioStream
+
+@onready var build_sound: AudioStreamPlayer2D = (
+	$BuildSound
+)
+
 @onready var warm_light: PointLight2D = $WarmLight
 
 var night_lighting_enabled: bool = false
@@ -97,6 +104,7 @@ func advance_construction() -> bool:
 
 	current_stage += 1
 	
+	_play_build_sound()
 	_play_construction_animation()
 		
 	stage_changed.emit(current_stage)
@@ -350,3 +358,15 @@ func _play_construction_animation() -> void:
 		1.0,
 		0.18
 	)
+	
+func _play_build_sound() -> void:
+	if build_sound_stream == null:
+		return
+
+	build_sound.stream = build_sound_stream
+	build_sound.pitch_scale = randf_range(
+		0.97,
+		1.03
+	)
+
+	build_sound.play()

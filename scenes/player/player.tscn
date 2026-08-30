@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cy36uglofbtx3" path="res://assets/player/player_walk_down_strip.png" id="3_p47bc"]
 [ext_resource type="Texture2D" uid="uid://daukj5hdddclk" path="res://assets/player/player_up_strip.png" id="4_0owmy"]
 [ext_resource type="Script" uid="uid://b5jncxcc4gdh5" path="res://scripts/player/player_animation.gd" id="4_75vfm"]
+[ext_resource type="AudioStream" uid="uid://dmocke7t8ycbd" path="res://assets/audio/sfx/footstep_ground_01.wav" id="8_qek5x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5gtgg"]
 atlas = ExtResource("3_75vfm")
@@ -129,3 +130,7 @@ script = ExtResource("2_dovo2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteraction" unique_id=1194462231]
 shape = SubResource("CircleShape2D_g4v7s")
+
+[node name="FootstepSound" type="AudioStreamPlayer" parent="." unique_id=1505463563]
+stream = ExtResource("8_qek5x")
+volume_db = -12.0
