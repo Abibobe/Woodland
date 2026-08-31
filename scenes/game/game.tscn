@@ -22,6 +22,8 @@
 [ext_resource type="Script" uid="uid://b3y6aeihyw2pp" path="res://scripts/game/audio_settings_panel.gd" id="11_3jaai"]
 [ext_resource type="Texture2D" uid="uid://wtqhq01ow4xb" path="res://assets/ground/soil_tile_02.png" id="11_3xj4h"]
 [ext_resource type="Texture2D" uid="uid://dirurf1fg1mpw" path="res://styles/grabber_light_01.tres" id="12_1iff4"]
+[ext_resource type="Script" uid="uid://sey1l46dlxm7" path="res://scripts/game/main_menu.gd" id="13_4vuph"]
+[ext_resource type="Texture2D" uid="uid://d02up5wxv0bxo" path="res://assets/ui/how_to_play_icons.png" id="14_wdnak"]
 [ext_resource type="AudioStream" uid="uid://bayq26wwpev15" path="res://assets/audio/sfx/forest_ambience_loop_01.wav" id="21_gc57s"]
 [ext_resource type="AudioStream" uid="uid://dr2l8neevixa7" path="res://assets/audio/sfx/forest_night_loop_01.wav" id="22_8b66f"]
 
@@ -61,16 +63,29 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3jaai"]
-content_margin_left = 12.0
-content_margin_top = 10.0
-content_margin_right = 12.0
-content_margin_bottom = 10.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
+content_margin_left = 18.0
+content_margin_top = 16.0
+content_margin_right = 18.0
+content_margin_bottom = 16.0
 bg_color = Color(0.09411765, 0.13725491, 0.12156863, 0.9490196)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
+border_color = Color(0.050980393, 0.08235294, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3jaai"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.09411765, 0.13725491, 0.12156863, 0.96862745)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.19215687, 0.26666668, 0.23137255, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1iff4"]
 content_margin_top = 3.0
@@ -125,6 +140,26 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.83137256, 0.7372549, 0.4745098, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4v7s"]
+atlas = ExtResource("14_wdnak")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_57qmd"]
+atlas = ExtResource("14_wdnak")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0u6y"]
+atlas = ExtResource("14_wdnak")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcnqv"]
+atlas = ExtResource("14_wdnak")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7numd"]
+atlas = ExtResource("14_wdnak")
+region = Rect2(64, 0, 16, 16)
 
 [node name="Game" type="Node2D" unique_id=1378207982]
 script = ExtResource("1_5i0tg")
@@ -183,9 +218,128 @@ stream = ExtResource("10_pg2xm")
 volume_db = -4.0
 bus = &"UI"
 
+[node name="MainMenu" type="Control" parent="Interface" unique_id=1056438539 node_paths=PackedStringArray("audio_settings_panel")]
+process_mode = 3
+z_index = 50
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("13_4vuph")
+audio_settings_panel = NodePath("../AudioSettingsPanel")
+
+[node name="Background" type="ColorRect" parent="Interface/MainMenu" unique_id=1588636474]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03137255, 0.0627451, 0.047058824, 0.7529412)
+
+[node name="CenterContainer" type="CenterContainer" parent="Interface/MainMenu" unique_id=624141497]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuPanel" type="PanelContainer" parent="Interface/MainMenu/CenterContainer" unique_id=1246064966]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
+
+[node name="MarginContainer" type="MarginContainer" parent="Interface/MainMenu/CenterContainer/MenuPanel" unique_id=1928388180]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Interface/MainMenu/CenterContainer/MenuPanel/MarginContainer" unique_id=1114172919]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="Interface/MainMenu/CenterContainer/MenuPanel/MarginContainer/VBoxContainer" unique_id=560755220]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_font_sizes/font_size = 24
+text = "WOODLAND OUTPOST"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="Interface/MainMenu/CenterContainer/MenuPanel/MarginContainer/VBoxContainer" unique_id=444791197]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7254902, 0.78431374, 0.70980394, 1)
+theme_override_font_sizes/font_size = 11
+text = "Survive. Gather. Build."
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="Interface/MainMenu/CenterContainer/MenuPanel/MarginContainer/VBoxContainer" unique_id=2021838294]
+custom_minimum_size = Vector2(58, 26)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_focus_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.47058824, 0.5176471, 0.47843137, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_pgi6j")
+theme_override_styles/hover = SubResource("StyleBoxFlat_v0r7i")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
+theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
+text = "Start Game"
+
+[node name="HowToPlayButton" type="Button" parent="Interface/MainMenu/CenterContainer/MenuPanel/MarginContainer/VBoxContainer" unique_id=858926981]
+custom_minimum_size = Vector2(180, 30)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_focus_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.47058824, 0.5176471, 0.47843137, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_pgi6j")
+theme_override_styles/hover = SubResource("StyleBoxFlat_v0r7i")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
+theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
+text = "How To Play"
+
+[node name="AudioButton" type="Button" parent="Interface/MainMenu/CenterContainer/MenuPanel/MarginContainer/VBoxContainer" unique_id=809133737]
+custom_minimum_size = Vector2(58, 26)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_focus_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.47058824, 0.5176471, 0.47843137, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_pgi6j")
+theme_override_styles/hover = SubResource("StyleBoxFlat_v0r7i")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
+theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
+text = "Audio Settings"
+
+[node name="QuitButton" type="Button" parent="Interface/MainMenu/CenterContainer/MenuPanel/MarginContainer/VBoxContainer" unique_id=1072577106]
+custom_minimum_size = Vector2(58, 26)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_focus_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.47058824, 0.5176471, 0.47843137, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_pgi6j")
+theme_override_styles/hover = SubResource("StyleBoxFlat_v0r7i")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
+theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
+text = "Quit"
+
 [node name="AudioSettingsBackdrop" type="ColorRect" parent="Interface" unique_id=805689774]
 process_mode = 3
 visible = false
+z_index = 100
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -196,6 +350,7 @@ color = Color(0.03137255, 0.0627451, 0.047058824, 0.5019608)
 [node name="AudioSettingsPanel" type="PanelContainer" parent="Interface" unique_id=1069463811 node_paths=PackedStringArray("open_button")]
 process_mode = 3
 visible = false
+z_index = 101
 custom_minimum_size = Vector2(230, 190)
 anchors_preset = 8
 anchor_left = 0.5
@@ -342,6 +497,181 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
 text = "Close"
 alignment = 0
 expand_icon = true
+
+[node name="HelpBackdrop" type="ColorRect" parent="Interface" unique_id=2014532481]
+process_mode = 3
+visible = false
+z_index = 100
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03137255, 0.0627451, 0.047058824, 0.5019608)
+
+[node name="HelpCenter" type="CenterContainer" parent="Interface" unique_id=1722028243]
+process_mode = 3
+visible = false
+z_index = 101
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HelpPanel" type="PanelContainer" parent="Interface/HelpCenter" unique_id=1090180975]
+process_mode = 3
+z_index = 102
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3jaai")
+
+[node name="MarginContainer" type="MarginContainer" parent="Interface/HelpCenter/HelpPanel" unique_id=1494576345]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Interface/HelpCenter/HelpPanel/MarginContainer" unique_id=66553128]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer" unique_id=1604333839]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+
+[node name="MoveRow" type="HBoxContainer" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer" unique_id=1297700603]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MoveIcon" type="TextureRect" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer/MoveRow" unique_id=970303095]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_g4v7s")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MoveLabel" type="Label" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer/MoveRow" unique_id=1910454188]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_font_sizes/font_size = 12
+text = "WASD / Arrow Keys — Move"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="InteractRow" type="HBoxContainer" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer" unique_id=1143259715]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="InteractIcon" type="TextureRect" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer/InteractRow" unique_id=1722558761]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_57qmd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InteractLabel" type="Label" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer/InteractRow" unique_id=1296774981]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_font_sizes/font_size = 12
+text = "E — Gather or interact"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ResourcesRow" type="HBoxContainer" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer" unique_id=1926044302]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ResourcesIcon" type="TextureRect" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer/ResourcesRow" unique_id=514102306]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_d0u6y")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ResourcesLabel" type="Label" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer/ResourcesRow" unique_id=1531962766]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_font_sizes/font_size = 12
+text = "Gather wood, stone, and food."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="CampRow" type="HBoxContainer" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer" unique_id=1774758432]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CampIcon" type="TextureRect" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer/CampRow" unique_id=773901307]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_fcnqv")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CampLabel" type="Label" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer/CampRow" unique_id=414670259]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_font_sizes/font_size = 12
+text = "Use resources at the camp to build
+the campfire, foundation, and cabin."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="SurvivalRow" type="HBoxContainer" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer" unique_id=931975408]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SurvivalIcon" type="TextureRect" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer/SurvivalRow" unique_id=478044774]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_7numd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SurvivalLabel" type="Label" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer/SurvivalRow" unique_id=1832188847]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_font_sizes/font_size = 12
+text = "One food is consumed each day.
+Complete the cabin before winter."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="CloseButton" type="Button" parent="Interface/HelpCenter/HelpPanel/MarginContainer/VBoxContainer" unique_id=1417993926]
+custom_minimum_size = Vector2(58, 28)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_focus_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.47058824, 0.5176471, 0.47843137, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_pgi6j")
+theme_override_styles/hover = SubResource("StyleBoxFlat_v0r7i")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
+theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
+text = "Close"
 
 [node name="World" type="Node2D" parent="." unique_id=822583601]
 script = ExtResource("1_sul5r")

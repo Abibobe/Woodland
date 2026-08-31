@@ -53,7 +53,7 @@ var is_loading_settings: bool = false
 	$"../UISound"
 )
 
-
+signal panel_closed
 
 
 var previous_pause_state: bool = false
@@ -330,6 +330,7 @@ func _finish_closing_panel() -> void:
 	backdrop.modulate.a = 1.0
 
 	get_tree().paused = previous_pause_state
+	panel_closed.emit()
 
 
 func _update_value_labels() -> void:
@@ -370,3 +371,10 @@ func _play_ui_click() -> void:
 	)
 
 	ui_sound.play()
+
+
+func open_panel() -> void:
+	if visible:
+		return
+
+	_open_panel()
