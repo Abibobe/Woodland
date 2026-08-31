@@ -126,6 +126,11 @@ theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
 theme_override_font_sizes/font_size = 12
 text = "Stone 0"
 
+[node name="AudioButton" type="Button" parent="TopBar/MarginContainer/ResourceRow" unique_id=634102213]
+custom_minimum_size = Vector2(54, 26)
+layout_mode = 2
+text = "Audio"
+
 [node name="InteractionPrompt" type="PanelContainer" parent="." unique_id=1157376547]
 visible = false
 custom_minimum_size = Vector2(360, 32)

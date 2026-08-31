@@ -134,3 +134,4 @@ shape = SubResource("CircleShape2D_g4v7s")
 [node name="FootstepSound" type="AudioStreamPlayer" parent="." unique_id=1505463563]
 stream = ExtResource("8_qek5x")
 volume_db = -12.0
+bus = &"SFX"

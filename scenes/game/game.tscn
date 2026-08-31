@@ -14,10 +14,117 @@
 [ext_resource type="PackedScene" uid="uid://sedfcx8yhbn2" path="res://scenes/buildings/camp.tscn" id="7_87uf6"]
 [ext_resource type="AudioStream" uid="uid://y1xir85g4iwd" path="res://assets/audio/sfx/ui_denied_01.wav" id="8_uyinl"]
 [ext_resource type="Texture2D" uid="uid://dkgtltmmplg3x" path="res://assets/ground/soil_tile_01.png" id="8_vaxfo"]
+[ext_resource type="AudioStream" uid="uid://ca6ov1e0k7gf1" path="res://assets/audio/sfx/victory_01.wav" id="9_10c2w"]
 [ext_resource type="Script" uid="uid://bgy5cm58xrama" path="res://scripts/game/ground_render.gd" id="9_ftsea"]
 [ext_resource type="Texture2D" uid="uid://d0g7887sxmwhp" path="res://assets/ground/grass_tile_02.png" id="9_otnwt"]
 [ext_resource type="Script" uid="uid://dlaaj1d87wtfg" path="res://scripts/game/day_cycle.gd" id="10_4j704"]
+[ext_resource type="AudioStream" uid="uid://wwh1odfw4q2i" path="res://assets/audio/sfx/defeat_01.wav" id="10_pg2xm"]
+[ext_resource type="Script" uid="uid://b3y6aeihyw2pp" path="res://scripts/game/audio_settings_panel.gd" id="11_3jaai"]
 [ext_resource type="Texture2D" uid="uid://wtqhq01ow4xb" path="res://assets/ground/soil_tile_02.png" id="11_3xj4h"]
+[ext_resource type="Texture2D" uid="uid://dirurf1fg1mpw" path="res://styles/grabber_light_01.tres" id="12_1iff4"]
+[ext_resource type="AudioStream" uid="uid://bayq26wwpev15" path="res://assets/audio/sfx/forest_ambience_loop_01.wav" id="21_gc57s"]
+[ext_resource type="AudioStream" uid="uid://dr2l8neevixa7" path="res://assets/audio/sfx/forest_night_loop_01.wav" id="22_8b66f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pgi6j"]
+content_margin_left = 6.0
+content_margin_top = 3.0
+content_margin_right = 6.0
+content_margin_bottom = 3.0
+bg_color = Color(0.16078432, 0.22745098, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0627451, 0.101960786, 0.08627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v0r7i"]
+bg_color = Color(0.2627451, 0.36078432, 0.3019608, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.84705883, 0.76862746, 0.48235294, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_34cou"]
+bg_color = Color(0.105882354, 0.16078432, 0.13725491, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r15l8"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3jaai"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0.09411765, 0.13725491, 0.12156863, 0.9490196)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1iff4"]
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.05882353, 0.09803922, 0.08235294, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.19215687, 0.26666668, 0.23137255, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4vuph"]
+bg_color = Color(0.4, 0.49411765, 0.30588236, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6627451, 0.7411765, 0.41568628, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wdnak"]
+bg_color = Color(0.4, 0.49411765, 0.30588236, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5019608, 0.59607846, 0.36078432, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h48ew"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.20784314, 0.2784314, 0.24313726, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.09019608, 0.14509805, 0.105882354, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fty5b"]
+bg_color = Color(0.1882353, 0.26666668, 0.18039216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8862745, 0.7921569, 0.53333336, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2dhg"]
+bg_color = Color(0.34509805, 0.45882353, 0.30588236, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.83137256, 0.7372549, 0.4745098, 1)
 
 [node name="Game" type="Node2D" unique_id=1378207982]
 script = ExtResource("1_5i0tg")
@@ -37,6 +144,20 @@ position = Vector2(640, 352)
 
 [node name="HUD" parent="Interface" unique_id=143992237 instance=ExtResource("3_bdhmt")]
 
+[node name="AudioButton" parent="Interface/HUD/TopBar/MarginContainer/ResourceRow" parent_id_path=PackedInt32Array(143992237, 533683390) index="8" unique_id=634102213]
+custom_minimum_size = Vector2(58, 26)
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_focus_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.47058824, 0.5176471, 0.47843137, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_pgi6j")
+theme_override_styles/hover = SubResource("StyleBoxFlat_v0r7i")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
+theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
+text = "AUDIO"
+
 [node name="CampMenu" parent="Interface" unique_id=1019713792 instance=ExtResource("4_2a8rs")]
 visible = false
 
@@ -45,10 +166,182 @@ visible = false
 [node name="UISound" type="AudioStreamPlayer" parent="Interface" unique_id=999439271]
 stream = ExtResource("7_5v6r0")
 volume_db = -8.0
+bus = &"UI"
 
 [node name="UIDeniedSound" type="AudioStreamPlayer" parent="Interface" unique_id=996399071]
 stream = ExtResource("8_uyinl")
 volume_db = -6.0
+bus = &"UI"
+
+[node name="VictorySound" type="AudioStreamPlayer" parent="Interface" unique_id=432333648]
+stream = ExtResource("9_10c2w")
+volume_db = -3.0
+bus = &"UI"
+
+[node name="DefeatSound" type="AudioStreamPlayer" parent="Interface" unique_id=1871935547]
+stream = ExtResource("10_pg2xm")
+volume_db = -4.0
+bus = &"UI"
+
+[node name="AudioSettingsBackdrop" type="ColorRect" parent="Interface" unique_id=805689774]
+process_mode = 3
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03137255, 0.0627451, 0.047058824, 0.5019608)
+
+[node name="AudioSettingsPanel" type="PanelContainer" parent="Interface" unique_id=1069463811 node_paths=PackedStringArray("open_button")]
+process_mode = 3
+visible = false
+custom_minimum_size = Vector2(230, 190)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -99.5
+offset_right = 115.0
+offset_bottom = 99.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3jaai")
+script = ExtResource("11_3jaai")
+open_button = NodePath("../HUD/TopBar/MarginContainer/ResourceRow/AudioButton")
+
+[node name="MarginContainer" type="MarginContainer" parent="Interface/AudioSettingsPanel" unique_id=623216179]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Interface/AudioSettingsPanel/MarginContainer" unique_id=1635304247]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=620378718]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+text = "Audio Settings"
+horizontal_alignment = 1
+
+[node name="MasterHeader" type="HBoxContainer" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=1952870698]
+layout_mode = 2
+
+[node name="MasterLabel" type="Label" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer/MasterHeader" unique_id=1709278796]
+layout_mode = 2
+
+[node name="MasterSpacer" type="Control" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer/MasterHeader" unique_id=190749348]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MasterValueLabel" type="Label" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer/MasterHeader" unique_id=338826959]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="MasterSlider" type="HSlider" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=1954834314]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_icons/grabber = ExtResource("12_1iff4")
+theme_override_icons/grabber_highlight = ExtResource("12_1iff4")
+theme_override_icons/grabber_disabled = ExtResource("12_1iff4")
+theme_override_styles/slider = SubResource("StyleBoxFlat_1iff4")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_4vuph")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_wdnak")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="EffectsHeader" type="HBoxContainer" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=184522672]
+layout_mode = 2
+
+[node name="EffectsLabel" type="Label" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer/EffectsHeader" unique_id=1981457649]
+layout_mode = 2
+
+[node name="EffectsSpacer" type="Control" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer/EffectsHeader" unique_id=1558427762]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EffectsValueLabel" type="Label" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer/EffectsHeader" unique_id=220551990]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="EffectsSlider" type="HSlider" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=1060190619]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_icons/grabber = ExtResource("12_1iff4")
+theme_override_icons/grabber_highlight = ExtResource("12_1iff4")
+theme_override_icons/grabber_disabled = ExtResource("12_1iff4")
+theme_override_styles/slider = SubResource("StyleBoxFlat_1iff4")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_4vuph")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_wdnak")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="AmbienceHeader" type="HBoxContainer" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=844548070]
+layout_mode = 2
+
+[node name="AmbienceLabel" type="Label" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer/AmbienceHeader" unique_id=580761763]
+layout_mode = 2
+
+[node name="AmbienceSpacer" type="Control" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer/AmbienceHeader" unique_id=404141529]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AmbienceValueLabel" type="Label" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer/AmbienceHeader" unique_id=1597016213]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_font_sizes/font_size = 11
+text = "100%"
+
+[node name="AmbienceSlider" type="HSlider" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=983369151]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_icons/grabber = ExtResource("12_1iff4")
+theme_override_icons/grabber_highlight = ExtResource("12_1iff4")
+theme_override_icons/grabber_disabled = ExtResource("12_1iff4")
+theme_override_styles/slider = SubResource("StyleBoxFlat_1iff4")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_4vuph")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_wdnak")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="ResetButton" type="Button" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=574930606]
+custom_minimum_size = Vector2(150, 28)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+text = "Reset Defaults"
+alignment = 0
+expand_icon = true
+
+[node name="CloseButton" type="Button" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=101328220]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+text = "Close"
+alignment = 0
+expand_icon = true
 
 [node name="World" type="Node2D" parent="." unique_id=822583601]
 script = ExtResource("1_sul5r")
@@ -71,3 +364,17 @@ script = ExtResource("5_lfrn8")
 
 [node name="DayCycle" type="Node2D" parent="." unique_id=367428266]
 script = ExtResource("10_4j704")
+
+[node name="ForestAmbience" type="AudioStreamPlayer" parent="." unique_id=1137713436]
+stream = ExtResource("21_gc57s")
+volume_db = -22.0
+autoplay = true
+bus = &"Ambience"
+
+[node name="NightAmbience" type="AudioStreamPlayer" parent="." unique_id=1412103556]
+stream = ExtResource("22_8b66f")
+volume_db = -80.0
+autoplay = true
+bus = &"Ambience"
+
+[editable path="Interface/HUD"]

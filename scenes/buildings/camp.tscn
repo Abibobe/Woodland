@@ -37,3 +37,4 @@ texture = SubResource("GradientTexture2D_57qmd")
 [node name="BuildSound" type="AudioStreamPlayer2D" parent="." unique_id=704016599]
 volume_db = -2.0
 max_distance = 800.0
+bus = &"SFX"

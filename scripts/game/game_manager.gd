@@ -24,6 +24,20 @@ extends Node2D
 @onready var ui_denied_sound: AudioStreamPlayer = (
 	$Interface/UIDeniedSound
 )
+@onready var victory_sound: AudioStreamPlayer = (
+	$Interface/VictorySound
+)
+@onready var defeat_sound: AudioStreamPlayer = (
+	$Interface/DefeatSound
+)
+@onready var forest_ambience: AudioStreamPlayer = (
+	$ForestAmbience
+)
+@onready var night_ambience: AudioStreamPlayer = (
+	$NightAmbience
+)
+
+var ambience_crossfade_tween: Tween
 
 var world_tint_tween: Tween
 
@@ -322,6 +336,14 @@ func _finish_game(
 	game_finished = true
 	active_camp = null
 
+	match title:
+		"Victory":
+			_play_victory_sound()
+			_fade_out_ambience()
+
+		"Defeat":
+			_play_defeat_sound()
+
 	day_cycle.set_running(false)
 	player.set_movement_enabled(false)
 	player_interaction.set_process_unhandled_input(false)
@@ -366,7 +388,7 @@ func _update_world_tint(phase: String) -> void:
 		1.5
 	)
 	var normalized_phase := phase.to_lower()
-
+	_update_ambience(normalized_phase)
 	camp.set_night_lighting(
 		normalized_phase == "evening"
 		or normalized_phase == "night"
@@ -389,3 +411,78 @@ func _play_ui_denied() -> void:
 		return
 
 	ui_denied_sound.play()
+
+func _play_victory_sound() -> void:
+	if victory_sound.stream == null:
+		return
+
+	victory_sound.pitch_scale = 1.0
+	victory_sound.play()
+
+
+func _play_defeat_sound() -> void:
+	if defeat_sound.stream == null:
+		return
+
+	defeat_sound.pitch_scale = 1.0
+	defeat_sound.play()
+
+
+func _fade_out_ambience() -> void:
+	if ambience_crossfade_tween != null:
+		ambience_crossfade_tween.kill()
+
+	ambience_crossfade_tween = create_tween()
+	ambience_crossfade_tween.set_parallel(true)
+
+	ambience_crossfade_tween.tween_property(
+		forest_ambience,
+		"volume_db",
+		-80.0,
+		0.6
+	)
+
+	ambience_crossfade_tween.tween_property(
+		night_ambience,
+		"volume_db",
+		-80.0,
+		0.6
+	)
+
+	ambience_crossfade_tween.set_parallel(false)
+
+	ambience_crossfade_tween.tween_callback(
+		func() -> void:
+			forest_ambience.stop()
+			night_ambience.stop()
+	)
+
+
+func _update_ambience(phase: String) -> void:
+	var use_night_ambience := (
+		phase == "evening"
+		or phase == "night"
+	)
+
+	var day_volume := -80.0 if use_night_ambience else -22.0
+	var night_volume := -21.0 if use_night_ambience else -80.0
+
+	if ambience_crossfade_tween != null:
+		ambience_crossfade_tween.kill()
+
+	ambience_crossfade_tween = create_tween()
+	ambience_crossfade_tween.set_parallel(true)
+
+	ambience_crossfade_tween.tween_property(
+		forest_ambience,
+		"volume_db",
+		day_volume,
+		2.0
+	)
+
+	ambience_crossfade_tween.tween_property(
+		night_ambience,
+		"volume_db",
+		night_volume,
+		2.0
+	)
