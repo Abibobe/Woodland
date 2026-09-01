@@ -78,7 +78,6 @@ func _ready() -> void:
 
 	call_deferred("_play_intro_animation")
 
-
 func _start_game() -> void:
 	_play_ui_click()
 	_set_buttons_disabled(true)
@@ -116,12 +115,12 @@ func _start_game() -> void:
 		_finish_starting_game
 	)
 
-
 func _open_audio_settings() -> void:
-	if audio_settings_panel == null:
-		return
-
+	_play_ui_click()
 	_set_buttons_disabled(true)
+
+	menu_panel.hide()
+
 	audio_settings_panel.open_panel()
 
 
@@ -136,11 +135,13 @@ func _quit_game() -> void:
 
 	get_tree().quit()
 
-
 func _on_audio_settings_closed() -> void:
-	_set_buttons_disabled(false)
-	#audio_button.grab_focus()
+	menu_panel.show()
+	menu_panel.modulate.a = 1.0
+	menu_panel.scale = Vector2.ONE
 
+	_set_buttons_disabled(false)
+	audio_button.grab_focus()
 
 func _set_buttons_disabled(value: bool) -> void:
 	start_button.disabled = value
@@ -313,3 +314,13 @@ func open_help_panel() -> void:
 		return
 
 	_open_help()
+
+
+func _on_settings_visibility_changed() -> void:
+	if audio_settings_panel.visible:
+		_set_buttons_disabled(true)
+		return
+	_set_buttons_disabled(false)
+
+	audio_button.grab_focus()
+	

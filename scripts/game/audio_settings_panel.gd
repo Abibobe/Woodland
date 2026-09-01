@@ -60,6 +60,16 @@ var previous_pause_state: bool = false
 var panel_tween: Tween
 
 func _ready() -> void:
+	
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	z_as_relative = false
+	z_index = 101
+
+	backdrop.z_as_relative = false
+	backdrop.z_index = 100
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	
 	if open_button != null:
 		open_button.pressed.connect(_toggle_panel)
 

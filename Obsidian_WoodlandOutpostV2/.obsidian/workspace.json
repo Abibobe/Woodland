@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Step 7 - Tutorial/Tutorial Phase 2 — Opening and closing animation.md",
+                "file": "Step 8 - Settings/Settings Phase 1 — Saved fullscreen option.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Tutorial Phase 2 — Opening and closing animation"
+              "title": "Settings Phase 1 — Saved fullscreen option"
             }
           }
         ]
@@ -190,8 +190,10 @@
   },
   "active": "f88b6803c8e8f813",
   "lastOpenFiles": [
-    "Step 7 - Tutorial/Tutorial Phase 1 — One-time controls prompt.md",
     "Step 7 - Tutorial/Tutorial Phase 2 — Opening and closing animation.md",
+    "Step 8 - Settings/Settings Phase 1 — Saved fullscreen option.md",
+    "Step 8 - Settings",
+    "Step 7 - Tutorial/Tutorial Phase 1 — One-time controls prompt.md",
     "Step 7 - Tutorial/Phase 0.md",
     "Step 6 - Pause/Pause Phase 5 — Compact controls guide.md",
     "Step 7 - Tutorial",
@@ -225,9 +227,7 @@
     "Step 3 - Sound/Senza nome.md",
     "forest_night_loop_01.wav.import",
     "forest_night_loop_01.wav",
-    "Step 3 - Sound/Audio Phase 10 — Forest ambience.md",
     "forest_ambience_loop_01.wav.import",
-    "forest_ambience_loop_01.wav",
     "hud_resource_icons.png",
     "camp_stages_strip.png",
     "player_up_strip.png",

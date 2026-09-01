@@ -23,9 +23,12 @@
 [ext_resource type="Texture2D" uid="uid://wtqhq01ow4xb" path="res://assets/ground/soil_tile_02.png" id="11_3xj4h"]
 [ext_resource type="Texture2D" uid="uid://dirurf1fg1mpw" path="res://styles/grabber_light_01.tres" id="12_1iff4"]
 [ext_resource type="Script" uid="uid://sey1l46dlxm7" path="res://scripts/game/main_menu.gd" id="13_4vuph"]
+[ext_resource type="StyleBox" uid="uid://c1opwno5oiee" path="res://styles/normal_button.tres" id="13_8krtj"]
+[ext_resource type="StyleBox" uid="uid://dleog4xga7a58" path="res://styles/pressed_button.tres" id="14_fydea"]
 [ext_resource type="Texture2D" uid="uid://d02up5wxv0bxo" path="res://assets/ui/how_to_play_icons.png" id="14_wdnak"]
 [ext_resource type="Script" uid="uid://b886gwu24e74y" path="res://scripts/game/pause_menu.gd" id="15_h48ew"]
 [ext_resource type="Script" uid="uid://cihntt2u1jp8x" path="res://scripts/game/tutorial_prompt.gd" id="16_fty5b"]
+[ext_resource type="Script" uid="uid://r7mmeqfqhp32" path="res://scripts/game/display_mode_button.gd" id="18_af6p5"]
 [ext_resource type="AudioStream" uid="uid://bayq26wwpev15" path="res://assets/audio/sfx/forest_ambience_loop_01.wav" id="21_gc57s"]
 [ext_resource type="AudioStream" uid="uid://dr2l8neevixa7" path="res://assets/audio/sfx/forest_night_loop_01.wav" id="22_8b66f"]
 
@@ -96,26 +99,6 @@ region = Rect2(48, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_7numd"]
 atlas = ExtResource("14_wdnak")
 region = Rect2(64, 0, 16, 16)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h48ew"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.20784314, 0.2784314, 0.24313726, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.09019608, 0.14509805, 0.105882354, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fty5b"]
-bg_color = Color(0.1882353, 0.26666668, 0.18039216, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.8862745, 0.7921569, 0.53333336, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2dhg"]
 bg_color = Color(0.34509805, 0.45882353, 0.30588236, 1)
@@ -531,8 +514,8 @@ theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
 theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
 theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("14_fydea")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
 text = "Resume"
 alignment = 0
@@ -547,10 +530,10 @@ theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
 theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
 theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("14_fydea")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
-text = "Audio Settings"
+text = "Settings"
 alignment = 0
 expand_icon = true
 
@@ -563,8 +546,8 @@ theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
 theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
 theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("14_fydea")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
 text = "How to Play"
 alignment = 0
@@ -579,8 +562,8 @@ theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
 theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
 theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("14_fydea")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
 text = "Show Tutorial Again"
 alignment = 0
@@ -595,8 +578,8 @@ theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
 theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
 theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("14_fydea")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
 text = "Return to Title"
 alignment = 0
@@ -650,8 +633,8 @@ theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
 theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
 theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("14_fydea")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
 text = "Cancel"
 alignment = 0
@@ -667,8 +650,8 @@ theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
 theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
 theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("14_fydea")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
 text = "Return"
 alignment = 0
@@ -753,8 +736,8 @@ theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
 theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
 theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("14_fydea")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
 text = "Got it"
 alignment = 0
@@ -771,10 +754,10 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.03137255, 0.0627451, 0.047058824, 0.5019608)
 
-[node name="AudioSettingsPanel" type="PanelContainer" parent="Interface" unique_id=1069463811 node_paths=PackedStringArray("open_button")]
-process_mode = 3
+[node name="AudioSettingsPanel" type="PanelContainer" parent="Interface" unique_id=1069463811]
 visible = false
 z_index = 101
+z_as_relative = false
 custom_minimum_size = Vector2(230, 190)
 anchors_preset = 8
 anchor_left = 0.5
@@ -789,7 +772,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3jaai")
 script = ExtResource("11_3jaai")
-open_button = NodePath("../HUD/TopBar/MarginContainer/ResourceRow/AudioButton")
 
 [node name="MarginContainer" type="MarginContainer" parent="Interface/AudioSettingsPanel" unique_id=623216179]
 layout_mode = 2
@@ -800,7 +782,7 @@ layout_mode = 2
 [node name="TitleLabel" type="Label" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=620378718]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
-text = "Audio Settings"
+text = "Settings"
 horizontal_alignment = 1
 
 [node name="MasterHeader" type="HBoxContainer" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=1952870698]
@@ -890,6 +872,30 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 
+[node name="DisplayTitle" type="Label" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=2088740468]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.81960785, 0.41960785, 1)
+theme_override_font_sizes/font_size = 12
+text = "DISPLAY"
+
+[node name="FullscreenButton" type="Button" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=736141779]
+custom_minimum_size = Vector2(150, 28)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("13_8krtj")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+toggle_mode = true
+text = "Fullscreen: Off"
+alignment = 0
+expand_icon = true
+script = ExtResource("18_af6p5")
+
 [node name="ResetButton" type="Button" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=574930606]
 custom_minimum_size = Vector2(150, 28)
 layout_mode = 2
@@ -899,8 +905,8 @@ theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
 theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
 theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("14_fydea")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
 text = "Reset Defaults"
 alignment = 0
@@ -915,8 +921,8 @@ theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
 theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
 theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("14_fydea")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
 text = "Close"
 alignment = 0
@@ -925,6 +931,7 @@ expand_icon = true
 [node name="MainMenu" type="Control" parent="Interface" unique_id=1056438539 node_paths=PackedStringArray("audio_settings_panel")]
 process_mode = 3
 z_index = 50
+z_as_relative = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -1022,7 +1029,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_pgi6j")
 theme_override_styles/hover = SubResource("StyleBoxFlat_v0r7i")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
 theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
-text = "Audio Settings"
+text = "Settings"
 
 [node name="QuitButton" type="Button" parent="Interface/MainMenu/CenterContainer/MenuPanel/MarginContainer/VBoxContainer" unique_id=1072577106]
 custom_minimum_size = Vector2(58, 26)
