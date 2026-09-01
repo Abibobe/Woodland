@@ -1,11 +1,75 @@
+### Scene styling
+
+Select the root `ResultScreen`:
+
+```
+Visible: Off
+Mouse Filter: Stop
+Ordering → Z Index: 200
+```
+
+Set `Dimmer`:
+
+```
+Color: #08100cdb
+Mouse Filter: Stop
+```
+
+For `Panel → Theme Overrides → Styles → Panel`, create a `StyleBoxFlat`:
+
+```
+Background Color: #18231ff7
+Border Color:     #31443b
+Border Width:     3 on every side
+Corner Radius:    0
+
+Content Margin Left:   18
+Content Margin Top:    16
+Content Margin Right:  18
+Content Margin Bottom: 16
+```
+
+Set `Content`, the internal `VBoxContainer`:
+
+```
+Alignment: Center
+Theme Overrides → Constants → Separation: 10
+```
+
+Set the labels:
+
+```
+TitleLabel:
+Font Size: 22
+Horizontal Alignment: Center
+
+MessageLabel:
+Font Size: 12
+Font Color: #f2e7c9
+Horizontal Alignment: Center
+Vertical Alignment: Center
+Autowrap Mode: Word Smart
+```
+
+Set `RestartButton`:
+
+```
+Text: Return to Title
+Custom Minimum Size Y: 30
+Focus Mode: None
+```
+
+Reuse the main-menu button styles.
+
+## Replace `result_screen.gd`
+
+```
 class_name ResultScreen
 extends Control
 
 
 signal restart_requested
 
-@export_category("Visuals")
-@export var result_icons_texture: Texture2D
 
 @onready var dimmer: ColorRect = $Dimmer
 @onready var panel: PanelContainer = $Panel
@@ -25,15 +89,6 @@ signal restart_requested
 @onready var ui_sound: AudioStreamPlayer = (
 	$"../UISound"
 )
-
-@onready var stats_label: Label = (
-	$Panel/MarginContainer/Content/StatsLabel
-)
-
-@onready var result_icon: TextureRect = (
-	$Panel/MarginContainer/Content/ResultIcon
-)
-
 
 
 var result_tween: Tween
@@ -57,13 +112,10 @@ func _ready() -> void:
 
 func show_result(
 	title: String,
-	message: String,
-	stats: Dictionary = {}
+	message: String
 ) -> void:
 	title_label.text = title
 	message_label.text = message
-	stats_label.text = _format_stats(stats)
-	_set_result_icon(title)
 
 	match title:
 		"Victory":
@@ -147,7 +199,7 @@ func _apply_layout() -> void:
 		Control.PRESET_TOP_LEFT
 	)
 
-	panel.size = Vector2(420.0, 250.0)
+	panel.size = Vector2(420.0, 190.0)
 
 	panel.position = Vector2(
 		(viewport_size.x - panel.size.x) / 2.0,
@@ -177,53 +229,6 @@ func _on_restart_button_pressed() -> void:
 	).timeout
 
 	restart_requested.emit()
+```
 
-
-func _format_stats(stats: Dictionary) -> String:
-	if stats.is_empty():
-		return ""
-
-	return (
-		"Day reached: %d\n"
-		+ "Wood %d  |  Stone %d  |  Food %d\n"
-		+ "Camp stage: %s"
-	) % [
-		int(stats.get("day", 1)),
-		int(stats.get("wood", 0)),
-		int(stats.get("stone", 0)),
-		int(stats.get("food", 0)),
-		String(stats.get("camp_stage", "Site"))
-	]
-
-
-func _set_result_icon(title: String) -> void:
-	if result_icons_texture == null:
-		print("1111")
-		result_icon.hide()
-		return
-
-	var source_x: float
-
-	match title:
-		"Victory":
-			source_x = 0.0
-
-		"Defeat":
-			source_x = 32.0
-
-		_:
-			result_icon.hide()
-			return
-
-	var atlas_texture := AtlasTexture.new()
-	panel.size = Vector2(420.0, 285.0)
-	atlas_texture.atlas = result_icons_texture
-	atlas_texture.region = Rect2(
-		source_x,
-		0.0,
-		32.0,
-		32.0
-	)
-	print("23123123")
-	result_icon.texture = atlas_texture
-	result_icon.show()
+The screen now uses gold for victory, muted red for defeat, appears above every other interface layer, and returns to the newly created title menu when the scene reloads.

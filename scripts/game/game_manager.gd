@@ -350,10 +350,31 @@ func _finish_game(
 
 	hud.hide_interaction_prompt()
 	camp_menu.close_menu()
+	
+	var camp_stage_name := String(
+		Camp.CampStage.keys()[
+			int(camp.current_stage)
+		]
+	).capitalize()
+
+	var final_stats := {
+		"day": day_cycle.current_day,
+		"wood": inventory.get_amount(
+			ResourceTypes.Type.WOOD
+		),
+		"stone": inventory.get_amount(
+			ResourceTypes.Type.STONE
+		),
+		"food": inventory.get_amount(
+			ResourceTypes.Type.FOOD
+		),
+		"camp_stage": camp_stage_name
+	}
 
 	result_screen.show_result(
 		title,
-		message
+		message,
+		final_stats
 	)
 
 

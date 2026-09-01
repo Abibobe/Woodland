@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Step 4 - Menu/Menu Phase 5 — Animate the help panel.md",
+                "file": "Step 6 - Pause/Pause Phase 1 — In-game pause menu.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Menu Phase 5 — Animate the help panel"
+              "title": "Pause Phase 1 — In-game pause menu"
             }
           }
         ]
@@ -190,8 +190,16 @@
   },
   "active": "f88b6803c8e8f813",
   "lastOpenFiles": [
-    "Step 4 - Menu/Menu Phase 4 — How to Play.md",
+    "Step 4 - Menu/Result Phase 3 — Victory and defeat icons.md",
+    "Step 6 - Pause/Pause Phase 1 — In-game pause menu.md",
+    "Step 6 - Pause",
+    "result_icons.png.import",
+    "result_icons.png",
+    "Step 5 - Result/Result Phase 2 — Final statistics.md",
+    "Step 5 - Result/Result Phase 1 — Styled result screen.md",
     "Step 4 - Menu/Menu Phase 5 — Animate the help panel.md",
+    "Step 5 - Result",
+    "Step 4 - Menu/Menu Phase 4 — How to Play.md",
     "how_to_play_icons.png.import",
     "how_to_play_icons.png",
     "Step 4 - Menu/Menu Phase 1 — Main menu.md",
@@ -214,19 +222,12 @@
     "forest_ambience_loop_01.wav",
     "Step 3 - Sound/Audio Phase 9 — Defeat sound.md",
     "defeat_01.wav.import",
-    "defeat_01.wav",
     "Step 3 - Sound/Audio Phase 8 — Victory sound.md",
-    "victory_01.wav.import",
-    "victory_01.wav",
     "Step 3 - Sound/Audio Phase 7 — Animated footsteps.md",
     "Step 3 - Sound/Audio Phase 5 — Interface clicks.md",
     "Step 3 - Sound/Audio Phase 6 — Insufficient resources.md",
     "Step 3 - Sound/Audio Phase 4 — Camp construction.md",
     "Step 3 - Sound/Audio Phase 3 — Berry gathering.md",
-    "Step 3 - Sound/Audio Phase 1 — Wood gathering.md",
-    "Step 3 - Sound/Audio Phase 2 — Stone gathering.md",
-    "Step 2 - Polish/Visual Phase 33 — Construction-stage animation.md",
-    "Step 2 - Polish/Visual Phase 32 — Gathering feedback.md",
     "hud_resource_icons.png",
     "camp_stages_strip.png",
     "player_up_strip.png",
@@ -234,7 +235,6 @@
     "player_walk_down_strip.png",
     "player_idle_down_01.png",
     "berry_bush_01.png",
-    "rock_01.png",
-    "tree_01.png"
+    "rock_01.png"
   ]
 }

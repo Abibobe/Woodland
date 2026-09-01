@@ -1,25 +1,41 @@
 [gd_scene format=3 uid="uid://duyh0un27umb6"]
 
 [ext_resource type="Script" uid="uid://bday8xpsay6yi" path="res://scenes/ui/result_screen.gd" id="1_3ubwy"]
+[ext_resource type="Texture2D" uid="uid://bigu4hfutcspu" path="res://assets/ui/result_icons.png" id="2_vmyrh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_erjpq"]
+content_margin_left = 18.0
+content_margin_top = 16.0
+content_margin_right = 18.0
+content_margin_bottom = 16.0
+bg_color = Color(0.09411765, 0.13725491, 0.12156863, 0.96862745)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.19215687, 0.26666668, 0.23137255, 1)
 
 [node name="ResultScreen" type="Control" unique_id=513272366]
 visible = false
+z_index = 200
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_3ubwy")
+result_icons_texture = ExtResource("2_vmyrh")
 
 [node name="Dimmer" type="ColorRect" parent="." unique_id=67882913]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-color = Color(0, 0, 0, 0.6)
+color = Color(0.03137255, 0.0627451, 0.047058824, 0.85882354)
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=1401410366]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 420.0
+offset_bottom = 816.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_erjpq")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=1382241286]
 layout_mode = 2
@@ -30,17 +46,43 @@ theme_override_constants/margin_bottom = 16
 
 [node name="Content" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=1797098943]
 layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
 
 [node name="TitleLabel" type="Label" parent="Panel/MarginContainer/Content" unique_id=1444658691]
 layout_mode = 2
+theme_override_font_sizes/font_size = 22
 text = "Victory!"
 horizontal_alignment = 1
 
+[node name="ResultIcon" type="TextureRect" parent="Panel/MarginContainer/Content" unique_id=1965069037]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
 [node name="MessageLabel" type="Label" parent="Panel/MarginContainer/Content" unique_id=1049345997]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_font_sizes/font_size = 12
 text = "The cabin is ready"
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="StatsLabel" type="Label" parent="Panel/MarginContainer/Content" unique_id=654478070]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7254902, 0.78431374, 0.70980394, 1)
+theme_override_font_sizes/font_size = 11
+text = "The cabin is ready"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="RestartButton" type="Button" parent="Panel/MarginContainer/Content" unique_id=1590590091]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "Play Again"
+focus_mode = 0
+text = "Return to Title"
