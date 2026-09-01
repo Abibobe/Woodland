@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Step 6 - Pause/Pause Phase 1 — In-game pause menu.md",
+                "file": "Step 6 - Pause/Pause Phase 5 — Compact controls guide.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Pause Phase 1 — In-game pause menu"
+              "title": "Pause Phase 5 — Compact controls guide"
             }
           }
         ]
@@ -190,8 +190,12 @@
   },
   "active": "f88b6803c8e8f813",
   "lastOpenFiles": [
-    "Step 4 - Menu/Result Phase 3 — Victory and defeat icons.md",
+    "Step 6 - Pause/Pause Phase 4 — Confirm returning to title.md",
+    "Step 6 - Pause/Pause Phase 5 — Compact controls guide.md",
+    "Step 6 - Pause/Pause Phase 3 — Title and keyboard hint.md",
+    "Step 6 - Pause/Pause Phase 2 — Opening animation.md",
     "Step 6 - Pause/Pause Phase 1 — In-game pause menu.md",
+    "Step 4 - Menu/Result Phase 3 — Victory and defeat icons.md",
     "Step 6 - Pause",
     "result_icons.png.import",
     "result_icons.png",
@@ -224,10 +228,6 @@
     "defeat_01.wav.import",
     "Step 3 - Sound/Audio Phase 8 — Victory sound.md",
     "Step 3 - Sound/Audio Phase 7 — Animated footsteps.md",
-    "Step 3 - Sound/Audio Phase 5 — Interface clicks.md",
-    "Step 3 - Sound/Audio Phase 6 — Insufficient resources.md",
-    "Step 3 - Sound/Audio Phase 4 — Camp construction.md",
-    "Step 3 - Sound/Audio Phase 3 — Berry gathering.md",
     "hud_resource_icons.png",
     "camp_stages_strip.png",
     "player_up_strip.png",

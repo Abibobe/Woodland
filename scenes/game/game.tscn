@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://dirurf1fg1mpw" path="res://styles/grabber_light_01.tres" id="12_1iff4"]
 [ext_resource type="Script" uid="uid://sey1l46dlxm7" path="res://scripts/game/main_menu.gd" id="13_4vuph"]
 [ext_resource type="Texture2D" uid="uid://d02up5wxv0bxo" path="res://assets/ui/how_to_play_icons.png" id="14_wdnak"]
+[ext_resource type="Script" uid="uid://b886gwu24e74y" path="res://scripts/game/pause_menu.gd" id="15_h48ew"]
 [ext_resource type="AudioStream" uid="uid://bayq26wwpev15" path="res://assets/audio/sfx/forest_ambience_loop_01.wav" id="21_gc57s"]
 [ext_resource type="AudioStream" uid="uid://dr2l8neevixa7" path="res://assets/audio/sfx/forest_night_loop_01.wav" id="22_8b66f"]
 
@@ -672,6 +673,267 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_v0r7i")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
 theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
 text = "Close"
+
+[node name="PauseMenu" type="Control" parent="Interface" unique_id=723385990 node_paths=PackedStringArray("main_menu", "audio_settings_panel", "help_center", "result_screen")]
+process_mode = 3
+visible = false
+z_index = 75
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_h48ew")
+main_menu = NodePath("../MainMenu")
+audio_settings_panel = NodePath("../AudioSettingsPanel")
+help_center = NodePath("../HelpCenter")
+result_screen = NodePath("../ResultScreen")
+
+[node name="Backdrop" type="ColorRect" parent="Interface/PauseMenu" unique_id=381595891]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03137255, 0.0627451, 0.047058824, 0.7529412)
+
+[node name="CenterContainer" type="CenterContainer" parent="Interface/PauseMenu" unique_id=140378494]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Interface/PauseMenu/CenterContainer" unique_id=687558211]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Interface/PauseMenu/CenterContainer/Panel" unique_id=1038929803]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer" unique_id=1565642637]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="TitleLabel" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=321724211]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.81960785, 0.41960785, 1)
+theme_override_font_sizes/font_size = 20
+text = "GAME PAUSED"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=320514180]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6666667, 0.72156864, 0.64705884, 1)
+theme_override_font_sizes/font_size = 11
+text = "The forest is waiting."
+horizontal_alignment = 1
+
+[node name="ControlsGrid" type="GridContainer" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=1613094188]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_constants/h_separation = 18
+theme_override_constants/v_separation = 3
+columns = 2
+
+[node name="MoveAction" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer/ControlsGrid" unique_id=294770180]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6666667, 0.72156864, 0.64705884, 1)
+theme_override_font_sizes/font_size = 10
+text = "Move"
+
+[node name="MoveKey" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer/ControlsGrid" unique_id=800669467]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9490196, 0.81960785, 0.41960785, 1)
+theme_override_font_sizes/font_size = 10
+text = "WASD / Arrows"
+horizontal_alignment = 2
+
+[node name="InteractionAction" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer/ControlsGrid" unique_id=1955343118]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6666667, 0.72156864, 0.64705884, 1)
+theme_override_font_sizes/font_size = 10
+text = "Interact"
+
+[node name="InteractionKey" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer/ControlsGrid" unique_id=1747961413]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9490196, 0.81960785, 0.41960785, 1)
+theme_override_font_sizes/font_size = 10
+text = "E"
+horizontal_alignment = 2
+
+[node name="PauseAction" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer/ControlsGrid" unique_id=1951606863]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6666667, 0.72156864, 0.64705884, 1)
+theme_override_font_sizes/font_size = 10
+text = "Pause"
+
+[node name="PauseKey" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer/ControlsGrid" unique_id=291570188]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9490196, 0.81960785, 0.41960785, 1)
+theme_override_font_sizes/font_size = 10
+text = "ESC"
+horizontal_alignment = 2
+
+[node name="SelectAction" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer/ControlsGrid" unique_id=2015903695]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6666667, 0.72156864, 0.64705884, 1)
+theme_override_font_sizes/font_size = 10
+text = "Select"
+
+[node name="SelectKey" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer/ControlsGrid" unique_id=710388846]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9490196, 0.81960785, 0.41960785, 1)
+theme_override_font_sizes/font_size = 10
+text = "Enter"
+horizontal_alignment = 2
+
+[node name="ResumeButton" type="Button" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=1146163552]
+custom_minimum_size = Vector2(180, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+text = "Resume"
+alignment = 0
+expand_icon = true
+
+[node name="AudioButton" type="Button" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=525141945]
+custom_minimum_size = Vector2(180, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+text = "Audio Settings"
+alignment = 0
+expand_icon = true
+
+[node name="HelpButton" type="Button" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=197664779]
+custom_minimum_size = Vector2(180, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+text = "How to Play"
+alignment = 0
+expand_icon = true
+
+[node name="TitleButton" type="Button" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=794858362]
+custom_minimum_size = Vector2(180, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+text = "Return to Title"
+alignment = 0
+expand_icon = true
+
+[node name="HintLabel" type="Label" parent="Interface/PauseMenu/CenterContainer/Panel/MarginContainer/VBoxContainer" unique_id=1410532813]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.5686275, 0.5058824, 1)
+theme_override_font_sizes/font_size = 10
+text = "ESC - Resume"
+horizontal_alignment = 1
+
+[node name="ConfirmPanel" type="PanelContainer" parent="Interface/PauseMenu/CenterContainer" unique_id=1802091295]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Interface/PauseMenu/CenterContainer/ConfirmPanel" unique_id=538389986]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="ConfirmContent" type="VBoxContainer" parent="Interface/PauseMenu/CenterContainer/ConfirmPanel/MarginContainer" unique_id=1564649254]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="ConfirmTitle" type="Label" parent="Interface/PauseMenu/CenterContainer/ConfirmPanel/MarginContainer/ConfirmContent" unique_id=1181324396]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.81960785, 0.41960785, 1)
+theme_override_font_sizes/font_size = 20
+text = "RETURN TO TITLE?"
+horizontal_alignment = 1
+
+[node name="ConfirmMessage" type="Label" parent="Interface/PauseMenu/CenterContainer/ConfirmPanel/MarginContainer/ConfirmContent" unique_id=710384889]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.84313726, 0.87058824, 0.8235294, 1)
+theme_override_font_sizes/font_size = 11
+text = "Current progress will be lost."
+horizontal_alignment = 1
+
+[node name="ConfirmButtons" type="HBoxContainer" parent="Interface/PauseMenu/CenterContainer/ConfirmPanel/MarginContainer/ConfirmContent" unique_id=1869424739]
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="Interface/PauseMenu/CenterContainer/ConfirmPanel/MarginContainer/ConfirmContent/ConfirmButtons" unique_id=1681345699]
+custom_minimum_size = Vector2(180, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+text = "Cancel"
+alignment = 0
+expand_icon = true
+
+[node name="ConfirmButton" type="Button" parent="Interface/PauseMenu/CenterContainer/ConfirmPanel/MarginContainer/ConfirmContent/ConfirmButtons" unique_id=129219436]
+custom_minimum_size = Vector2(180, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_h48ew")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fty5b")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+text = "Return"
+alignment = 0
+expand_icon = true
 
 [node name="World" type="Node2D" parent="." unique_id=822583601]
 script = ExtResource("1_sul5r")

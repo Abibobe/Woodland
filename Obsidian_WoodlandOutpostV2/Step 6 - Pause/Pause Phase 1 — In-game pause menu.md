@@ -239,3 +239,82 @@ Result Screen:        Interface/ResultScreen
 ```
 
 `Esc` will now pause and resume gameplay, while correctly ignoring input when the title screen, audio settings, help window, or result screen is active.
+
+## Fix `pause_menu.gd`
+
+In `_ready()`, connect the visibility signals:
+
+```
+func _ready() -> void:
+	resume_button.pressed.connect(_resume_game)
+	audio_button.pressed.connect(_open_audio_settings)
+	help_button.pressed.connect(_open_help)
+	title_button.pressed.connect(_return_to_title)
+
+	audio_settings_panel.visibility_changed.connect(
+		_on_secondary_panel_visibility_changed
+	)
+
+	help_center.visibility_changed.connect(
+		_on_secondary_panel_visibility_changed
+	)
+```
+
+If your existing `_ready()` already connects the buttons, only add the two `visibility_changed` connections.
+
+Replace the audio and help functions with:
+
+```
+func _open_audio_settings() -> void:
+	_play_ui_click()
+
+	hide()
+	audio_settings_panel.open_panel()
+
+
+func _open_help() -> void:
+	_play_ui_click()
+
+	hide()
+	main_menu.open_help_panel()
+```
+
+Then add:
+
+```
+func _on_secondary_panel_visibility_changed() -> void:
+	call_deferred("_restore_after_secondary_panel")
+
+
+func _restore_after_secondary_panel() -> void:
+	if audio_settings_panel.visible:
+		return
+
+	if help_center.visible:
+		return
+
+	if not get_tree().paused:
+		return
+
+	show()
+	resume_button.grab_focus()
+```
+
+Finally, make sure opening the pause menu restores it properly:
+
+```
+func _open_pause_menu() -> void:
+	get_tree().paused = true
+
+	show()
+	resume_button.grab_focus()
+```
+
+Now the behavior will be:
+
+- Pause menu opens.
+- Clicking **Audio Settings** hides the pause menu.
+- Audio controls receive mouse input normally.
+- Closing Audio Settings restores the pause menu.
+- The same behavior applies to **How to Play**.
+- The game remains paused throughout.

@@ -198,7 +198,6 @@ func _format_stats(stats: Dictionary) -> String:
 
 func _set_result_icon(title: String) -> void:
 	if result_icons_texture == null:
-		print("1111")
 		result_icon.hide()
 		return
 
@@ -224,6 +223,5 @@ func _set_result_icon(title: String) -> void:
 		32.0,
 		32.0
 	)
-	print("23123123")
 	result_icon.texture = atlas_texture
 	result_icon.show()
