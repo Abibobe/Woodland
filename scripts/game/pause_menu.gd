@@ -7,26 +7,22 @@ extends Control
 @export var audio_settings_panel: AudioSettingsPanel
 @export var help_center: CenterContainer
 @export var result_screen: ResultScreen
-
+@export var tutorial_prompt: TutorialPrompt
 
 @onready var resume_button: Button = (
-	$CenterContainer/Panel/MarginContainer/
-	VBoxContainer/ResumeButton
+	$CenterContainer/Panel/MarginContainer/Content/ResumeButton
 )
 
 @onready var audio_button: Button = (
-	$CenterContainer/Panel/MarginContainer/
-	VBoxContainer/AudioButton
+	$CenterContainer/Panel/MarginContainer/Content/AudioButton
 )
 
 @onready var help_button: Button = (
-	$CenterContainer/Panel/MarginContainer/
-	VBoxContainer/HelpButton
+	$CenterContainer/Panel/MarginContainer/Content/HelpButton
 )
 
 @onready var title_button: Button = (
-	$CenterContainer/Panel/MarginContainer/
-	VBoxContainer/TitleButton
+	$CenterContainer/Panel/MarginContainer/Content/TitleButton
 )
 
 @onready var ui_sound: AudioStreamPlayer = (
@@ -41,17 +37,19 @@ extends Control
 )
 
 @onready var cancel_button: Button = (
-	$CenterContainer/ConfirmPanel/MarginContainer/
-	ConfirmContent/ConfirmButtons/CancelButton
+	$CenterContainer/ConfirmPanel/MarginContainer/ConfirmContent/ConfirmButtons/CancelButton
 )
 
 @onready var confirm_button: Button = (
-	$CenterContainer/ConfirmPanel/MarginContainer/
-	ConfirmContent/ConfirmButtons/ConfirmButton
+	$CenterContainer/ConfirmPanel/MarginContainer/ConfirmContent/ConfirmButtons/ConfirmButton
 )
 
+@onready var show_tutorial_button: Button = (
+	$CenterContainer/Panel/MarginContainer/Content/ShowTutorialButton
+)
 
 var pause_tween: Tween
+var waiting_for_secondary_panel: bool = false
 
 func _ready() -> void:
 	resume_button.pressed.connect(_resume_game)
@@ -73,59 +71,49 @@ func _ready() -> void:
 	confirm_button.pressed.connect(
 		_confirm_return_to_title
 	)
+	show_tutorial_button.pressed.connect(
+		_open_tutorial
+	)
 
-func _unhandled_input(event: InputEvent) -> void:
-	if not event.is_action_pressed("ui_cancel"):
-		return
-	if event.is_action_pressed("ui_cancel"):
-		get_viewport().set_input_as_handled()
+	tutorial_prompt.visibility_changed.connect(
+		_on_secondary_panel_visibility_changed
+	)
 
-		if confirm_panel.visible:
-			_cancel_return_to_title()
-			return
 
-		if visible:
-			_resume_game()
-			return
-
-	if _is_another_modal_open():
+func _process(_delta: float) -> void:
+	if not Input.is_action_just_pressed("ui_cancel"):
 		return
 
-	if visible:
-		_resume_game()
-		get_viewport().set_input_as_handled()
-		return
-
-	if get_tree().paused:
-		return
-
-	_open_pause_menu()
-	get_viewport().set_input_as_handled()
-
+	_handle_pause_input()
 
 func _is_another_modal_open() -> bool:
-	if main_menu != null and main_menu.visible:
+	if main_menu.visible:
 		return true
 
-	if (
-		audio_settings_panel != null
-		and audio_settings_panel.visible
-	):
+	if audio_settings_panel.visible:
 		return true
 
-	if help_center != null and help_center.visible:
+	if help_center.visible:
 		return true
 
-	if (
-		result_screen != null
-		and result_screen.visible
-	):
+	if result_screen.visible:
+		return true
+
+	if tutorial_prompt != null and tutorial_prompt.visible:
 		return true
 
 	return false
 
+
 func _open_pause_menu() -> void:
 	get_tree().paused = true
+	waiting_for_secondary_panel = false
+
+	confirm_panel.hide()
+	panel.show()
+
+	confirm_button.disabled = false
+	cancel_button.disabled = false
 
 	if pause_tween != null:
 		pause_tween.kill()
@@ -217,15 +205,26 @@ func _resume_game() -> void:
 func _open_audio_settings() -> void:
 	_play_ui_click()
 
+	waiting_for_secondary_panel = true
+
+	confirm_panel.hide()
+	panel.show()
 	hide()
+
 	audio_settings_panel.open_panel()
 
 
 func _open_help() -> void:
 	_play_ui_click()
 
+	waiting_for_secondary_panel = true
+
+	confirm_panel.hide()
+	panel.show()
 	hide()
+
 	main_menu.open_help_panel()
+
 
 func _return_to_title() -> void:
 	_play_ui_click()
@@ -252,6 +251,8 @@ func _set_buttons_disabled(value: bool) -> void:
 	audio_button.disabled = value
 	help_button.disabled = value
 	title_button.disabled = value
+	show_tutorial_button.disabled = value
+
 
 
 func _on_secondary_panel_visibility_changed() -> void:
@@ -259,16 +260,28 @@ func _on_secondary_panel_visibility_changed() -> void:
 
 
 func _restore_after_secondary_panel() -> void:
+	if not waiting_for_secondary_panel:
+		return
+
 	if audio_settings_panel.visible:
 		return
 
 	if help_center.visible:
 		return
 
+	if tutorial_prompt != null:
+		if tutorial_prompt.visible:
+			return
+
+	waiting_for_secondary_panel = false
+
 	if not get_tree().paused:
 		return
 
+	confirm_panel.hide()
+	panel.show()
 	show()
+
 	resume_button.grab_focus()
 
 
@@ -289,7 +302,7 @@ func _cancel_return_to_title() -> void:
 	confirm_panel.hide()
 	panel.show()
 
-	confirm_button.grab_focus()
+	title_button.grab_focus()
 
 
 func _confirm_return_to_title() -> void:
@@ -307,3 +320,48 @@ func _confirm_return_to_title() -> void:
 
 	get_tree().paused = false
 	get_tree().reload_current_scene()
+
+func _open_tutorial() -> void:
+	if tutorial_prompt == null:
+		return
+
+	_play_ui_click()
+
+	waiting_for_secondary_panel = true
+
+	confirm_panel.hide()
+	panel.show()
+	hide()
+
+	tutorial_prompt.open_prompt()
+
+
+func _handle_pause_input() -> void:
+	if tutorial_prompt != null:
+		if tutorial_prompt.is_visible_in_tree():
+			return
+
+	if audio_settings_panel.is_visible_in_tree():
+		return
+
+	if help_center.is_visible_in_tree():
+		return
+
+	if result_screen.is_visible_in_tree():
+		return
+
+	if main_menu.is_visible_in_tree():
+		return
+
+	if confirm_panel.visible and visible:
+		_cancel_return_to_title()
+		return
+
+	if visible:
+		_resume_game()
+		return
+
+	if get_tree().paused:
+		return
+
+	_open_pause_menu()
