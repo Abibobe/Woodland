@@ -30,6 +30,7 @@
 [ext_resource type="Script" uid="uid://b886gwu24e74y" path="res://scripts/game/pause_menu.gd" id="15_h48ew"]
 [ext_resource type="Script" uid="uid://cihntt2u1jp8x" path="res://scripts/game/tutorial_prompt.gd" id="16_fty5b"]
 [ext_resource type="Script" uid="uid://r7mmeqfqhp32" path="res://scripts/game/display_mode_button.gd" id="18_af6p5"]
+[ext_resource type="Script" uid="uid://b32j8rfyihlyw" path="res://scripts/game/v_sync_button.gd" id="20_af6p5"]
 [ext_resource type="AudioStream" uid="uid://bayq26wwpev15" path="res://assets/audio/sfx/forest_ambience_loop_01.wav" id="21_gc57s"]
 [ext_resource type="AudioStream" uid="uid://dr2l8neevixa7" path="res://assets/audio/sfx/forest_night_loop_01.wav" id="22_8b66f"]
 
@@ -144,11 +145,14 @@ script = ExtResource("1_5i0tg")
 
 [node name="Entities" type="Node2D" parent="." unique_id=1378740191]
 y_sort_enabled = true
+texture_filter = 1
 
 [node name="Player" parent="Entities" unique_id=1390145703 instance=ExtResource("1_7h61r")]
+texture_filter = 1
 position = Vector2(640, 440)
 
 [node name="Camp" parent="Entities" unique_id=1349754192 instance=ExtResource("7_87uf6")]
+texture_filter = 1
 position = Vector2(640, 352)
 
 [node name="WorldTint" type="CanvasModulate" parent="." unique_id=1739035885]
@@ -158,6 +162,7 @@ position = Vector2(640, 352)
 [node name="HUD" parent="Interface" unique_id=143992237 instance=ExtResource("3_bdhmt")]
 
 [node name="AudioButton" parent="Interface/HUD/TopBar/MarginContainer/ResourceRow" parent_id_path=PackedInt32Array(143992237, 533683390) index="8" unique_id=634102213]
+visible = false
 custom_minimum_size = Vector2(58, 26)
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
@@ -890,6 +895,32 @@ alignment = 0
 expand_icon = true
 script = ExtResource("18_af6p5")
 
+[node name="DisplayHint" type="Label" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=337273979]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.5686275, 0.5058824, 1)
+theme_override_font_sizes/font_size = 9
+text = "ALT + ENTER — Toggle fullscreen"
+horizontal_alignment = 1
+
+[node name="VSyncButton" type="Button" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=607181307]
+custom_minimum_size = Vector2(150, 28)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("13_8krtj")
+theme_override_styles/pressed = ExtResource("13_8krtj")
+theme_override_styles/hover = ExtResource("15_fydea")
+theme_override_styles/hover_pressed = ExtResource("15_fydea")
+toggle_mode = true
+text = "VSync: On"
+alignment = 0
+expand_icon = true
+script = ExtResource("20_af6p5")
+
 [node name="ResetButton" type="Button" parent="Interface/AudioSettingsPanel/MarginContainer/VBoxContainer" unique_id=574930606]
 custom_minimum_size = Vector2(150, 28)
 layout_mode = 2
@@ -1048,6 +1079,7 @@ text = "Quit"
 script = ExtResource("1_sul5r")
 
 [node name="GroundRenderer" type="Node2D" parent="World" unique_id=169465105]
+texture_filter = 1
 script = ExtResource("9_ftsea")
 grass_texture = ExtResource("7_5jirj")
 grass_texture_alt = ExtResource("9_otnwt")

@@ -53,6 +53,16 @@ var is_loading_settings: bool = false
 	$"../UISound"
 )
 
+@onready var fullscreen_button: DisplayModeButton = (
+	$MarginContainer/VBoxContainer/FullscreenButton
+)
+
+@onready var vsync_button: VSyncButton = (
+	$MarginContainer/VBoxContainer/VSyncButton
+)
+
+
+
 signal panel_closed
 
 
@@ -359,6 +369,7 @@ func _update_value_labels() -> void:
 
 func _reset_audio_settings() -> void:
 	_play_ui_click()
+
 	is_loading_settings = true
 
 	master_slider.value = 1.0
@@ -369,6 +380,10 @@ func _reset_audio_settings() -> void:
 
 	_update_value_labels()
 	_save_audio_settings()
+
+	fullscreen_button.reset_to_default()
+	vsync_button.reset_to_default()
+
 
 
 func _play_ui_click() -> void:

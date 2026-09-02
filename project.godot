@@ -10,10 +10,13 @@ config_version=5
 
 [application]
 
-config/name="Woodland"
+config/name="Woodland Outpost"
+config/description="Survive. Gather. Build."
+config/version="0.1.0"
 run/main_scene="uid://lk2763otwgx3"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://ca1eq0cpyqt4n"
+config/windows_native_icon="res://assets/ui/application/woodland_outpost_icon.ico"
 
 [display]
 
@@ -21,8 +24,7 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/window_width_override=1280
 window/size/window_height_override=720
-window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/mode="viewport"
 
 [input]
 

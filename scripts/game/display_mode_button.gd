@@ -8,6 +8,7 @@ const FULLSCREEN_KEY := "fullscreen"
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	toggle_mode = true
 
 	toggled.connect(
@@ -56,7 +57,7 @@ func _apply_display_mode(
 ) -> void:
 	if fullscreen_enabled:
 		DisplayServer.window_set_mode(
-			DisplayServer.WINDOW_MODE_FULLSCREEN
+			DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
 		)
 	else:
 		DisplayServer.window_set_mode(
@@ -86,3 +87,47 @@ func _save_setting(
 	)
 
 	config.save(CONFIG_PATH)
+
+
+func reset_to_default() -> void:
+	var default_fullscreen := false
+
+	set_pressed_no_signal(
+		default_fullscreen
+	)
+
+	_apply_display_mode(
+		default_fullscreen
+	)
+
+	_update_button_text(
+		default_fullscreen
+	)
+
+	_save_setting(
+		default_fullscreen
+	)
+
+func _unhandled_key_input(
+	event: InputEvent
+) -> void:
+	if not event is InputEventKey:
+		return
+
+	var key_event := event as InputEventKey
+
+	if not key_event.pressed:
+		return
+
+	if key_event.echo:
+		return
+
+	if not key_event.alt_pressed:
+		return
+
+	if key_event.keycode != KEY_ENTER:
+		return
+
+	button_pressed = not button_pressed
+
+	get_viewport().set_input_as_handled()
