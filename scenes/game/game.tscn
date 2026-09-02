@@ -26,6 +26,7 @@
 [ext_resource type="StyleBox" uid="uid://c1opwno5oiee" path="res://styles/normal_button.tres" id="13_8krtj"]
 [ext_resource type="StyleBox" uid="uid://dleog4xga7a58" path="res://styles/pressed_button.tres" id="14_fydea"]
 [ext_resource type="Texture2D" uid="uid://d02up5wxv0bxo" path="res://assets/ui/how_to_play_icons.png" id="14_wdnak"]
+[ext_resource type="StyleBox" uid="uid://diosf0u8ydhv" path="res://styles/hover_button.tres" id="15_fydea"]
 [ext_resource type="Script" uid="uid://b886gwu24e74y" path="res://scripts/game/pause_menu.gd" id="15_h48ew"]
 [ext_resource type="Script" uid="uid://cihntt2u1jp8x" path="res://scripts/game/tutorial_prompt.gd" id="16_fty5b"]
 [ext_resource type="Script" uid="uid://r7mmeqfqhp32" path="res://scripts/game/display_mode_button.gd" id="18_af6p5"]
@@ -99,14 +100,6 @@ region = Rect2(48, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_7numd"]
 atlas = ExtResource("14_wdnak")
 region = Rect2(64, 0, 16, 16)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2dhg"]
-bg_color = Color(0.34509805, 0.45882353, 0.30588236, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.83137256, 0.7372549, 0.4745098, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1iff4"]
 content_margin_top = 3.0
@@ -516,7 +509,7 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("14_fydea")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
 text = "Resume"
 alignment = 0
 expand_icon = true
@@ -532,7 +525,7 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("14_fydea")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
 text = "Settings"
 alignment = 0
 expand_icon = true
@@ -548,7 +541,7 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("14_fydea")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
 text = "How to Play"
 alignment = 0
 expand_icon = true
@@ -564,7 +557,7 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("14_fydea")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
 text = "Show Tutorial Again"
 alignment = 0
 expand_icon = true
@@ -580,7 +573,7 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("14_fydea")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
 text = "Return to Title"
 alignment = 0
 expand_icon = true
@@ -635,7 +628,7 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("14_fydea")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
 text = "Cancel"
 alignment = 0
 expand_icon = true
@@ -652,7 +645,7 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("14_fydea")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
 text = "Return"
 alignment = 0
 expand_icon = true
@@ -738,7 +731,7 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("14_fydea")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
 text = "Got it"
 alignment = 0
 expand_icon = true
@@ -889,7 +882,8 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("13_8krtj")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
+theme_override_styles/hover_pressed = ExtResource("15_fydea")
 toggle_mode = true
 text = "Fullscreen: Off"
 alignment = 0
@@ -907,7 +901,7 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("14_fydea")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
 text = "Reset Defaults"
 alignment = 0
 expand_icon = true
@@ -923,7 +917,7 @@ theme_override_constants/icon_max_width = 24
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = ExtResource("13_8krtj")
 theme_override_styles/pressed = ExtResource("14_fydea")
-theme_override_styles/hover = SubResource("StyleBoxFlat_l2dhg")
+theme_override_styles/hover = ExtResource("15_fydea")
 text = "Close"
 alignment = 0
 expand_icon = true
@@ -938,6 +932,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("13_4vuph")
 audio_settings_panel = NodePath("../AudioSettingsPanel")
 
@@ -948,6 +943,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.03137255, 0.0627451, 0.047058824, 0.7529412)
 
 [node name="CenterContainer" type="CenterContainer" parent="Interface/MainMenu" unique_id=624141497]
@@ -957,6 +953,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="MenuPanel" type="PanelContainer" parent="Interface/MainMenu/CenterContainer" unique_id=1246064966]
 layout_mode = 2

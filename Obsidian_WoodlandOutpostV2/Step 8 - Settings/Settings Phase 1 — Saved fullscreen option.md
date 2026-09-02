@@ -500,3 +500,116 @@ func _ready() -> void:
 The key fix is `menu_panel.hide()`. It removes all its child controls from Godot’s GUI hit-testing while Settings is open, but keeps `MainMenu.visible == true`, so the tutorial will not mistakenly start.
 
 After closing Settings, the main-menu panel is shown again and its buttons are restored.
+
+
+ULTRA FIX
+
+
+I found the specific issue in `game.tscn`.
+
+Hiding `MenuPanel` is insufficient because these MainMenu controls remain fullscreen and mouse-active:
+
+```
+MainMenu
+├── Background        ← fullscreen Control
+└── CenterContainer   ← fullscreen Control
+    └── MenuPanel     ← only this was hidden
+```
+
+Because `MainMenu` appears after `AudioSettingsPanel` in the scene tree, those remaining controls can intercept GUI input. The correct fix is to make the decorative layers ignore mouse input and hide the entire `CenterContainer` while Settings is open.
+
+## 1. Add the CenterContainer reference
+
+In `main_menu.gd`:
+
+```
+@onready var menu_center: CenterContainer = (
+	$CenterContainer
+)
+```
+
+## 2. Configure mouse handling in `_ready()`
+
+Add these lines at the beginning of `_ready()`:
+
+```
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().paused = true
+
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	menu_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	# Keep the existing signal connections below.
+```
+
+`Ignore` on the containers does not disable their child buttons. The buttons still receive clicks directly.
+
+## 3. Hide the full menu container
+
+Replace `_open_audio_settings()` with:
+
+```
+func _open_audio_settings() -> void:
+	_play_ui_click()
+	_set_buttons_disabled(true)
+
+	menu_center.hide()
+	audio_settings_panel.open_panel()
+```
+
+Previously you had:
+
+```
+menu_panel.hide()
+```
+
+That left the fullscreen `CenterContainer` active.
+
+## 4. Restore it when Settings closes
+
+Replace `_on_audio_settings_closed()` with:
+
+```
+func _on_audio_settings_closed() -> void:
+	menu_center.show()
+
+	menu_panel.modulate.a = 1.0
+	menu_panel.scale = Vector2.ONE
+
+	_set_buttons_disabled(false)
+	audio_button.grab_focus()
+```
+
+## 5. Inspector verification
+
+Set these permanent values:
+
+```
+MainMenu
+└── Mouse → Filter: Ignore
+
+MainMenu/Background
+└── Mouse → Filter: Ignore
+
+MainMenu/CenterContainer
+└── Mouse → Filter: Ignore
+```
+
+Leave the actual buttons at:
+
+```
+Mouse Filter: Stop
+```
+
+Keep:
+
+```
+AudioSettingsBackdrop → Z Index: 100
+AudioSettingsPanel → Z Index: 101
+```
+
+The scripts for the Settings panel and fullscreen button are otherwise correct. The problem was the fullscreen `CenterContainer` remaining active after only its smaller `MenuPanel` child was hidden.
+
+TIPS: clone the Theme Overrides-> Styles for Hover_pressed from Hover (have consistency in the graphical UI)

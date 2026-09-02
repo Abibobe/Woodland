@@ -50,7 +50,9 @@ extends Control
 @onready var help_close_button: Button = (
 	$"../HelpCenter/HelpPanel/MarginContainer/VBoxContainer/CloseButton"
 )
-
+@onready var menu_center: CenterContainer = (
+	$CenterContainer
+)
 
 var menu_tween: Tween
 var help_tween: Tween
@@ -58,6 +60,10 @@ var help_tween: Tween
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().paused = true
+	
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	menu_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	how_to_play_button.pressed.connect(
 		_open_help
@@ -119,8 +125,7 @@ func _open_audio_settings() -> void:
 	_play_ui_click()
 	_set_buttons_disabled(true)
 
-	menu_panel.hide()
-
+	menu_center.hide()
 	audio_settings_panel.open_panel()
 
 
@@ -136,7 +141,8 @@ func _quit_game() -> void:
 	get_tree().quit()
 
 func _on_audio_settings_closed() -> void:
-	menu_panel.show()
+	menu_center.show()
+
 	menu_panel.modulate.a = 1.0
 	menu_panel.scale = Vector2.ONE
 
