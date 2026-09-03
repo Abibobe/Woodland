@@ -118,3 +118,42 @@ Run the game and verify:
 - The camp remains in the middle of the forest.
 
 Resources will currently be distributed uniformly across the larger map. That is expected—the next step will introduce resource distance bands, keeping starter food and wood near camp while moving much of the stone farther away.
+
+### FIX: player can go behind the top bar
+
+That happens because the HUD correctly renders above the world, but the player’s minimum Y boundary still allows them into the HUD’s 42-pixel area.
+
+In `_configure_world_layout()`, replace:
+
+```
+player.minimum_position = Vector2(
+	10.0,
+	14.0
+)
+```
+
+with:
+
+```
+player.minimum_position = Vector2(
+	10.0,
+	64.0
+)
+```
+
+The `64` pixels reserve:
+
+- `42` pixels for the top bar.
+- Approximately `16` pixels for the upper half of the player sprite.
+- A small visual margin.
+
+Keep the camera limits unchanged:
+
+```
+player_camera.limit_left = 0
+player_camera.limit_top = 0
+player_camera.limit_right = roundi(world_size.x)
+player_camera.limit_bottom = roundi(world_size.y)
+```
+
+Now, at the northern edge of the map, the player should stop cleanly below the HUD instead of walking behind it. Resources already begin several rows from the upper edge, so they should remain visible as well.

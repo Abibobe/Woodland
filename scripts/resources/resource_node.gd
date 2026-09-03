@@ -26,9 +26,9 @@ enum ResourceType {
 @export var food_gather_sound: AudioStream
 
 @export_category("Gathering")
-@export_range(0.1, 120.0, 0.1) var food_gather_duration := 2.0
-@export_range(0.1, 120.0, 0.1) var wood_gather_duration := 3.0
-@export_range(0.1, 120.0, 0.1) var stone_gather_duration := 4.0
+@export_range(0.1, 120.0, 0.1) var food_gather_duration := 3.0
+@export_range(0.1, 120.0, 0.1) var wood_gather_duration := 4.0
+@export_range(0.1, 120.0, 0.1) var stone_gather_duration := 6.0
 
 @export_range(0.1, 2.0, 0.05) var gathering_feedback_interval := 0.45
 

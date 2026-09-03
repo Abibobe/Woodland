@@ -135,3 +135,5 @@ shape = SubResource("CircleShape2D_g4v7s")
 stream = ExtResource("8_qek5x")
 volume_db = -12.0
 bus = &"SFX"
+
+[node name="PlayerCamera" type="Camera2D" parent="." unique_id=1313071763]

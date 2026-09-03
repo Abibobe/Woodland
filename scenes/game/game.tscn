@@ -32,6 +32,7 @@
 [ext_resource type="Script" uid="uid://r7mmeqfqhp32" path="res://scripts/game/display_mode_button.gd" id="18_af6p5"]
 [ext_resource type="Script" uid="uid://b32j8rfyihlyw" path="res://scripts/game/v_sync_button.gd" id="20_af6p5"]
 [ext_resource type="AudioStream" uid="uid://bayq26wwpev15" path="res://assets/audio/sfx/forest_ambience_loop_01.wav" id="21_gc57s"]
+[ext_resource type="Script" uid="uid://uqcdgex4frn6" path="res://scripts/game/camp_indicator.gd" id="22_2vph8"]
 [ext_resource type="AudioStream" uid="uid://dr2l8neevixa7" path="res://assets/audio/sfx/forest_night_loop_01.wav" id="22_8b66f"]
 [ext_resource type="Script" uid="uid://crvjsfi4cpx6j" path="res://scripts/player/player_backpack.gd" id="34_mumkj"]
 
@@ -1147,8 +1148,34 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
 theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
 text = "Quit"
 
+[node name="CampIndicator" type="Control" parent="Interface" unique_id=1387178232 node_paths=PackedStringArray("player", "camp")]
+z_index = 40
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("22_2vph8")
+player = NodePath("../../Entities/Player")
+camp = NodePath("../../Entities/Camp")
+
+[node name="DistanceLabel" type="Label" parent="Interface/CampIndicator" unique_id=878795779]
+layout_mode = 0
+offset_left = -18.0
+offset_top = 18.0
+offset_right = 22.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_colors/font_outline_color = Color(0.09019608, 0.13725491, 0.11372549, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+
 [node name="World" type="Node2D" parent="." unique_id=822583601]
 script = ExtResource("1_sul5r")
+map_width = 72
+map_height = 44
 
 [node name="GroundRenderer" type="Node2D" parent="World" unique_id=169465105]
 texture_filter = 1

@@ -25,12 +25,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "2. V 0.2.0/Phase 6.1 — Larger world and camera.md",
+                "file": "2. V 0.2.0/Phase 8.2 — Player gathering animation.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Phase 6.1 — Larger world and camera"
+              "title": "Phase 8.2 — Player gathering animation"
             }
           }
         ],
@@ -203,9 +203,16 @@
   },
   "active": "1521d463eb4cc263",
   "lastOpenFiles": [
-    "2. V 0.2.0/Phase 4.6 — “Ready to build” notification.md",
-    "2. V 0.2.0/Phase 6.1 — Larger world and camera.md",
+    "2. V 0.2.0/Phase 8.1 — First balanced gathering times.md",
+    "2. V 0.2.0/Phase 8.2 — Player gathering animation.md",
+    "2. V 0.2.0/Phase 7.2 — Show distance to camp.md",
     "2. V 0.2.0/0 RoadMap.md",
+    "2. V 0.2.0/Phase 7.1 — Off-screen camp indicator.md",
+    "2. V 0.2.0/Phase 6.4 — Prevent dense walls and inaccessible resources.md",
+    "2. V 0.2.0/Phase 6.3 — Guaranteed winnable generation.md",
+    "2. V 0.2.0/Phase 6.2 — Distance-based resource placement.md",
+    "2. V 0.2.0/Phase 6.1 — Larger world and camera.md",
+    "2. V 0.2.0/Phase 4.6 — “Ready to build” notification.md",
     "2. V 0.2.0/Phase 4.5 — Continuous gathering feedback.md",
     "2. V 0.2.0/Phase 4.4.5 — Minor HotFix.md",
     "2. V 0.2.0/Phase 4.4 — Update the gathering prompt.md",
@@ -225,16 +232,9 @@
     "1. Initial Developement/Step 9 - Release/Release Phase 6 — How to update.md",
     "0. Dev diary",
     "2. How to update on Itch.io.md",
-    "1. Initial Developement/Step 9 - Release/Release Phase 5 — Style the itch.io page.md",
     "berry_bush_01.png",
-    "1. Initial Developement/Step 9 - Release/Release Phase 2 — Install the icon.md",
-    "Senza nome.md",
     "2. V 0.2.0",
     "1. Initial Developement",
-    "1. Initial Developement/Step 9 - Release/Release Phase 1 — Windows test build.md",
-    "1. Initial Developement/Step 9 - Release/Final Release — Publish Woodland Outpost.md",
-    "1. Initial Developement/Step 9 - Release/Release Phase 4 — Create the itch.io page.md",
-    "1. Initial Developement/Step 9 - Release/Release Phase 4.5 — Polish.md",
     "Screenshot 2026-09-02 141902.png.import",
     "Screenshot 2026-09-02 141755.png.import",
     "Screenshot 2026-09-02 141816.png.import",

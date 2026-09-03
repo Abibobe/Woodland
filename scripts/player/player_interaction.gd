@@ -1,6 +1,9 @@
 class_name PlayerInteraction
 extends Area2D
 
+@onready var player_animation: PlayerAnimation = (
+	$"../PlayerVisual"
+)
 
 signal interaction_completed(result: Dictionary)
 signal interaction_prompt_changed(text: String)
@@ -57,9 +60,15 @@ func _process(delta: float) -> void:
 		active_gathering_resource.set_gathering_active(
 			false
 		)
+
+		player_animation.stop_gathering()
 		return
 
 	active_gathering_resource.set_gathering_active(true)
+	player_animation.start_gathering(
+		active_gathering_resource.global_position
+	)
+
 
 	interaction_prompt_changed.emit(
 		active_gathering_resource.get_interaction_text()
@@ -80,10 +89,15 @@ func _start_gathering(resource: ResourceNode) -> void:
 
 	active_gathering_resource = resource
 	gathering_request_sent = false
-	
+
 	resource.set_gathering_active(true)
 
+	player_animation.start_gathering(
+		resource.global_position
+	)
+
 func _stop_gathering() -> void:
+	player_animation.stop_gathering()
 	if is_instance_valid(active_gathering_resource):
 		active_gathering_resource.set_gathering_active(
 			false
@@ -108,11 +122,13 @@ func _request_gathering_completion() -> void:
 	# The resource may have been depleted and queued for deletion
 	# by GameManager during the signal.
 	if not is_instance_valid(resource):
+		player_animation.stop_gathering()
 		active_gathering_resource = null
 		return
 
 	if resource.is_depleted:
 		resource.set_gathering_active(false)
+		player_animation.stop_gathering()
 		active_gathering_resource = null
 		return
 

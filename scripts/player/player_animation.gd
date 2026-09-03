@@ -10,12 +10,24 @@ enum Facing {
 
 var last_footstep_time_ms: int = -1000
 
+@export_category("Gathering Animation")
+@export_range(0.5, 10.0, 0.1) var gathering_speed := 4.5
+@export_range(0.0, 10.0, 0.5) var gathering_bob_amount := 2.0
+@export_range(0.0, 15.0, 0.5) var gathering_tilt_degrees := 4.0
+
+var is_gathering := false
+var gathering_time := 0.0
+var gathering_target_position := Vector2.ZERO
+var resting_position := Vector2.ZERO
+
 @onready var player: Player = get_parent()
 @onready var footstep_sound: AudioStreamPlayer = (
 	$"../FootstepSound"
 )
 
 func _ready() -> void:
+	resting_position = position
+	
 	frame_changed.connect(
 		_on_animation_frame_changed
 	)
@@ -25,8 +37,17 @@ var last_facing: Facing = Facing.DOWN
 var last_side_was_left: bool = false
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	var movement := player.velocity
+
+	if (
+		is_gathering
+		and movement.length_squared() <= 0.0
+	):
+		_update_gathering_animation(delta)
+		return
+
+	_reset_gathering_transform()
 
 	if movement.length_squared() > 0.0:
 		_update_walking_animation(movement)
@@ -109,3 +130,76 @@ func _play_footstep() -> void:
 	)
 
 	footstep_sound.play()
+
+func start_gathering(
+	target_position: Vector2
+) -> void:
+	if (
+		is_gathering
+		and gathering_target_position
+			== target_position
+	):
+		return
+
+	is_gathering = true
+	gathering_target_position = target_position
+	gathering_time = 0.0
+
+	_update_facing_toward(
+		gathering_target_position
+	)
+
+
+func stop_gathering() -> void:
+	is_gathering = false
+	gathering_time = 0.0
+	_reset_gathering_transform()
+
+
+func _update_gathering_animation(delta: float) -> void:
+	gathering_time += delta
+
+	_update_facing_toward(
+		gathering_target_position
+	)
+	_update_idle_animation()
+
+	var motion := sin(
+		gathering_time
+		* gathering_speed
+		* TAU
+	)
+
+	position = (
+		resting_position
+		+ Vector2(
+			0.0,
+			absf(motion) * gathering_bob_amount
+		)
+	)
+
+	rotation = deg_to_rad(
+		motion * gathering_tilt_degrees
+	)
+
+
+func _update_facing_toward(
+	target_position: Vector2
+) -> void:
+	var direction := (
+		target_position
+		- player.global_position
+	)
+
+	if absf(direction.x) > absf(direction.y):
+		last_facing = Facing.SIDE
+		last_side_was_left = direction.x < 0.0
+	elif direction.y < 0.0:
+		last_facing = Facing.UP
+	else:
+		last_facing = Facing.DOWN
+
+
+func _reset_gathering_transform() -> void:
+	position = resting_position
+	rotation = 0.0

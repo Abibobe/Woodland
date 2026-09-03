@@ -41,7 +41,11 @@ extends Node2D
 
 @onready var deposit_timer: Timer = $DepositTimer
 
+@onready var world_generator: WorldGenerator = $World
 
+@onready var player_camera: Camera2D = (
+	$Entities/Player/PlayerCamera
+)
 
 var ambience_crossfade_tween: Tween
 
@@ -55,6 +59,9 @@ var deposit_camp: Camp
 var next_camp_stage_was_affordable := false
 
 func _ready() -> void:
+	_configure_world_layout()
+	
+	
 	player_interaction.interaction_completed.connect(
 		_on_interaction_completed
 	)
@@ -750,3 +757,35 @@ func _get_player_screen_position() -> Vector2:
 		get_viewport().get_canvas_transform()
 		* player.global_position
 	)
+
+
+func _configure_world_layout() -> void:
+	var world_size := Vector2(
+		world_generator.map_width
+			* world_generator.tile_size,
+		world_generator.map_height
+			* world_generator.tile_size
+	)
+
+	var world_center := world_size / 2.0
+
+	camp.global_position = world_center
+
+	player.global_position = (
+		world_center + Vector2(0.0, 88.0)
+	)
+
+	player.minimum_position = Vector2(
+		10.0,
+		64.0
+	)
+
+	player.maximum_position = Vector2(
+		world_size.x - 10.0,
+		world_size.y - 10.0
+	)
+
+	player_camera.limit_left = 0
+	player_camera.limit_top = 0
+	player_camera.limit_right = roundi(world_size.x)
+	player_camera.limit_bottom = roundi(world_size.y)
