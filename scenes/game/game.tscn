@@ -33,6 +33,7 @@
 [ext_resource type="Script" uid="uid://b32j8rfyihlyw" path="res://scripts/game/v_sync_button.gd" id="20_af6p5"]
 [ext_resource type="AudioStream" uid="uid://bayq26wwpev15" path="res://assets/audio/sfx/forest_ambience_loop_01.wav" id="21_gc57s"]
 [ext_resource type="AudioStream" uid="uid://dr2l8neevixa7" path="res://assets/audio/sfx/forest_night_loop_01.wav" id="22_8b66f"]
+[ext_resource type="Script" uid="uid://crvjsfi4cpx6j" path="res://scripts/player/player_backpack.gd" id="34_mumkj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pgi6j"]
 content_margin_left = 6.0
@@ -175,6 +176,77 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_v0r7i")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
 theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
 text = "AUDIO"
+
+[node name="BackpackLabel" type="Label" parent="Interface/HUD/TopBar/MarginContainer/ResourceRow" parent_id_path=PackedInt32Array(143992237, 533683390) index="9" unique_id=276002666]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9490196, 0.81960785, 0.41960785, 1)
+theme_override_font_sizes/font_size = 11
+text = "BackPack: 0/12"
+horizontal_alignment = 1
+
+[node name="DeliveryPopup" type="PanelContainer" parent="Interface/HUD" unique_id=1429227877]
+visible = false
+z_index = 20
+custom_minimum_size = Vector2(220, 100)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Interface/HUD/DeliveryPopup" unique_id=514549145]
+layout_mode = 2
+
+[node name="DeliveryContent" type="VBoxContainer" parent="Interface/HUD/DeliveryPopup/MarginContainer" unique_id=55362761]
+layout_mode = 2
+
+[node name="DeliveryTitle" type="Label" parent="Interface/HUD/DeliveryPopup/MarginContainer/DeliveryContent" unique_id=1727978690]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.81960785, 0.41960785, 1)
+theme_override_font_sizes/font_size = 12
+text = "SUPPLIES DELIVERED"
+horizontal_alignment = 1
+
+[node name="WoodDeliveryLabel" type="Label" parent="Interface/HUD/DeliveryPopup/MarginContainer/DeliveryContent" unique_id=1689232975]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+
+[node name="StoneDeliveryLabel" type="Label" parent="Interface/HUD/DeliveryPopup/MarginContainer/DeliveryContent" unique_id=871594340]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+
+[node name="FoodDeliveryLabel" type="Label" parent="Interface/HUD/DeliveryPopup/MarginContainer/DeliveryContent" unique_id=973956366]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+
+[node name="MilestonePopup" type="PanelContainer" parent="Interface/HUD" unique_id=1735893316]
+visible = false
+z_index = 30
+custom_minimum_size = Vector2(460, 70)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Interface/HUD/MilestonePopup" unique_id=147650246]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="MilestoneLabel" type="Label" parent="Interface/HUD/MilestonePopup/MarginContainer" unique_id=1703653075]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CampMenu" parent="Interface" unique_id=1019713792 instance=ExtResource("4_2a8rs")]
 visible = false
@@ -1109,5 +1181,11 @@ stream = ExtResource("22_8b66f")
 volume_db = -80.0
 autoplay = true
 bus = &"Ambience"
+
+[node name="PlayerBackpack" type="Node2D" parent="." unique_id=748736467]
+script = ExtResource("34_mumkj")
+
+[node name="DepositTimer" type="Timer" parent="." unique_id=1371946218]
+one_shot = true
 
 [editable path="Interface/HUD"]

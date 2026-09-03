@@ -42,3 +42,7 @@ polygon = PackedVector2Array(19, 4, 17, 4, 17, 8, 12, 8, 12, 10, 19, 10)
 volume_db = -4.0
 max_distance = 600.0
 bus = &"SFX"
+
+[node name="GatheringProgressBar" type="ProgressBar" parent="." unique_id=314275266]
+offset_right = 4.0
+offset_bottom = 27.0

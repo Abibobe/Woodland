@@ -8,20 +8,33 @@
         "type": "tabs",
         "children": [
           {
-            "id": "f88b6803c8e8f813",
+            "id": "5f7af5ab7bc37486",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "berry_bush_01.png"
+              },
+              "icon": "lucide-image",
+              "title": "berry_bush_01"
+            }
+          },
+          {
+            "id": "1521d463eb4cc263",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Step 9 - Release/Release Phase 2 — Install the icon.md",
+                "file": "2. V 0.2.0/Phase 6.1 — Larger world and camera.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Release Phase 2 — Install the icon"
+              "title": "Phase 6.1 — Larger world and camera"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -188,53 +201,53 @@
       "bases:Crea nuova Base": false
     }
   },
-  "active": "f88b6803c8e8f813",
+  "active": "1521d463eb4cc263",
   "lastOpenFiles": [
-    "Step 9 - Release/Release Phase 1 — Windows test build.md",
-    "Step 9 - Release/Final Release — Publish Woodland Outpost.md",
-    "Step 9 - Release/Release Phase 4 — Create the itch.io page.md",
-    "Step 9 - Release/Release Phase 4.5 — Polish.md",
-    "Step 9 - Release/Release Phase 5 — Style the itch.io page.md",
+    "2. V 0.2.0/Phase 4.6 — “Ready to build” notification.md",
+    "2. V 0.2.0/Phase 6.1 — Larger world and camera.md",
+    "2. V 0.2.0/0 RoadMap.md",
+    "2. V 0.2.0/Phase 4.5 — Continuous gathering feedback.md",
+    "2. V 0.2.0/Phase 4.4.5 — Minor HotFix.md",
+    "2. V 0.2.0/Phase 4.4 — Update the gathering prompt.md",
+    "2. V 0.2.0/Phase 4.3 — Resource gathering progress bar.md",
+    "2. V 0.2.0/Phase 4.2 — Hold E to gather.md",
+    "2. V 0.2.0/Phase 4.1 — Store resumable gathering progress.md",
+    "2. V 0.2.0/Phase 3.3 — Food consumption priority.md",
+    "2. V 0.2.0/Phase 3.2 — Delivery summary popup.md",
+    "2. V 0.2.0/Phase 3.1 — Automatic camp deposits.md",
+    "2. V 0.2.0/Phase 2.1 — Safe backpack collection.md",
+    "2. V 0.2.0/Phase 1.3 — Display backpack weight.md",
+    "2. V 0.2.0/Phase 1.2 — Align the backpack with ResourceTypes.md",
+    "2. V 0.2.0/Phase 1.1 — Create PlayerBackpack.md",
+    "mermaid-diagram.png.import",
+    "mermaid-diagram.png",
+    "0. Dev diary/Progressi.md",
+    "1. Initial Developement/Step 9 - Release/Release Phase 6 — How to update.md",
+    "0. Dev diary",
+    "2. How to update on Itch.io.md",
+    "1. Initial Developement/Step 9 - Release/Release Phase 5 — Style the itch.io page.md",
+    "berry_bush_01.png",
+    "1. Initial Developement/Step 9 - Release/Release Phase 2 — Install the icon.md",
+    "Senza nome.md",
+    "2. V 0.2.0",
+    "1. Initial Developement",
+    "1. Initial Developement/Step 9 - Release/Release Phase 1 — Windows test build.md",
+    "1. Initial Developement/Step 9 - Release/Final Release — Publish Woodland Outpost.md",
+    "1. Initial Developement/Step 9 - Release/Release Phase 4 — Create the itch.io page.md",
+    "1. Initial Developement/Step 9 - Release/Release Phase 4.5 — Polish.md",
     "Screenshot 2026-09-02 141902.png.import",
     "Screenshot 2026-09-02 141755.png.import",
     "Screenshot 2026-09-02 141816.png.import",
     "Screenshot 2026-09-02 141924.png.import",
     "Screenshot 2026-09-02 141934.png.import",
     "woodland_outpost_itch_cover_630x500.png.import",
-    "Step 8 - Settings/Settings Phase 2 — Saved VSync option.md",
     "Screenshot 2026-09-02 141934.png",
     "Screenshot 2026-09-02 141924.png",
     "Screenshot 2026-09-02 141902.png",
     "Screenshot 2026-09-02 141816.png",
     "Screenshot 2026-09-02 141755.png",
     "woodland_outpost_itch_cover_630x500.png",
-    "woodland_outpost_icon.png.import",
-    "Step 9 - Release/Release Phase 3 — Package the Windows build.md",
-    "README.txt",
-    "Step 9 - Release/Release Phase 2 — Install the icon.md",
-    "woodland_outpost_icon.ico",
     "woodland_outpost_icon.png",
-    "Woodland.pck",
-    "Step 8 - Settings/Display Phase 5 — Stable 16 9 scaling.md",
-    "Step 8 - Settings/Settings Phase 4 — Alt+Enter fullscreen shortcut.md",
-    "Step 8 - Settings/Settings Phase 3 — Make Reset Defaults reset everything.md",
-    "Step 8 - Settings/Settings Phase 1 — Saved fullscreen option.md",
-    "Step 7 - Tutorial/Tutorial Phase 2 — Opening and closing animation.md",
-    "Step 7 - Tutorial/Tutorial Phase 1 — One-time controls prompt.md",
-    "Step 7 - Tutorial/Phase 0.md",
-    "Step 6 - Pause/Pause Phase 5 — Compact controls guide.md",
-    "Step 6 - Pause/Pause Phase 4 — Confirm returning to title.md",
-    "Step 6 - Pause/Pause Phase 3 — Title and keyboard hint.md",
-    "Step 6 - Pause/Pause Phase 2 — Opening animation.md",
-    "Step 6 - Pause/Pause Phase 1 — In-game pause menu.md",
-    "Step 4 - Menu/Result Phase 3 — Victory and defeat icons.md",
-    "result_icons.png",
-    "Step 5 - Result/Result Phase 2 — Final statistics.md",
-    "Step 5 - Result/Result Phase 1 — Styled result screen.md",
-    "Step 4 - Menu/Menu Phase 5 — Animate the help panel.md",
-    "Step 4 - Menu/Menu Phase 4 — How to Play.md",
-    "how_to_play_icons.png",
-    "Step 4 - Menu/Menu Phase 1 — Main menu.md",
-    "hud_resource_icons.png"
+    "result_icons.png"
   ]
 }

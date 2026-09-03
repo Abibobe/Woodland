@@ -23,8 +23,7 @@ extends Control
 )
 
 @onready var interaction_prompt_label: Label = (
-	$InteractionPrompt/MarginContainer/
-	PromptRow/PromptLabel
+	$InteractionPrompt/MarginContainer/PromptRow/PromptLabel
 )
 
 @onready var top_bar: PanelContainer = $TopBar
@@ -32,6 +31,43 @@ extends Control
 @onready var resource_gain_popup: Label = (
 	$ResourceGainPopup
 )
+
+@onready var backpack_label: Label = (
+	$TopBar/MarginContainer/ResourceRow/BackpackLabel
+)
+
+@onready var delivery_popup: PanelContainer = (
+	$DeliveryPopup
+)
+
+@onready var wood_delivery_label: Label = (
+	$DeliveryPopup/MarginContainer/
+	DeliveryContent/WoodDeliveryLabel
+)
+
+@onready var stone_delivery_label: Label = (
+	$DeliveryPopup/MarginContainer/
+	DeliveryContent/StoneDeliveryLabel
+)
+
+@onready var food_delivery_label: Label = (
+	$DeliveryPopup/MarginContainer/
+	DeliveryContent/FoodDeliveryLabel
+)
+
+@onready var milestone_popup: PanelContainer = (
+	$MilestonePopup
+)
+
+@onready var milestone_label: Label = (
+	$MilestonePopup/MarginContainer/MilestoneLabel
+)
+
+
+var delivery_tween: Tween
+
+var milestone_tween: Tween
+
 
 var resource_label_tweens: Dictionary = {}
 
@@ -76,6 +112,9 @@ func _ready() -> void:
 	call_deferred("_apply_layout")
 	interaction_prompt.modulate.a = 0.0
 	interaction_prompt.hide()
+	delivery_popup.hide()
+	milestone_popup.hide()
+
 
 
 func set_day(
@@ -108,7 +147,47 @@ func _apply_layout() -> void:
 		(viewport_size.x - interaction_prompt.size.x) / 2.0,
 		viewport_size.y - 58.0
 	)
+	delivery_popup.set_anchors_preset(
+		Control.PRESET_TOP_LEFT
+	)
+
+	delivery_popup.size = Vector2(
+		220.0,
+		100.0
+	)
+
+	delivery_popup.position = Vector2(
+		(viewport_size.x - delivery_popup.size.x) / 2.0,
+		viewport_size.y - 180.0
+	)
+	delivery_popup.set_anchors_preset(
+		Control.PRESET_TOP_LEFT
+	)
+
+	delivery_popup.size = Vector2(
+		220.0,
+		100.0
+	)
+
+	delivery_popup.position = Vector2(
+		(viewport_size.x - delivery_popup.size.x) / 2.0,
+		viewport_size.y - 180.0
+	)
 	
+	milestone_popup.size = Vector2(
+		460.0,
+		70.0
+	)
+
+	milestone_popup.position = Vector2(
+		(viewport_size.x - milestone_popup.size.x) / 2.0,
+		76.0
+	)
+
+	milestone_popup.pivot_offset = (
+		milestone_popup.size / 2.0
+	)
+
 
 func show_interaction_prompt(text: String) -> void:
 	var clean_text := text
@@ -122,11 +201,16 @@ func show_interaction_prompt(text: String) -> void:
 		clean_text.capitalize()
 	)
 
+	# When already visible, only update the text.
+	# Do not restart the fade animation.
+	if interaction_prompt.visible:
+		return
+
 	if interaction_prompt_tween != null:
 		interaction_prompt_tween.kill()
 
-	interaction_prompt.show()
 	interaction_prompt.modulate.a = 0.0
+	interaction_prompt.show()
 
 	interaction_prompt_tween = create_tween()
 
@@ -166,10 +250,10 @@ func show_resource_gain(
 		resource_gain_tween.kill()
 
 	resource_gain_popup.text = text
-	resource_gain_popup.size = Vector2(120.0, 24.0)
+	resource_gain_popup.size = Vector2(280.0, 24.0)
 
 	var start_position := Vector2(
-		screen_position.x - 60.0,
+		screen_position.x - 140.0,
 		screen_position.y - 42.0
 	)
 
@@ -224,4 +308,165 @@ func _flash_resource_label(
 	new_tween.tween_callback(
 		func() -> void:
 			resource_label_tweens.erase(target_label)
+	)
+
+func set_backpack_weight(
+	current_weight: int,
+	maximum_weight: int
+) -> void:
+	backpack_label.text = "Backpack %d/%d" % [
+		current_weight,
+		maximum_weight
+	]
+
+	if current_weight >= maximum_weight:
+		backpack_label.modulate = Color("#e38b65")
+	else:
+		backpack_label.modulate = Color.WHITE
+
+
+func show_delivery_summary(
+	delivered_resources: Dictionary
+) -> void:
+	_set_delivery_line(
+		wood_delivery_label,
+		delivered_resources,
+		ResourceTypes.Type.WOOD
+	)
+
+	_set_delivery_line(
+		stone_delivery_label,
+		delivered_resources,
+		ResourceTypes.Type.STONE
+	)
+
+	_set_delivery_line(
+		food_delivery_label,
+		delivered_resources,
+		ResourceTypes.Type.FOOD
+	)
+
+	if delivery_tween != null:
+		delivery_tween.kill()
+
+	delivery_popup.show()
+	delivery_popup.modulate.a = 0.0
+	delivery_popup.scale = Vector2(0.94, 0.94)
+	delivery_popup.pivot_offset = (
+		delivery_popup.size / 2.0
+	)
+
+	delivery_tween = create_tween()
+
+	delivery_tween.tween_property(
+		delivery_popup,
+		"modulate:a",
+		1.0,
+		0.14
+	)
+
+	delivery_tween.parallel().tween_property(
+		delivery_popup,
+		"scale",
+		Vector2.ONE,
+		0.18
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	delivery_tween.tween_interval(1.5)
+
+	delivery_tween.tween_property(
+		delivery_popup,
+		"modulate:a",
+		0.0,
+		0.25
+	)
+
+	delivery_tween.tween_callback(
+		_finish_delivery_popup
+	)
+
+
+func _set_delivery_line(
+	label: Label,
+	delivered_resources: Dictionary,
+	resource_type: int
+) -> void:
+	var amount := int(
+		delivered_resources.get(
+			resource_type,
+			0
+		)
+	)
+
+	label.visible = amount > 0
+
+	if amount <= 0:
+		return
+
+	var resource_name := (
+		ResourceTypes.get_display_name(
+			resource_type
+		)
+	)
+
+	label.text = "+%d %s" % [
+		amount,
+		resource_name
+	]
+
+
+func _finish_delivery_popup() -> void:
+	delivery_popup.hide()
+	delivery_popup.modulate.a = 1.0
+	delivery_popup.scale = Vector2.ONE
+
+func show_milestone(message: String) -> void:
+	if milestone_tween != null:
+		milestone_tween.kill()
+
+	milestone_label.text = message
+
+	milestone_popup.modulate.a = 0.0
+	milestone_popup.scale = Vector2(0.92, 0.92)
+	milestone_popup.show()
+
+	milestone_tween = create_tween()
+
+	milestone_tween.set_parallel(true)
+
+	milestone_tween.tween_property(
+		milestone_popup,
+		"modulate:a",
+		1.0,
+		0.2
+	)
+
+	milestone_tween.tween_property(
+		milestone_popup,
+		"scale",
+		Vector2.ONE,
+		0.2
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	milestone_tween.set_parallel(false)
+
+	milestone_tween.tween_interval(3.5)
+
+	milestone_tween.tween_property(
+		milestone_popup,
+		"modulate:a",
+		0.0,
+		0.4
+	)
+
+	milestone_tween.tween_callback(
+		milestone_popup.hide
 	)

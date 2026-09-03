@@ -3,6 +3,8 @@ extends Node2D
 
 
 @onready var inventory: ResourceInventory = $ResourceInventory
+@onready var backpack: PlayerBackpack = $PlayerBackpack
+
 
 @onready var player_interaction: PlayerInteraction = (
 	$Entities/Player/PlayerInteraction
@@ -37,6 +39,10 @@ extends Node2D
 	$NightAmbience
 )
 
+@onready var deposit_timer: Timer = $DepositTimer
+
+
+
 var ambience_crossfade_tween: Tween
 
 var world_tint_tween: Tween
@@ -44,7 +50,9 @@ var world_tint_tween: Tween
 
 var game_finished: bool = false
 var active_camp: Camp
+var deposit_camp: Camp
 
+var next_camp_stage_was_affordable := false
 
 func _ready() -> void:
 	player_interaction.interaction_completed.connect(
@@ -87,7 +95,24 @@ func _ready() -> void:
 	result_screen.restart_requested.connect(
 		_on_restart_requested
 	)
-	
+
+	backpack.weight_changed.connect(
+		_on_backpack_weight_changed
+	)
+
+	player_interaction.interaction_target_entered.connect(
+		_on_interaction_target_entered
+	)
+
+	player_interaction.interaction_target_exited.connect(
+		_on_interaction_target_exited
+	)
+
+	deposit_timer.timeout.connect(
+		_on_deposit_timer_timeout
+	)
+
+
 	_update_entire_hud()
 
 
@@ -100,35 +125,73 @@ func _on_interaction_completed(
 	)
 
 	match action:
-		"resource_collected":
+		"resource_requested":
+			var resource := (
+				result.get("resource") as ResourceNode
+			)
+
+			if resource == null:
+				return
+
 			var resource_type := int(
 				result.get("resource_type", -1)
 			)
 
-			var amount := int(
-				result.get("amount", 0)
+			var requested_amount := int(
+				result.get("amount", 1)
 			)
 
-			inventory.add_resource(
+			if not backpack.can_add(
 				resource_type,
-				amount
+				requested_amount
+			):
+				_show_backpack_full()
+				return
+
+			var gathered_amount := resource.complete_gathering(
+				requested_amount
 			)
+
+			if gathered_amount <= 0:
+				return
+
+			var resource_added := backpack.add_resource(
+				resource_type,
+				gathered_amount
+			)
+
+			if not resource_added:
+				push_warning(
+					"Backpack capacity changed during collection."
+				)
+				return
+
 			var resource_name := (
-				ResourceTypes.get_display_name(resource_type)
+				ResourceTypes.get_display_name(
+					resource_type
+				)
 			)
+
 			var player_screen_position := (
 				get_viewport().get_canvas_transform()
 				* player.global_position
 			)
+
 			hud.show_resource_gain(
 				"+%d %s" % [
-					amount,
+					gathered_amount,
 					resource_name
 				],
 				player_screen_position
 			)
 
-
+			if resource.is_depleted:
+				player_interaction.remove_target(
+					resource
+				)
+			else:
+				player_interaction.refresh_prompt()
+		
 		"camp_opened":
 			var camp := result.get("camp") as Camp
 
@@ -166,7 +229,10 @@ func _update_entire_hud() -> void:
 		ResourceTypes.Type.FOOD,
 		inventory.get_amount(ResourceTypes.Type.FOOD)
 	)
-
+	hud.set_backpack_weight(
+		backpack.get_current_weight(),
+		backpack.maximum_weight
+	)
 
 func _on_interaction_prompt_changed(text: String) -> void:
 	if text.is_empty():
@@ -219,6 +285,9 @@ func _on_camp_build_requested() -> void:
 
 	_pay_cost(costs)
 	active_camp.advance_construction()
+	
+	next_camp_stage_was_affordable = false
+	_check_next_camp_stage_affordability()
 
 	if active_camp.current_stage == Camp.CampStage.CABIN:
 		_finish_game(
@@ -241,6 +310,32 @@ func _can_afford(costs: Dictionary) -> bool:
 			return false
 
 	return true
+
+func _check_next_camp_stage_affordability() -> void:
+	if camp.current_stage == Camp.CampStage.CABIN:
+		next_camp_stage_was_affordable = false
+		return
+
+	var costs := camp.get_next_stage_cost()
+	var is_now_affordable := _can_afford(costs)
+
+	if (
+		is_now_affordable
+		and not next_camp_stage_was_affordable
+	):
+		var next_stage_name := (
+			camp.get_next_stage_name()
+		)
+
+		hud.show_milestone(
+			#"NEXT BUILD AVAILABLE\n%s — RETURN TO CAMP"
+			"NEXT BUILD AVAILABLE\n%s !"
+			% next_stage_name.to_upper()
+		)
+
+	next_camp_stage_was_affordable = is_now_affordable
+
+
 
 
 func _pay_cost(costs: Dictionary) -> void:
@@ -295,20 +390,24 @@ func _on_day_ended(day: int) -> void:
 		return
 
 	var food_type := ResourceTypes.Type.FOOD
-	var food_consumed := inventory.remove_resource(
-		food_type,
-		1
-	)
 
-	if not food_consumed:
-		_finish_game(
-			"Defeat",
-			"You had no food at the end of day %s."
-				% day
-		)
+	if inventory.remove_resource(food_type, 1):
+		print("Consumed 1 Food from camp storage.")
 		return
 
-	print("Day %s ended. One food consumed." % day)
+	if backpack.remove_resource(food_type, 1):
+		hud.show_resource_gain(
+			"-1 Food from backpack",
+			_get_player_screen_position()
+		)
+
+		print("Consumed 1 Food from backpack.")
+		return
+
+	_finish_game(
+		"Defeat",
+		"Your supplies ran out before the cabin was complete."
+	)
 
 
 func _on_survival_period_completed() -> void:
@@ -506,4 +605,148 @@ func _update_ambience(phase: String) -> void:
 		"volume_db",
 		night_volume,
 		2.0
+	)
+
+func _on_backpack_weight_changed(
+	current_weight: int,
+	maximum_weight: int
+) -> void:
+	hud.set_backpack_weight(
+		current_weight,
+		maximum_weight
+	)
+
+
+func _show_backpack_full() -> void:
+	_play_ui_denied()
+
+	var player_screen_position := (
+		get_viewport().get_canvas_transform()
+		* player.global_position
+	)
+
+	hud.show_resource_gain(
+		"Backpack full — return to camp",
+		player_screen_position
+	)
+
+
+func _on_interaction_target_entered(
+	target: InteractionTarget
+) -> void:
+	if game_finished:
+		return
+
+	if not target is Camp:
+		return
+
+	if backpack.is_empty():
+		return
+
+	deposit_camp = target as Camp
+	deposit_timer.start()
+
+	hud.show_interaction_prompt(
+		"Depositing supplies..."
+	)
+
+
+func _on_interaction_target_exited(
+	target: InteractionTarget
+) -> void:
+	if target != deposit_camp:
+		return
+
+	if not deposit_timer.is_stopped():
+		deposit_timer.stop()
+
+	deposit_camp = null
+
+	hud.show_resource_gain(
+		"Deposit cancelled",
+		_get_player_screen_position()
+	)
+
+func _on_deposit_timer_timeout() -> void:
+	if deposit_camp == null:
+		return
+
+	if not is_instance_valid(deposit_camp):
+		deposit_camp = null
+		return
+
+	if not player_interaction.has_target(
+		deposit_camp
+	):
+		deposit_camp = null
+		return
+
+	if backpack.is_empty():
+		deposit_camp = null
+		return
+
+	var delivered_resources := backpack.take_all()
+
+	for resource_type in delivered_resources:
+		var delivered_amount := int(
+			delivered_resources[resource_type]
+		)
+
+		if delivered_amount <= 0:
+			continue
+
+		inventory.add_resource(
+			int(resource_type),
+			delivered_amount
+		)
+
+	hud.show_delivery_summary(
+		delivered_resources
+	)
+
+	_check_next_camp_stage_affordability()
+
+	if active_camp != null:
+		_refresh_camp_menu()
+
+	deposit_camp = null
+	player_interaction.refresh_prompt()
+
+
+func _format_delivery_summary(
+	delivered_resources: Dictionary
+) -> String:
+	var parts := PackedStringArray()
+
+	for resource_type in delivered_resources:
+		var amount := int(
+			delivered_resources[resource_type]
+		)
+
+		if amount <= 0:
+			continue
+
+		var resource_name := (
+			ResourceTypes.get_display_name(
+				int(resource_type)
+			)
+		)
+
+		parts.append(
+			"+%d %s" % [
+				amount,
+				resource_name
+			]
+		)
+
+	if parts.is_empty():
+		return "No supplies delivered"
+
+	return "Delivered: %s" % ", ".join(parts)
+
+
+func _get_player_screen_position() -> Vector2:
+	return (
+		get_viewport().get_canvas_transform()
+		* player.global_position
 	)

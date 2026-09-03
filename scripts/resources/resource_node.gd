@@ -25,6 +25,12 @@ enum ResourceType {
 @export var stone_gather_sound: AudioStream
 @export var food_gather_sound: AudioStream
 
+@export_category("Gathering")
+@export_range(0.1, 120.0, 0.1) var food_gather_duration := 2.0
+@export_range(0.1, 120.0, 0.1) var wood_gather_duration := 3.0
+@export_range(0.1, 120.0, 0.1) var stone_gather_duration := 4.0
+
+@export_range(0.1, 2.0, 0.05) var gathering_feedback_interval := 0.45
 
 @onready var interaction_highlight: Node2D = (
 	$InteractionHighlight
@@ -34,6 +40,12 @@ enum ResourceType {
 	$GatherSound
 )
 
+@onready var gathering_progress_bar: ProgressBar = (
+	$GatheringProgressBar
+)
+
+
+
 const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
 const HIGHLIGHT_COLOR := Color("#f2d479")
 var is_highlighted: bool = false
@@ -41,38 +53,183 @@ var interaction_tween: Tween
 var is_gather_animation_playing: bool = false
 var is_depleted: bool = false
 
+var gathering_elapsed := 0.0
+
+var gathering_feedback_elapsed := 0.0
+var gathering_active := false
+
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
+	_configure_gathering_progress_bar()
+	_update_gathering_progress_bar()
+	gathering_progress_bar.hide()
+
 	queue_redraw()
 
+func _configure_gathering_progress_bar() -> void:
+	gathering_progress_bar.min_value = 0.0
+	gathering_progress_bar.max_value = 1.0
+	gathering_progress_bar.step = 0.01
+	gathering_progress_bar.show_percentage = false
+
+	gathering_progress_bar.size = Vector2(
+		40.0,
+		7.0
+	)
+
+	gathering_progress_bar.position = Vector2(
+		-20.0,
+		_get_progress_bar_y()
+	)
+
+	gathering_progress_bar.mouse_filter = (
+		Control.MOUSE_FILTER_IGNORE
+	)
+
+	gathering_progress_bar.z_as_relative = false
+	gathering_progress_bar.z_index = 200
+
+	var background_style := StyleBoxFlat.new()
+	background_style.bg_color = Color("#17231d")
+	background_style.border_color = Color("#08100c")
+	background_style.set_border_width_all(1)
+
+	var fill_style := StyleBoxFlat.new()
+	fill_style.bg_color = Color("#f2d479")
+	fill_style.border_color = Color("#fff0a3")
+	fill_style.set_border_width_all(1)
+
+	gathering_progress_bar.add_theme_stylebox_override(
+		"background",
+		background_style
+	)
+
+	gathering_progress_bar.add_theme_stylebox_override(
+		"fill",
+		fill_style
+	)
+
+
+func _get_progress_bar_y() -> float:
+	match resource_type:
+		ResourceTypes.Type.WOOD:
+			return -62.0
+
+		ResourceTypes.Type.STONE:
+			return -30.0
+
+		ResourceTypes.Type.FOOD:
+			return -36.0
+
+	return -40.0
+
+func set_gathering_active(active: bool) -> void:
+	if is_depleted:
+		gathering_active = false
+		gathering_progress_bar.hide()
+		return
+
+	if active and not gathering_active:
+		# Produce immediate feedback when gathering begins.
+		gathering_feedback_elapsed = (
+			gathering_feedback_interval
+		)
+
+	gathering_active = active
+
+	_update_gathering_progress_bar()
+	gathering_progress_bar.visible = active
+
+
+func _update_gathering_progress_bar() -> void:
+	gathering_progress_bar.value = (
+		get_gathering_ratio()
+	)
 
 func get_resource_name() -> String:
 	return ResourceTypes.get_display_name(
 		resource_type
 	)
 
+func get_gathering_duration() -> float:
+	match resource_type:
+		ResourceTypes.Type.FOOD:
+			return food_gather_duration
+
+		ResourceTypes.Type.WOOD:
+			return wood_gather_duration
+
+		ResourceTypes.Type.STONE:
+			return stone_gather_duration
+
+	return wood_gather_duration
+
+func advance_gathering(delta: float) -> bool:
+	if is_depleted:
+		return false
+
+	gathering_elapsed = minf(
+		gathering_elapsed + delta,
+		get_gathering_duration()
+	)
+
+	_update_gathering_feedback(delta)
+	_update_gathering_progress_bar()
+
+	return is_gathering_complete()
+
+func _update_gathering_feedback(delta: float) -> void:
+	gathering_feedback_elapsed += delta
+
+	if (
+		gathering_feedback_elapsed
+		< gathering_feedback_interval
+	):
+		return
+
+	gathering_feedback_elapsed = 0.0
+
+	_play_gather_animation()
+	_play_gather_sound()
+
+func is_gathering_complete() -> bool:
+	return gathering_elapsed >= get_gathering_duration()
+
+
+func get_gathering_ratio() -> float:
+	return clampf(
+		gathering_elapsed / get_gathering_duration(),
+		0.0,
+		1.0
+	)
+
+
 
 func get_interaction_text() -> String:
-	return "E — Gather %s" % get_resource_name()
+	var progress_percentage := roundi(
+		get_gathering_ratio() * 100.0
+	)
+
+	if progress_percentage > 0:
+		return "Hold E — Gather %s (%d%%)" % [
+			get_resource_name(),
+			progress_percentage
+		]
+
+	return "Hold E — Gather %s" % get_resource_name()
 
 
 func interact() -> Dictionary:
-	if is_gather_animation_playing or is_depleted:
+	if is_depleted:
 		return {}
 
-	var gathered_amount := gather(1)
-
-	if gathered_amount <= 0:
-		return {}
-	
-	_play_gather_sound()
-	
 	return {
-		"action": "resource_collected",
+		"action": "resource_requested",
+		"resource": self,
 		"resource_type": resource_type,
-		"amount": gathered_amount,
-		"target_depleted": is_depleted
+		"amount": 1
 	}
 
 func gather(requested_amount: int = 1) -> int:
@@ -327,3 +484,37 @@ func _play_gather_sound() -> void:
 	)
 
 	gather_sound.play()
+
+
+func collect(requested_amount: int = 1) -> int:
+	if is_depleted:
+		return 0
+
+
+	var gathered_amount := gather(
+		requested_amount
+	)
+
+	if gathered_amount > 0:
+		_play_gather_sound()
+
+	return gathered_amount
+
+func complete_gathering(
+	requested_amount: int = 1
+) -> int:
+	if not is_gathering_complete():
+		return 0
+
+	var gathered_amount := collect(
+		requested_amount
+	)
+
+	if gathered_amount > 0:
+		gathering_elapsed = 0.0
+		gathering_feedback_elapsed = 0.0
+
+		_update_gathering_progress_bar()
+		set_gathering_active(false)
+
+	return gathered_amount
