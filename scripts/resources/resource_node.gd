@@ -43,7 +43,9 @@ enum ResourceType {
 @onready var gathering_progress_bar: ProgressBar = (
 	$GatheringProgressBar
 )
-
+@onready var gather_particles: GPUParticles2D = (
+	$GatherParticles
+)
 
 
 const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
@@ -63,9 +65,11 @@ func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
 	_configure_gathering_progress_bar()
+	_configure_gather_particles()
+	
 	_update_gathering_progress_bar()
 	gathering_progress_bar.hide()
-
+		
 	queue_redraw()
 
 func _configure_gathering_progress_bar() -> void:
@@ -193,6 +197,9 @@ func _update_gathering_feedback(delta: float) -> void:
 
 	_play_gather_animation()
 	_play_gather_sound()
+	_play_gather_particles()
+
+
 
 func is_gathering_complete() -> bool:
 	return gathering_elapsed >= get_gathering_duration()
@@ -247,9 +254,7 @@ func gather(requested_amount: int = 1) -> int:
 		is_depleted = true
 		set_highlighted(false)
 		_play_depletion_animation()
-	else:
-		_play_gather_animation()
-
+	
 	return gathered_amount
 
 
@@ -490,15 +495,7 @@ func collect(requested_amount: int = 1) -> int:
 	if is_depleted:
 		return 0
 
-
-	var gathered_amount := gather(
-		requested_amount
-	)
-
-	if gathered_amount > 0:
-		_play_gather_sound()
-
-	return gathered_amount
+	return gather(requested_amount)
 
 func complete_gathering(
 	requested_amount: int = 1
@@ -511,6 +508,10 @@ func complete_gathering(
 	)
 
 	if gathered_amount > 0:
+		_show_collection_popup(
+			gathered_amount
+		)
+
 		gathering_elapsed = 0.0
 		gathering_feedback_elapsed = 0.0
 
@@ -518,3 +519,167 @@ func complete_gathering(
 		set_gathering_active(false)
 
 	return gathered_amount
+
+func _configure_gather_particles() -> void:
+	gather_particles.emitting = false
+	gather_particles.one_shot = true
+	gather_particles.amount = 8
+	gather_particles.lifetime = 0.35
+	gather_particles.explosiveness = 1.0
+	gather_particles.randomness = 0.35
+	gather_particles.z_index = 30
+
+	var particle_material := ParticleProcessMaterial.new()
+
+	particle_material.particle_flag_disable_z = true
+	particle_material.direction = Vector3(0.0, -1.0, 0.0)
+	particle_material.spread = 55.0
+
+	particle_material.initial_velocity_min = 22.0
+	particle_material.initial_velocity_max = 38.0
+
+	particle_material.gravity = Vector3(
+		0.0,
+		75.0,
+		0.0
+	)
+
+	particle_material.scale_min = 1.5
+	particle_material.scale_max = 3.0
+
+	match resource_type:
+		ResourceTypes.Type.WOOD:
+			particle_material.color = Color("#c98b45")
+			gather_particles.position = Vector2(0.0, -20.0)
+
+		ResourceTypes.Type.STONE:
+			particle_material.color = Color("#a5adb0")
+			gather_particles.position = Vector2(0.0, -7.0)
+
+		ResourceTypes.Type.FOOD:
+			particle_material.color = Color("#b94d68")
+			gather_particles.position = Vector2(0.0, -10.0)
+
+	gather_particles.process_material = particle_material
+
+
+func _play_gather_particles() -> void:
+	if is_depleted:
+		return
+
+	gather_particles.restart()
+	gather_particles.emitting = true
+
+
+func _show_collection_popup(
+	gathered_amount: int
+) -> void:
+	if gathered_amount <= 0:
+		return
+
+	var popup := Label.new()
+
+	popup.text = "+%d %s" % [
+		gathered_amount,
+		get_resource_name().to_upper()
+	]
+
+	popup.horizontal_alignment = (
+		HORIZONTAL_ALIGNMENT_CENTER
+	)
+
+	popup.custom_minimum_size = Vector2(
+		100.0,
+		24.0
+	)
+
+	popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	popup.z_as_relative = false
+	popup.z_index = 250
+
+	popup.add_theme_font_size_override(
+		"font_size",
+		14
+	)
+
+	popup.add_theme_color_override(
+		"font_color",
+		Color("#f2d479")
+	)
+
+	popup.add_theme_color_override(
+		"font_outline_color",
+		Color("#17231d")
+	)
+
+	popup.add_theme_constant_override(
+		"outline_size",
+		3
+	)
+
+	get_parent().add_child(popup)
+
+	popup.global_position = (
+		global_position
+		+ Vector2(-50.0, _get_popup_start_y())
+	)
+
+	popup.pivot_offset = Vector2(
+		50.0,
+		12.0
+	)
+
+	popup.scale = Vector2(0.75, 0.75)
+
+	var popup_tween := popup.create_tween()
+	popup_tween.set_parallel(true)
+
+	popup_tween.tween_property(
+		popup,
+		"position:y",
+		popup.position.y - 20.0,
+		0.55
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	popup_tween.tween_property(
+		popup,
+		"scale",
+		Vector2.ONE,
+		0.14
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	popup_tween.tween_property(
+		popup,
+		"modulate:a",
+		0.0,
+		0.25
+	).set_delay(
+		0.3
+	)
+
+	popup_tween.set_parallel(false)
+
+	popup_tween.tween_callback(
+		popup.queue_free
+	)
+
+func _get_popup_start_y() -> float:
+	match resource_type:
+		ResourceTypes.Type.WOOD:
+			return -82.0
+
+		ResourceTypes.Type.STONE:
+			return -47.0
+
+		ResourceTypes.Type.FOOD:
+			return -53.0
+
+	return -55.0

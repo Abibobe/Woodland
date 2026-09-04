@@ -20,7 +20,6 @@ const DISMISSED_KEY := "controls_dismissed"
 	$TutorialCenter/Panel
 )
 
-
 var tutorial_tween: Tween
 
 var previous_pause_state: bool = false
@@ -32,15 +31,6 @@ func _ready() -> void:
 	got_it_button.pressed.connect(
 		_dismiss_prompt
 	)
-
-	main_menu.visibility_changed.connect(
-		_on_main_menu_visibility_changed
-	)
-
-	call_deferred(
-		"_check_for_first_game"
-	)
-
 
 func open_prompt() -> void:
 	if visible:

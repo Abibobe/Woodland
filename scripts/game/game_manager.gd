@@ -1,6 +1,35 @@
 class_name GameManager
 extends Node2D
 
+enum TutorialStep {
+	WAITING,
+	MOVEMENT,
+	GATHERING,
+	BACKPACK,
+	RETURN_TO_CAMP,
+	CONSTRUCTION,
+	COMPLETE
+}
+
+const TUTORIAL_CONFIG_PATH := (
+	"user://tutorial_settings.cfg"
+)
+
+const TUTORIAL_CONFIG_SECTION := "tutorial"
+
+const CONTEXTUAL_TUTORIAL_COMPLETED_KEY := (
+	"contextual_tutorial_completed"
+)
+
+
+@export_category("Tutorial")
+@export var tutorial_enabled := true
+@export_range(8.0, 128.0, 1.0) var tutorial_movement_distance := 48.0
+@export_range(1, 12, 1) var tutorial_return_weight := 6 #The tutorial starts at 6 kg
+
+var tutorial_step := TutorialStep.WAITING
+var tutorial_start_position := Vector2.ZERO
+
 
 @onready var inventory: ResourceInventory = $ResourceInventory
 @onready var backpack: PlayerBackpack = $PlayerBackpack
@@ -47,6 +76,11 @@ extends Node2D
 	$Entities/Player/PlayerCamera
 )
 
+@onready var main_menu: MainMenu = (
+	$Interface/MainMenu
+)
+
+
 var ambience_crossfade_tween: Tween
 
 var world_tint_tween: Tween
@@ -60,7 +94,10 @@ var next_camp_stage_was_affordable := false
 
 func _ready() -> void:
 	_configure_world_layout()
-	
+
+	main_menu.visibility_changed.connect(
+		_on_main_menu_visibility_changed
+	)
 	
 	player_interaction.interaction_completed.connect(
 		_on_interaction_completed
@@ -172,6 +209,11 @@ func _on_interaction_completed(
 					"Backpack capacity changed during collection."
 				)
 				return
+			
+			if tutorial_step == TutorialStep.GATHERING:
+				_set_tutorial_step(
+				TutorialStep.BACKPACK
+			)
 
 			var resource_name := (
 				ResourceTypes.get_display_name(
@@ -184,13 +226,7 @@ func _on_interaction_completed(
 				* player.global_position
 			)
 
-			hud.show_resource_gain(
-				"+%d %s" % [
-					gathered_amount,
-					resource_name
-				],
-				player_screen_position
-			)
+
 
 			if resource.is_depleted:
 				player_interaction.remove_target(
@@ -292,6 +328,9 @@ func _on_camp_build_requested() -> void:
 
 	_pay_cost(costs)
 	active_camp.advance_construction()
+	
+	if tutorial_step == TutorialStep.CONSTRUCTION:
+		_set_tutorial_step(TutorialStep.COMPLETE)
 	
 	next_camp_stage_was_affordable = false
 	_check_next_camp_stage_affordability()
@@ -622,6 +661,10 @@ func _on_backpack_weight_changed(
 		current_weight,
 		maximum_weight
 	)
+	if (tutorial_step == TutorialStep.BACKPACK
+		and current_weight >= tutorial_return_weight
+	):
+		_set_tutorial_step(	TutorialStep.RETURN_TO_CAMP	)
 
 
 func _show_backpack_full() -> void:
@@ -710,6 +753,13 @@ func _on_deposit_timer_timeout() -> void:
 	hud.show_delivery_summary(
 		delivered_resources
 	)
+	
+	if (tutorial_step == TutorialStep.BACKPACK
+		or tutorial_step == TutorialStep.RETURN_TO_CAMP
+	):
+		_set_tutorial_step(
+			TutorialStep.CONSTRUCTION
+		)
 
 	_check_next_camp_stage_affordability()
 
@@ -789,3 +839,115 @@ func _configure_world_layout() -> void:
 	player_camera.limit_top = 0
 	player_camera.limit_right = roundi(world_size.x)
 	player_camera.limit_bottom = roundi(world_size.y)
+
+func _on_main_menu_visibility_changed() -> void:
+	if main_menu.visible:
+		return
+
+	if not tutorial_enabled:
+		tutorial_step = TutorialStep.COMPLETE
+		hud.hide_tutorial_hint()
+		return
+
+	if tutorial_step != TutorialStep.WAITING:
+		return
+
+	if _was_contextual_tutorial_completed():
+		tutorial_step = TutorialStep.COMPLETE
+		hud.hide_tutorial_hint()
+		return
+
+	tutorial_start_position = player.global_position
+
+	_set_tutorial_step(
+		TutorialStep.MOVEMENT
+	)
+
+
+func _set_tutorial_step(
+	new_step: TutorialStep
+) -> void:
+	tutorial_step = new_step
+
+	match tutorial_step:
+		TutorialStep.MOVEMENT:
+			hud.show_tutorial_hint(
+				"Use WASD or the arrow keys to explore."
+			)
+
+		TutorialStep.GATHERING:
+			hud.show_tutorial_hint(
+				"Approach a resource and hold E to gather."
+			)
+
+		TutorialStep.BACKPACK:
+			hud.show_tutorial_hint(
+				"Resources have weight. Your backpack can carry 12 kg."
+			)
+
+		TutorialStep.RETURN_TO_CAMP:
+			hud.show_tutorial_hint(
+				"Your backpack is getting heavy. Return to camp."
+			)
+
+		TutorialStep.CONSTRUCTION:
+			hud.show_tutorial_hint(
+				"Use deposited resources to build the cabin before winter."
+			)
+
+		TutorialStep.COMPLETE:
+			hud.hide_tutorial_hint()
+			_save_contextual_tutorial_completed()
+
+
+func _process(_delta: float) -> void:
+	if tutorial_step != TutorialStep.MOVEMENT:
+		return
+
+	var distance_moved := (
+		player.global_position.distance_to(
+			tutorial_start_position
+		)
+	)
+
+	if distance_moved < tutorial_movement_distance:
+		return
+
+	_set_tutorial_step(
+		TutorialStep.GATHERING
+	)
+
+func _was_contextual_tutorial_completed() -> bool:
+	var config := ConfigFile.new()
+
+	if config.load(TUTORIAL_CONFIG_PATH) != OK:
+		return false
+
+	return bool(
+		config.get_value(
+			TUTORIAL_CONFIG_SECTION,
+			CONTEXTUAL_TUTORIAL_COMPLETED_KEY,
+			false
+		)
+	)
+
+func _save_contextual_tutorial_completed() -> void:
+	var config := ConfigFile.new()
+
+	config.load(TUTORIAL_CONFIG_PATH)
+
+	config.set_value(
+		TUTORIAL_CONFIG_SECTION,
+		CONTEXTUAL_TUTORIAL_COMPLETED_KEY,
+		true
+	)
+
+	var save_result := config.save(
+		TUTORIAL_CONFIG_PATH
+	)
+
+	if save_result != OK:
+		push_warning(
+			"Could not save tutorial completion."
+
+		)

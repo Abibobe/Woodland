@@ -63,6 +63,15 @@ extends Control
 	$MilestonePopup/MarginContainer/MilestoneLabel
 )
 
+@onready var tutorial_hint: PanelContainer = (
+	$TutorialHint
+)
+
+@onready var tutorial_label: Label = (
+	$TutorialHint/MarginContainer/TutorialLabel
+)
+
+var tutorial_hint_tween: Tween
 
 var delivery_tween: Tween
 
@@ -114,6 +123,7 @@ func _ready() -> void:
 	interaction_prompt.hide()
 	delivery_popup.hide()
 	milestone_popup.hide()
+	tutorial_hint.hide()
 
 
 
@@ -186,6 +196,21 @@ func _apply_layout() -> void:
 
 	milestone_popup.pivot_offset = (
 		milestone_popup.size / 2.0
+	)
+	
+	
+	tutorial_hint.size = Vector2(
+		380.0,
+		54.0
+	)
+
+	tutorial_hint.position = Vector2(
+		(viewport_size.x - tutorial_hint.size.x) / 2.0,
+		154.0
+	)
+
+	tutorial_hint.pivot_offset = (
+		tutorial_hint.size / 2.0
 	)
 
 
@@ -470,3 +495,66 @@ func show_milestone(message: String) -> void:
 	milestone_tween.tween_callback(
 		milestone_popup.hide
 	)
+
+
+func show_tutorial_hint(message: String) -> void:
+	if tutorial_hint_tween != null:
+		tutorial_hint_tween.kill()
+
+	tutorial_label.text = message
+
+	if tutorial_hint.visible:
+		tutorial_hint.modulate.a = 1.0
+		tutorial_hint.scale = Vector2.ONE
+		return
+
+	tutorial_hint.modulate.a = 0.0
+	tutorial_hint.scale = Vector2(0.94, 0.94)
+	tutorial_hint.show()
+
+	tutorial_hint_tween = create_tween()
+	tutorial_hint_tween.set_parallel(true)
+
+	tutorial_hint_tween.tween_property(
+		tutorial_hint,
+		"modulate:a",
+		1.0,
+		0.18
+	)
+
+	tutorial_hint_tween.tween_property(
+		tutorial_hint,
+		"scale",
+		Vector2.ONE,
+		0.2
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+func hide_tutorial_hint() -> void:
+	if not tutorial_hint.visible:
+		return
+
+	if tutorial_hint_tween != null:
+		tutorial_hint_tween.kill()
+
+	tutorial_hint_tween = create_tween()
+
+	tutorial_hint_tween.tween_property(
+		tutorial_hint,
+		"modulate:a",
+		0.0,
+		0.15
+	)
+
+	tutorial_hint_tween.tween_callback(
+		_finish_hiding_tutorial_hint
+	)
+
+
+func _finish_hiding_tutorial_hint() -> void:
+	tutorial_hint.hide()
+	tutorial_hint.modulate.a = 1.0
+	tutorial_hint.scale = Vector2.ONE
