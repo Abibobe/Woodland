@@ -79,6 +79,10 @@ var tutorial_start_position := Vector2.ZERO
 @onready var main_menu: MainMenu = (
 	$Interface/MainMenu
 )
+@onready var forest_life: ForestLife = (
+	$World/ForestLife
+)
+
 
 
 var ambience_crossfade_tween: Tween
@@ -429,7 +433,9 @@ func _on_time_display_changed(
 	phase: String
 ) -> void:
 	hud.set_day(day, phase)
+	forest_life.set_phase(phase)
 	_update_world_tint(phase)
+
 
 func _on_day_ended(day: int) -> void:
 	if game_finished:

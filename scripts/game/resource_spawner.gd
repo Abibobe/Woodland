@@ -36,6 +36,8 @@ extends Node2D
 var spawned_resources: Array[ResourceNode] = []
 var random := RandomNumberGenerator.new()
 var occupied_cells: Dictionary = {}
+var resource_cells_by_type: Dictionary = {}
+
 
 
 func generate_resources(
@@ -48,6 +50,12 @@ func generate_resources(
 
 	random.seed = seed_value + 9187
 	occupied_cells.clear()
+
+	resource_cells_by_type = {
+		ResourceTypes.Type.WOOD: [],
+		ResourceTypes.Type.STONE: [],
+		ResourceTypes.Type.FOOD: []
+	}
 
 	var map_center := Vector2i(
 		map_width / 2,
@@ -230,6 +238,18 @@ func _spawn_resource(
 	resource.resource_type = resource_type
 	resource.resource_amount = units_per_resource
 	
+	var stored_cells: Array = (
+		resource_cells_by_type.get(
+			resource_type,
+			[]
+		)
+	)
+
+	stored_cells.append(cell)
+
+	resource_cells_by_type[resource_type] = stored_cells
+	
+	
 	var destination := resource_parent
 
 	if destination == null:
@@ -283,3 +303,27 @@ func _has_required_spacing(
 				return false
 
 	return true
+
+
+func get_occupied_cells() -> Dictionary:
+	return occupied_cells.duplicate()
+
+
+func get_resource_cells(
+	resource_type: int
+) -> Array[Vector2i]:
+	var result: Array[Vector2i] = []
+
+	var stored_cells: Array = (
+		resource_cells_by_type.get(
+			resource_type,
+			[]
+		)
+	)
+
+	for cell in stored_cells:
+		result.append(
+			Vector2i(cell)
+		)
+
+	return result

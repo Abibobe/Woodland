@@ -14,6 +14,12 @@ extends Node2D
 
 @onready var ground_renderer: GroundRenderer = $GroundRenderer
 @onready var resource_spawner: ResourceSpawner = $ResourceSpawner
+@onready var forest_decorator: ForestDecorator = (
+	$ForestDecorator
+)
+@onready var forest_life: ForestLife = (
+	$ForestLife
+)
 
 
 var noise := FastNoiseLite.new()
@@ -50,6 +56,33 @@ func generate_world() -> void:
 		map_width,
 		map_height,
 		tile_size
+	)
+	var map_center := Vector2i(
+		map_width / 2,
+		map_height / 2
+	)
+
+	forest_decorator.generate_decorations(
+		generated_seed,
+		ground_cells,
+		map_width,
+		map_height,
+		tile_size,
+		map_center,
+		resource_spawner.clear_radius,
+		resource_spawner.get_occupied_cells(),
+		resource_spawner.get_resource_cells(
+			ResourceTypes.Type.WOOD
+		)
+	)
+
+	forest_life.generate_life(
+		generated_seed,
+		map_width,
+		map_height,
+		tile_size,
+		forest_decorator.get_flower_positions(),
+		forest_decorator.get_sheltered_positions()
 	)
 
 	print("Generated world with seed: ", generated_seed)

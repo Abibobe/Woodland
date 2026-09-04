@@ -25,8 +25,16 @@ const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
 		if is_node_ready():
 			_update_stage_light()
 
+@export_category("Campfire Embers")
+@export_range(0, 16) var ember_count := 7
+@export_range(4.0, 48.0, 1.0) var ember_height := 28.0
+@export var ember_color := Color("#f5c451")
+@export var ember_hot_color := Color("#fff0a3")
+
+
 @export_category("Audio")
 @export var build_sound_stream: AudioStream
+
 
 @onready var build_sound: AudioStreamPlayer2D = (
 	$BuildSound
@@ -114,23 +122,30 @@ func advance_construction() -> bool:
 
 func _draw() -> void:
 	_draw_stage_shadow()
-	
+
 	if stages_texture != null:
 		_draw_stage_texture()
-		return
-		
-	match current_stage:
-		CampStage.SITE:
-			_draw_site()
+	else:
+		match current_stage:
+			CampStage.SITE:
+				_draw_site()
 
-		CampStage.CAMPFIRE:
-			_draw_campfire()
+			CampStage.CAMPFIRE:
+				_draw_campfire()
 
-		CampStage.FOUNDATION:
-			_draw_foundation()
+			CampStage.FOUNDATION:
+				_draw_foundation()
 
-		CampStage.CABIN:
-			_draw_cabin()
+			CampStage.CABIN:
+				_draw_cabin()
+
+	if (
+		current_stage == CampStage.CAMPFIRE
+		and night_lighting_enabled
+		and warm_light.visible
+	):
+		_draw_campfire_embers()
+
 
 
 func _draw_site() -> void:
@@ -171,6 +186,78 @@ func _draw_campfire() -> void:
 	draw_circle(Vector2.ZERO, 13, Color("#6F6255"))
 	draw_circle(Vector2.ZERO, 8, Color("#E88632"))
 	draw_circle(Vector2(0, -4), 5, Color("#F5C451"))
+
+func _draw_campfire_embers() -> void:
+	if ember_count <= 0:
+		return
+
+	var ember_origin := Vector2(0.0, -7.0)
+
+	for ember_index in range(ember_count):
+		var phase_offset := (
+			float(ember_index)
+			* TAU
+			/ float(ember_count)
+		)
+
+		var speed_variation := (
+			1.0
+			+ float(ember_index % 3) * 0.17
+		)
+
+		var ember_time := (
+			light_animation_time
+			* speed_variation
+			+ phase_offset
+		)
+
+		var cycle := fposmod(
+			ember_time * 0.75,
+			1.0
+		)
+
+		var horizontal_movement := (
+			sin(ember_time * 3.0)
+			* (3.0 + float(ember_index % 3))
+		)
+
+		var vertical_movement := (
+			-cycle * ember_height
+		)
+
+		var draw_position := (
+			ember_origin
+			+ Vector2(
+				horizontal_movement,
+				vertical_movement
+			)
+		)
+
+		var fade := sin(cycle * PI)
+
+		var selected_color := ember_color
+
+		if ember_index % 3 == 0:
+			selected_color = ember_hot_color
+
+		selected_color.a = fade * 0.85
+
+		draw_circle(
+			draw_position,
+			1.6,
+			Color(
+				selected_color.r,
+				selected_color.g,
+				selected_color.b,
+				selected_color.a * 0.18
+			)
+		)
+
+		draw_circle(
+			draw_position,
+			0.8,
+			selected_color
+		)
 
 
 func _draw_foundation() -> void:
@@ -277,6 +364,7 @@ func _draw_shadow(
 func set_night_lighting(enabled: bool) -> void:
 	night_lighting_enabled = enabled
 	_update_stage_light()
+	queue_redraw()
 
 
 func _update_stage_light() -> void:
@@ -329,7 +417,8 @@ func _process(delta: float) -> void:
 		0.9
 		+ primary_flicker * 0.35
 	)
-
+	
+	queue_redraw()
 
 func _play_construction_animation() -> void:
 	if construction_tween != null:
