@@ -238,6 +238,13 @@ func _spawn_resource(
 	resource.resource_type = resource_type
 	resource.resource_amount = units_per_resource
 	
+	resource.visual_variant = posmod(
+		cell.x * 31
+			+ cell.y * 17
+			+ resource_type * 13,
+		3
+	)
+	
 	var stored_cells: Array = (
 		resource_cells_by_type.get(
 			resource_type,

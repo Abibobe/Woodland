@@ -32,6 +32,17 @@ enum ResourceType {
 
 @export_range(0.1, 2.0, 0.05) var gathering_feedback_interval := 0.45
 
+@export_category("Visual Variants")
+@export var tree_textures: Array[Texture2D] = []
+@export var rock_textures: Array[Texture2D] = []
+@export var bush_textures: Array[Texture2D] = []
+
+@export_range(0, 2) var visual_variant := 0:
+	set(value):
+		visual_variant = value
+		queue_redraw()
+
+
 @onready var interaction_highlight: Node2D = (
 	$InteractionHighlight
 )
@@ -48,7 +59,7 @@ enum ResourceType {
 )
 
 
-const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
+const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.20)
 const HIGHLIGHT_COLOR := Color("#f2d479")
 var is_highlighted: bool = false
 var interaction_tween: Tween
@@ -65,6 +76,7 @@ func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 
 	_configure_gathering_progress_bar()
+	_configure_interaction_highlight()
 	_configure_gather_particles()
 	
 	_update_gathering_progress_bar()
@@ -119,15 +131,15 @@ func _configure_gathering_progress_bar() -> void:
 func _get_progress_bar_y() -> float:
 	match resource_type:
 		ResourceTypes.Type.WOOD:
-			return -62.0
-
-		ResourceTypes.Type.STONE:
-			return -30.0
+			return -84.0
 
 		ResourceTypes.Type.FOOD:
-			return -36.0
+			return -52.0
 
-	return -40.0
+		ResourceTypes.Type.STONE:
+			return -44.0
+
+	return -48.0
 
 func set_gathering_active(active: bool) -> void:
 	if is_depleted:
@@ -259,8 +271,6 @@ func gather(requested_amount: int = 1) -> int:
 
 
 func _draw() -> void:
-	_draw_shadow()
-	
 	match resource_type:
 		ResourceTypes.Type.WOOD:
 			_draw_tree()
@@ -272,11 +282,16 @@ func _draw() -> void:
 			_draw_berry_bush()
 
 func _draw_tree() -> void:
-	if tree_texture == null:
+	var selected_texture := _get_variant_texture(
+		tree_textures,
+		tree_texture
+	)
+
+	if selected_texture == null:
 		_draw_tree_fallback()
 		return
 
-	var texture_size := tree_texture.get_size()
+	var texture_size := selected_texture.get_size()
 
 	var draw_position := Vector2(
 		-texture_size.x / 2.0,
@@ -284,9 +299,23 @@ func _draw_tree() -> void:
 	)
 
 	draw_texture(
-		tree_texture,
+		selected_texture,
 		draw_position
 	)
+
+func _get_variant_texture(
+	textures: Array[Texture2D],
+	fallback_texture: Texture2D
+) -> Texture2D:
+	if textures.is_empty():
+		return fallback_texture
+
+	var selected_index := posmod(
+		visual_variant,
+		textures.size()
+	)
+
+	return textures[selected_index]
 
 func _draw_tree_fallback() -> void:
 	draw_rect(
@@ -313,11 +342,16 @@ func _draw_tree_fallback() -> void:
 	)
 
 func _draw_rock() -> void:
-	if rock_texture == null:
+	var selected_texture := _get_variant_texture(
+		rock_textures,
+		rock_texture
+	)
+
+	if selected_texture == null:
 		_draw_rock_fallback()
 		return
 
-	var texture_size := rock_texture.get_size()
+	var texture_size := selected_texture.get_size()
 
 	var draw_position := Vector2(
 		-texture_size.x / 2.0,
@@ -325,9 +359,9 @@ func _draw_rock() -> void:
 	)
 
 	draw_texture(
-		rock_texture,
+		selected_texture,
 		draw_position
-	)	
+	)
 
 func _draw_rock_fallback() -> void:
 	var rock_shape := PackedVector2Array([
@@ -346,11 +380,16 @@ func _draw_rock_fallback() -> void:
 	)
 
 func _draw_berry_bush() -> void:
-	if bush_texture == null:
+	var selected_texture := _get_variant_texture(
+		bush_textures,
+		bush_texture
+	)
+
+	if selected_texture == null:
 		_draw_berry_bush_fallback()
 		return
 
-	var texture_size := bush_texture.get_size()
+	var texture_size := selected_texture.get_size()
 
 	var draw_position := Vector2(
 		-texture_size.x / 2.0,
@@ -358,7 +397,7 @@ func _draw_berry_bush() -> void:
 	)
 
 	draw_texture(
-		bush_texture,
+		selected_texture,
 		draw_position
 	)
 
@@ -373,25 +412,6 @@ func _draw_berry_bush_fallback() -> void:
 	draw_circle(Vector2(-7, -5), 3, Color("#A83E5B"))
 	draw_circle(Vector2(6, -7), 3, Color("#A83E5B"))
 	draw_circle(Vector2(3, 5), 3, Color("#A83E5B"))
-
-func _draw_shadow() -> void:
-	draw_set_transform(
-		Vector2(0.0, 3.0),
-		0.0,
-		Vector2(1.0, 0.35)
-	)
-
-	draw_circle(
-		Vector2.ZERO,
-		12.0,
-		SHADOW_COLOR
-	)
-
-	draw_set_transform(
-		Vector2.ZERO,
-		0.0,
-		Vector2.ONE
-	)
 
 
 func set_highlighted(value: bool) -> void:
@@ -683,3 +703,37 @@ func _get_popup_start_y() -> float:
 			return -53.0
 
 	return -55.0
+
+func _configure_interaction_highlight() -> void:
+	match resource_type:
+		ResourceTypes.Type.WOOD:
+			# Tight around the tree trunk.
+			interaction_highlight.position = Vector2(
+				0.0,
+				-1.0
+			)
+			interaction_highlight.scale = Vector2(
+				0.72,
+				1.0
+			)
+
+		ResourceTypes.Type.FOOD:
+			# Wider around the bush footprint.
+			interaction_highlight.position = Vector2(
+				0.0,
+				-1.0
+			)
+			interaction_highlight.scale = Vector2(
+				1.30,
+				1.0
+			)
+
+		ResourceTypes.Type.STONE:
+			interaction_highlight.position = Vector2(
+				0.0,
+				1.0
+			)
+			interaction_highlight.scale = Vector2(
+				1.12,
+				0.90
+			)

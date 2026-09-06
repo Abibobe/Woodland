@@ -26,12 +26,15 @@ enum LifeType {
 @export_range(0.0, 1.0, 0.05) var habitat_preference := 0.85
 @export_range(0.0, 96.0, 1.0) var habitat_spread := 42.0
 
+@export_category("Performance")
+@export_range(4.0, 30.0, 1.0) var animation_fps := 15.0
+
 var life_points: Array[Dictionary] = []
 var random := RandomNumberGenerator.new()
 
 var current_phase := "morning"
 var animation_time := 0.0
-
+var redraw_elapsed := 0.0
 
 func _ready() -> void:
 	z_index = 2
@@ -155,6 +158,18 @@ func set_phase(phase: String) -> void:
 
 func _process(delta: float) -> void:
 	animation_time += delta
+	redraw_elapsed += delta
+
+	var redraw_interval := 1.0 / animation_fps
+
+	if redraw_elapsed < redraw_interval:
+		return
+
+	redraw_elapsed = fmod(
+		redraw_elapsed,
+		redraw_interval
+	)
+
 	queue_redraw()
 
 

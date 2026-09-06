@@ -8,6 +8,15 @@
 [ext_resource type="AudioStream" uid="uid://d1wtljd6xa20h" path="res://assets/audio/sfx/wood_gather_01.wav" id="5_tcvet"]
 [ext_resource type="AudioStream" uid="uid://5ob1t8aot1j4" path="res://assets/audio/sfx/stone_gather_01.wav" id="6_k0ob4"]
 [ext_resource type="AudioStream" uid="uid://cqwsx687xlais" path="res://assets/audio/sfx/food_gather_01.wav" id="7_mewod"]
+[ext_resource type="Texture2D" uid="uid://d2mln8ic0w2on" path="res://assets/resources/tree_01_v5.png" id="8_0a6i0"]
+[ext_resource type="Texture2D" uid="uid://elw5664qtkss" path="res://assets/resources/tree_02_v5.png" id="9_v6tnt"]
+[ext_resource type="Texture2D" uid="uid://b3jsqgijvtd5w" path="res://assets/resources/tree_03_v5.png" id="10_wmawh"]
+[ext_resource type="Texture2D" uid="uid://opld75e2kvxm" path="res://assets/resources/rock_01_v5.png" id="11_octca"]
+[ext_resource type="Texture2D" uid="uid://clt7g0dv35sib" path="res://assets/resources/rock_02_v5.png" id="12_sfxbu"]
+[ext_resource type="Texture2D" uid="uid://lomrau4e4n25" path="res://assets/resources/rock_03_v5.png" id="13_q6qwm"]
+[ext_resource type="Texture2D" uid="uid://dtpo7402gs8oe" path="res://assets/resources/berry_bush_01_v5.png" id="14_362j3"]
+[ext_resource type="Texture2D" uid="uid://d0dphv7cvybqv" path="res://assets/resources/berry_bush_02_v5.png" id="15_wq4of"]
+[ext_resource type="Texture2D" uid="uid://bgtvf5jvq8q2m" path="res://assets/resources/berry_bush_03_v5.png" id="16_7qh4i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(24, 24)
@@ -20,6 +29,9 @@ bush_texture = ExtResource("4_avvav")
 wood_gather_sound = ExtResource("5_tcvet")
 stone_gather_sound = ExtResource("6_k0ob4")
 food_gather_sound = ExtResource("7_mewod")
+tree_textures = Array[Texture2D]([ExtResource("8_0a6i0"), ExtResource("9_v6tnt"), ExtResource("10_wmawh")])
+rock_textures = Array[Texture2D]([ExtResource("11_octca"), ExtResource("12_sfxbu"), ExtResource("13_q6qwm")])
+bush_textures = Array[Texture2D]([ExtResource("14_362j3"), ExtResource("15_wq4of"), ExtResource("16_7qh4i")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=686198733]
 position = Vector2(0, -6)

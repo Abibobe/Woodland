@@ -25,12 +25,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0.2.1 Make the forest alive/Phase 10.7 — Campfire embers.md",
+                "file": "0.2.1 Make the forest alive/Phase 12.2 — Match interaction feedback to the new sprites.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Phase 10.7 — Campfire embers"
+              "title": "Phase 12.2 — Match interaction feedback to the new sprites"
             }
           }
         ],
@@ -203,8 +203,25 @@
   },
   "active": "1521d463eb4cc263",
   "lastOpenFiles": [
-    "0.2.1 Make the forest alive/Phase 10.6 — Drifting leaves.md",
+    "0.2.1 Make the forest alive/Phase 12.1 — Deterministic resource variants.md",
+    "0.2.1 Make the forest alive/Phase 12.2 — Match interaction feedback to the new sprites.md",
+    "woodland_resources_v5_connected_shadows.zip",
+    "woodland_resources_v3_padded.zip",
+    "resource_atlas_v3.png.import",
+    "tree_01_v3.png.import",
+    "rock_01_v3.png.import",
+    "berry_bush_01_v3.png.import",
+    "rock_01_v3.png",
+    "berry_bush_01_v3.png",
+    "tree_01_v3.png",
+    "resource_atlas_v3.png",
+    "0.2.1 Make the forest alive/Phase 11.4 — Forest-floor variety.md",
+    "0.2.1 Make the forest alive/Phase 11.3 — Replace procedural drawings with the sprite atlas.md",
+    "woodland_decorations_atlas.png.import",
+    "woodland_decorations_atlas.png",
+    "0.2.1 Make the forest alive/Phase 11.2 — Dense undergrowth clusters.md",
     "0.2.1 Make the forest alive/Phase 10.7 — Campfire embers.md",
+    "0.2.1 Make the forest alive/Phase 10.6 — Drifting leaves.md",
     "0.2.1 Make the forest alive/Phase 10.5 — Gentle vegetation movement.md",
     "0.2.1 Make the forest alive/Phase 10.4 — Wildlife habitats.md",
     "0.2.1 Make the forest alive/Phase 10.3 — Butterflies and fireflies.md",
@@ -225,29 +242,12 @@
     "Versioning/v0.1.0/Stats.md",
     "Versioning/v0.1.0/Itch.io Description.md",
     "Screenshot 2026-09-02 141902 1.png.import",
-    "Screenshot 2026-09-02 141755 1.png.import",
-    "Screenshot 2026-09-02 141924 1.png.import",
-    "Screenshot 2026-09-02 141816 1.png.import",
-    "Screenshot 2026-09-02 141934 1.png.import",
-    "woodland_outpost_itch_cover_630x500 1.png.import",
     "Screenshot 2026-09-02 141934 1.png",
     "Screenshot 2026-09-02 141924 1.png",
     "Screenshot 2026-09-02 141902 1.png",
     "Screenshot 2026-09-02 141816 1.png",
     "Screenshot 2026-09-02 141755 1.png",
-    "woodland_outpost_itch_cover_630x500 1.png",
     "Versioning/v0.2.0/README.md",
-    "Versioning/v0.1.1/README.md",
-    "Versioning/v0.1.0/README.md",
-    "Versioning/v0.1.1/DevLog - Woodland Outpost v0.1.1 — UI Polish.md",
-    "Versioning/v0.1.1/Itch.io Description.md",
-    "Versioning/v0.1.0/DevLog - Hello world!.md",
-    "0.2.0 Game polishing and improvements/Phase 9.3 — Remember tutorial completion.md",
-    "Versioning/v0.2.0",
-    "Versioning/v0.1.1",
-    "mermaid-diagram.png",
-    "berry_bush_01.png",
-    "Screenshot 2026-09-02 141934.png",
-    "Screenshot 2026-09-02 141924.png"
+    "Versioning/v0.1.1/README.md"
   ]
 }

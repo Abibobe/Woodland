@@ -36,6 +36,7 @@
 [ext_resource type="AudioStream" uid="uid://dr2l8neevixa7" path="res://assets/audio/sfx/forest_night_loop_01.wav" id="22_8b66f"]
 [ext_resource type="Script" uid="uid://dr3obmbemhh42" path="res://scripts/game/forest_decorator.gd" id="29_0gkf7"]
 [ext_resource type="Script" uid="uid://cofp1pi5dm41i" path="res://scripts/game/forest_life.gd" id="30_6ehwc"]
+[ext_resource type="Texture2D" uid="uid://cn7nulrnpbbdc" path="res://assets/environment/woodland_decorations_atlas.png" id="30_tyhjx"]
 [ext_resource type="Script" uid="uid://crvjsfi4cpx6j" path="res://scripts/player/player_backpack.gd" id="34_mumkj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3jaai"]
@@ -1175,7 +1176,9 @@ soil_texture_alt = ExtResource("11_3xj4h")
 [node name="ForestDecorator" type="Node2D" parent="World" unique_id=702101380]
 texture_filter = 1
 script = ExtResource("29_0gkf7")
-decoration_density = 0.35
+decoration_atlas = ExtResource("30_tyhjx")
+decoration_density = 0.42
+maximum_cluster_size = 2
 
 [node name="ForestLife" type="Node2D" parent="World" unique_id=2134289352]
 texture_filter = 1
