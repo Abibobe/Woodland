@@ -25,12 +25,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0.2.1 Make the forest alive/Phase 12.2 — Match interaction feedback to the new sprites.md",
+                "file": "0.2.1 Make the forest alive/Phase 14.3 --- what happen to the depleted resources.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Phase 12.2 — Match interaction feedback to the new sprites"
+              "title": "Phase 14.3 --- what happen to the depleted resources"
             }
           }
         ],
@@ -203,8 +203,24 @@
   },
   "active": "1521d463eb4cc263",
   "lastOpenFiles": [
-    "0.2.1 Make the forest alive/Phase 12.1 — Deterministic resource variants.md",
+    "empty_bush.png.import",
+    "tree_stump.png.import",
+    "rock_hole.png.import",
+    "rock_hole.png",
+    "empty_bush.png",
+    "tree_stump.png",
+    "0.2.1 Make the forest alive/Phase 14.2 --- more resouces, less harvest value.md",
+    "0.2.1 Make the forest alive/Phase 14.3 --- what happen to the depleted resources.md",
+    "0.2.1 Make the forest alive/Phase 14 --- renew.md",
+    "0.2.1 Make the forest alive/Phase 13.2 — Make clusters form natural islands.md",
+    "0.2.1 Make the forest alive/Phase 13.1.2 -- highlight the resources.md",
+    "0.2.1 Make the forest alive/Phase 13.1 — Lightweight forest-cluster layer.md",
+    "Pasted image 20260906171110.png.import",
+    "0.2.1 Make the forest alive/Phase 13.0 -- more forest!.md",
+    "forest_cluster_pack.zip",
+    "Pasted image 20260906171110.png",
     "0.2.1 Make the forest alive/Phase 12.2 — Match interaction feedback to the new sprites.md",
+    "0.2.1 Make the forest alive/Phase 12.1 — Deterministic resource variants.md",
     "woodland_resources_v5_connected_shadows.zip",
     "woodland_resources_v3_padded.zip",
     "resource_atlas_v3.png.import",
@@ -217,7 +233,6 @@
     "resource_atlas_v3.png",
     "0.2.1 Make the forest alive/Phase 11.4 — Forest-floor variety.md",
     "0.2.1 Make the forest alive/Phase 11.3 — Replace procedural drawings with the sprite atlas.md",
-    "woodland_decorations_atlas.png.import",
     "woodland_decorations_atlas.png",
     "0.2.1 Make the forest alive/Phase 11.2 — Dense undergrowth clusters.md",
     "0.2.1 Make the forest alive/Phase 10.7 — Campfire embers.md",
@@ -231,23 +246,8 @@
     "Versioning/v0.2.0.1/Stats.md",
     "Versioning/v0.2.0.1/README.md",
     "Versioning/v0.2.0.1/Itch.io Description.md",
-    "Versioning/v0.2.0.1",
     "0.2.1 Make the forest alive/0. Roadmap.md",
     "0. Dev diary/Senza nome.md",
-    "0.2.1 Make the forest alive",
-    "Versioning/v0.2.0/Itch.io Description.md",
-    "Versioning/v0.2.0/DevLog - Woodland Outpost v0.2.0 — A Bigger Forest and Better Expeditions!.md",
-    "Versioning/v0.2.0/Stats.md",
-    "Versioning/v0.1.1/Stats.md",
-    "Versioning/v0.1.0/Stats.md",
-    "Versioning/v0.1.0/Itch.io Description.md",
-    "Screenshot 2026-09-02 141902 1.png.import",
-    "Screenshot 2026-09-02 141934 1.png",
-    "Screenshot 2026-09-02 141924 1.png",
-    "Screenshot 2026-09-02 141902 1.png",
-    "Screenshot 2026-09-02 141816 1.png",
-    "Screenshot 2026-09-02 141755 1.png",
-    "Versioning/v0.2.0/README.md",
-    "Versioning/v0.1.1/README.md"
+    "Screenshot 2026-09-02 141934 1.png"
   ]
 }

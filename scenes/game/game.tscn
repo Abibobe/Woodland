@@ -37,7 +37,24 @@
 [ext_resource type="Script" uid="uid://dr3obmbemhh42" path="res://scripts/game/forest_decorator.gd" id="29_0gkf7"]
 [ext_resource type="Script" uid="uid://cofp1pi5dm41i" path="res://scripts/game/forest_life.gd" id="30_6ehwc"]
 [ext_resource type="Texture2D" uid="uid://cn7nulrnpbbdc" path="res://assets/environment/woodland_decorations_atlas.png" id="30_tyhjx"]
+[ext_resource type="Script" uid="uid://y3oowqq1ftkf" path="res://scripts/world/forest_cluster_layer.gd" id="31_jiu3o"]
+[ext_resource type="Texture2D" uid="uid://bm22ex2r43si3" path="res://assets/environment/forest_cluster_small_01.png" id="32_vbi6r"]
+[ext_resource type="Texture2D" uid="uid://bjmsbehblxqip" path="res://assets/environment/forest_cluster_small_02.png" id="33_twah4"]
 [ext_resource type="Script" uid="uid://crvjsfi4cpx6j" path="res://scripts/player/player_backpack.gd" id="34_mumkj"]
+[ext_resource type="Texture2D" uid="uid://s8xmjcsc2v2t" path="res://assets/environment/forest_cluster_small_03.png" id="34_qn4tv"]
+[ext_resource type="Texture2D" uid="uid://bexuelyeiwcgv" path="res://assets/environment/forest_cluster_small_04.png" id="35_e3lpd"]
+[ext_resource type="Texture2D" uid="uid://grbjl7m4f5bk" path="res://assets/environment/forest_cluster_large_01.png" id="36_au6n5"]
+[ext_resource type="Texture2D" uid="uid://tw0wdyko2tfd" path="res://assets/environment/forest_cluster_large_02.png" id="37_tcm0m"]
+[ext_resource type="Texture2D" uid="uid://cpevjhdorkwln" path="res://assets/environment/forest_cluster_large_03.png" id="38_yy23q"]
+[ext_resource type="Texture2D" uid="uid://2if6ynsjmr5e" path="res://assets/environment/forest_cluster_large_04.png" id="39_0bk81"]
+[ext_resource type="Texture2D" uid="uid://bsbh8akjukk8h" path="res://assets/environment/forest_cluster_sapling_01.png" id="40_q8d8h"]
+[ext_resource type="Texture2D" uid="uid://ds5wtq24t03gi" path="res://assets/environment/forest_cluster_sapling_02.png" id="41_6o42e"]
+[ext_resource type="Texture2D" uid="uid://ceo1x0di7tb35" path="res://assets/environment/forest_cluster_sapling_03.png" id="42_rnb85"]
+[ext_resource type="Texture2D" uid="uid://44vfyttnehbe" path="res://assets/environment/forest_cluster_sapling_04.png" id="43_7dxef"]
+[ext_resource type="Texture2D" uid="uid://pc2xk7hkqek6" path="res://assets/environment/forest_cluster_log_01.png" id="44_1s0gc"]
+[ext_resource type="Texture2D" uid="uid://b43ld6n0qygj7" path="res://assets/environment/forest_cluster_log_02.png" id="45_84b8o"]
+[ext_resource type="Texture2D" uid="uid://01k0dh1op5dh" path="res://assets/environment/forest_cluster_stump_01.png" id="46_g2bdr"]
+[ext_resource type="Texture2D" uid="uid://bvntfwg5ejg8f" path="res://assets/environment/forest_cluster_stump_02.png" id="47_864w3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3jaai"]
 content_margin_left = 12.0
@@ -1177,18 +1194,32 @@ soil_texture_alt = ExtResource("11_3xj4h")
 texture_filter = 1
 script = ExtResource("29_0gkf7")
 decoration_atlas = ExtResource("30_tyhjx")
-decoration_density = 0.42
+decoration_density = 0.1
+forest_floor_density = 0.03
+undergrowth_density = 0.0
+cluster_probability = 0.0
 maximum_cluster_size = 2
 
-[node name="ForestLife" type="Node2D" parent="World" unique_id=2134289352]
-texture_filter = 1
-script = ExtResource("30_6ehwc")
+[node name="ForestClusterLayer" type="Node2D" parent="World" unique_id=870269012]
+z_index = -45
+script = ExtResource("31_jiu3o")
+small_clusters = Array[Texture2D]([ExtResource("32_vbi6r"), ExtResource("33_twah4"), ExtResource("34_qn4tv"), ExtResource("35_e3lpd")])
+large_clusters = Array[Texture2D]([ExtResource("36_au6n5"), ExtResource("37_tcm0m"), ExtResource("38_yy23q"), ExtResource("39_0bk81")])
+sapling_clusters = Array[Texture2D]([ExtResource("40_q8d8h"), ExtResource("41_6o42e"), ExtResource("42_rnb85"), ExtResource("43_7dxef")])
+log_clusters = Array[Texture2D]([ExtResource("44_1s0gc"), ExtResource("45_84b8o"), ExtResource("46_g2bdr"), ExtResource("47_864w3")])
+resource_clearance = 0
+additional_camp_clearance = 3
+cluster_tint = Color(0.5234433, 0.563788, 0.49654675, 1)
 
 [node name="ResourceSpawner" type="Node2D" parent="World" unique_id=1053585402 node_paths=PackedStringArray("resource_parent")]
 z_index = 1
 script = ExtResource("3_kelw5")
 resource_scene = ExtResource("3_0sr1o")
 resource_parent = NodePath("../../Entities")
+
+[node name="ForestLife" type="Node2D" parent="World" unique_id=2134289352]
+texture_filter = 1
+script = ExtResource("30_6ehwc")
 
 [node name="ResourceInventory" type="Node" parent="." unique_id=1444687244]
 script = ExtResource("5_lfrn8")

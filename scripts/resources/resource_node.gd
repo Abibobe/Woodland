@@ -42,6 +42,24 @@ enum ResourceType {
 		visual_variant = value
 		queue_redraw()
 
+@export_category("Visual Scale")
+@export_range(0.5, 2.0, 0.05) var tree_visual_scale := 1.28
+@export_range(0.5, 2.0, 0.05) var bush_visual_scale := 1.18
+@export_range(0.5, 2.0, 0.05) var rock_visual_scale := 1.15
+
+@export_category("Depleted Visuals")
+@export var depleted_tree_texture: Texture2D
+@export var depleted_rock_texture: Texture2D
+@export var depleted_bush_texture: Texture2D
+@onready var collision_shape: CollisionShape2D = (
+	$CollisionShape2D
+)
+@export_category("Depleted Visual Scale")
+@export_range(0.3, 1.5, 0.05) var stump_visual_scale := 0.70
+@export_range(0.3, 1.5, 0.05) var empty_bush_visual_scale := 0.78
+@export_range(0.3, 1.5, 0.05) var rock_hole_visual_scale := 0.68
+
+const TEXTURE_BOTTOM_PADDING := 14.0
 
 @onready var interaction_highlight: Node2D = (
 	$InteractionHighlight
@@ -131,15 +149,15 @@ func _configure_gathering_progress_bar() -> void:
 func _get_progress_bar_y() -> float:
 	match resource_type:
 		ResourceTypes.Type.WOOD:
-			return -84.0
+			return -100.0
 
 		ResourceTypes.Type.FOOD:
-			return -52.0
+			return -60.0
 
 		ResourceTypes.Type.STONE:
-			return -44.0
+			return -50.0
 
-	return -48.0
+	return -52.0
 
 func set_gathering_active(active: bool) -> void:
 	if is_depleted:
@@ -271,6 +289,10 @@ func gather(requested_amount: int = 1) -> int:
 
 
 func _draw() -> void:
+	if is_depleted:
+		_draw_depleted_resource()
+		return
+
 	match resource_type:
 		ResourceTypes.Type.WOOD:
 			_draw_tree()
@@ -298,9 +320,9 @@ func _draw_tree() -> void:
 		-texture_size.y + 6.0
 	)
 
-	draw_texture(
+	_draw_grounded_texture(
 		selected_texture,
-		draw_position
+		tree_visual_scale
 	)
 
 func _get_variant_texture(
@@ -358,9 +380,9 @@ func _draw_rock() -> void:
 		-texture_size.y + 8.0
 	)
 
-	draw_texture(
+	_draw_grounded_texture(
 		selected_texture,
-		draw_position
+		rock_visual_scale
 	)
 
 func _draw_rock_fallback() -> void:
@@ -396,9 +418,9 @@ func _draw_berry_bush() -> void:
 		-texture_size.y + 6.0
 	)
 
-	draw_texture(
+	_draw_grounded_texture(
 		selected_texture,
-		draw_position
+		bush_visual_scale
 	)
 
 
@@ -457,31 +479,48 @@ func _play_gather_animation() -> void:
 
 func _play_depletion_animation() -> void:
 	is_gather_animation_playing = true
+	gathering_active = false
+
+	gathering_progress_bar.hide()
+	interaction_highlight.hide()
+	gather_particles.emitting = false
+
+	collision_layer = 0
+	collision_mask = 0
+
+	if collision_shape != null:
+		collision_shape.set_deferred(
+			"disabled",
+			true
+		)
 
 	if interaction_tween != null:
 		interaction_tween.kill()
 
 	interaction_tween = create_tween()
-	interaction_tween.set_parallel(true)
-
-	interaction_tween.tween_property(
-		self,
-		"scale",
-		Vector2(0.75, 0.75),
-		0.2
-	)
 
 	interaction_tween.tween_property(
 		self,
 		"modulate:a",
 		0.0,
-		0.2
+		0.12
 	)
 
-	interaction_tween.set_parallel(false)
+	interaction_tween.tween_callback(
+		func() -> void:
+			queue_redraw()
+	)
+
+	interaction_tween.tween_property(
+		self,
+		"modulate:a",
+		1.0,
+		0.18
+	)
 
 	interaction_tween.tween_callback(
-		queue_free
+		func() -> void:
+			is_gather_animation_playing = false
 	)
 
 
@@ -737,3 +776,107 @@ func _configure_interaction_highlight() -> void:
 				1.12,
 				0.90
 			)
+
+func _draw_grounded_texture(
+	texture: Texture2D,
+	visual_scale: float
+) -> void:
+	var source_size := texture.get_size()
+
+	var destination_size := (
+		source_size * visual_scale
+	)
+
+	var scaled_bottom_padding := (
+		TEXTURE_BOTTOM_PADDING
+		* visual_scale
+	)
+
+	var draw_position := Vector2(
+		-destination_size.x / 2.0,
+		-destination_size.y
+			+ scaled_bottom_padding
+	)
+
+	draw_texture_rect(
+		texture,
+		Rect2(
+			draw_position,
+			destination_size
+		),
+		false
+	)
+
+func _draw_depleted_resource() -> void:
+	var depleted_texture: Texture2D = null
+	var visual_scale := 1.0
+
+	match resource_type:
+		ResourceTypes.Type.WOOD:
+			depleted_texture = depleted_tree_texture
+			visual_scale = stump_visual_scale
+
+		ResourceTypes.Type.STONE:
+			depleted_texture = depleted_rock_texture
+			visual_scale = rock_hole_visual_scale
+
+		ResourceTypes.Type.FOOD:
+			depleted_texture = depleted_bush_texture
+			visual_scale = empty_bush_visual_scale
+
+	if depleted_texture == null:
+		_draw_depleted_fallback()
+		return
+
+	_draw_grounded_texture(
+		depleted_texture,
+		visual_scale
+	)
+
+func _draw_depleted_fallback() -> void:
+	match resource_type:
+		ResourceTypes.Type.WOOD:
+			draw_rect(
+				Rect2(-9.0, -5.0, 18.0, 10.0),
+				Color("#70482b")
+			)
+
+			draw_rect(
+				Rect2(-6.0, -6.0, 12.0, 4.0),
+				Color("#c08a52")
+			)
+
+		ResourceTypes.Type.STONE:
+			draw_ellipse_hole()
+
+		ResourceTypes.Type.FOOD:
+			draw_circle(
+				Vector2(0.0, -3.0),
+				14.0,
+				Color("#365d39")
+			)
+
+func draw_ellipse_hole() -> void:
+	draw_set_transform(
+		Vector2.ZERO,
+		0.0,
+		Vector2(1.0, 0.45)
+	)
+
+	draw_circle(
+		Vector2.ZERO,
+		14.0,
+		Color("#513c2c")
+	)
+
+	draw_circle(
+		Vector2(0.0, 2.0),
+		10.0,
+		Color("#2d281f")
+	)
+
+	draw_set_transform(
+		Vector2.ZERO,
+		0.0,
+		Vector2.ONE
+	)

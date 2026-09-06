@@ -21,6 +21,11 @@ extends Node2D
 	$ForestLife
 )
 
+@onready var forest_cluster_layer: ForestClusterLayer = (
+	$ForestClusterLayer
+)
+
+
 
 var noise := FastNoiseLite.new()
 var generated_seed: int
@@ -57,10 +62,23 @@ func generate_world() -> void:
 		map_height,
 		tile_size
 	)
+	
 	var map_center := Vector2i(
 		map_width / 2,
 		map_height / 2
 	)
+	
+	forest_cluster_layer.generate_clusters(
+		generated_seed,
+		ground_cells,
+		map_width,
+		map_height,
+		tile_size,
+		map_center,
+		resource_spawner.clear_radius,
+		resource_spawner.get_occupied_cells()
+	)
+
 
 	forest_decorator.generate_decorations(
 		generated_seed,

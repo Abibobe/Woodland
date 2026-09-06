@@ -6,17 +6,17 @@ extends Node2D
 @export var resource_scene: PackedScene
 
 @export_category("Resource Counts")
-@export_range(0, 200) var tree_count: int = 28
-@export_range(0, 100) var rock_count: int = 10
-@export_range(0, 100) var bush_count: int = 8
+@export_range(0, 200) var tree_count: int = 84
+@export_range(0, 100) var rock_count: int = 30
+@export_range(0, 100) var bush_count: int = 24
 
 @export_category("Winnability Guarantees")
-@export_range(1, 100) var required_wood := 35
-@export_range(1, 100) var required_stone := 15
-@export_range(1, 100) var required_food := 7
+@export_range(1, 100) var required_wood := 53
+@export_range(1, 100) var required_stone := 23
+@export_range(1, 100) var required_food := 11
 
 @export_range(1.0, 3.0, 0.1) var safety_multiplier := 1.5
-@export_range(1, 10) var units_per_resource := 3
+@export_range(1, 10) var units_per_resource := 1
 
 @export_category("Starting Area")
 @export_range(1, 10) var clear_radius: int = 4

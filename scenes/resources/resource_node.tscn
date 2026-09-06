@@ -17,6 +17,9 @@
 [ext_resource type="Texture2D" uid="uid://dtpo7402gs8oe" path="res://assets/resources/berry_bush_01_v5.png" id="14_362j3"]
 [ext_resource type="Texture2D" uid="uid://d0dphv7cvybqv" path="res://assets/resources/berry_bush_02_v5.png" id="15_wq4of"]
 [ext_resource type="Texture2D" uid="uid://bgtvf5jvq8q2m" path="res://assets/resources/berry_bush_03_v5.png" id="16_7qh4i"]
+[ext_resource type="Texture2D" uid="uid://l277ioon4j0v" path="res://assets/resources/depleted/tree_stump.png" id="17_octca"]
+[ext_resource type="Texture2D" uid="uid://xr4gjsuothtl" path="res://assets/resources/depleted/rock_hole.png" id="18_sfxbu"]
+[ext_resource type="Texture2D" uid="uid://cp4hgxfyon0dh" path="res://assets/resources/depleted/empty_bush.png" id="19_q6qwm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(24, 24)
@@ -32,6 +35,9 @@ food_gather_sound = ExtResource("7_mewod")
 tree_textures = Array[Texture2D]([ExtResource("8_0a6i0"), ExtResource("9_v6tnt"), ExtResource("10_wmawh")])
 rock_textures = Array[Texture2D]([ExtResource("11_octca"), ExtResource("12_sfxbu"), ExtResource("13_q6qwm")])
 bush_textures = Array[Texture2D]([ExtResource("14_362j3"), ExtResource("15_wq4of"), ExtResource("16_7qh4i")])
+depleted_tree_texture = ExtResource("17_octca")
+depleted_rock_texture = ExtResource("18_sfxbu")
+depleted_bush_texture = ExtResource("19_q6qwm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=686198733]
 position = Vector2(0, -6)
