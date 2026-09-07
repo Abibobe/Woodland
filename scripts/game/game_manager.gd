@@ -30,6 +30,23 @@ const CONTEXTUAL_TUTORIAL_COMPLETED_KEY := (
 var tutorial_step := TutorialStep.WAITING
 var tutorial_start_position := Vector2.ZERO
 
+@export_category("Hunger")
+
+@export_range(1.0, 200.0, 1.0)
+var maximum_hunger := 100.0
+
+@export_range(1.0, 200.0, 1.0)
+var starting_hunger := 100.0
+
+@export_range(0.1, 5.0, 0.1)
+var hunger_decrease_per_second := 1.0
+
+@export_range(1.0, 100.0, 1.0)
+var food_hunger_restoration := 80.0
+
+@export_range(0.0, 100.0, 1.0)
+var maximum_hunger_for_eating := 85.0
+
 
 @onready var inventory: ResourceInventory = $ResourceInventory
 @onready var backpack: PlayerBackpack = $PlayerBackpack
@@ -83,12 +100,14 @@ var tutorial_start_position := Vector2.ZERO
 	$World/ForestLife
 )
 
+@onready var player_animation: PlayerAnimation = (
+	$Entities/Player/PlayerVisual
+)
 
 
 var ambience_crossfade_tween: Tween
 
 var world_tint_tween: Tween
-
 
 var game_finished: bool = false
 var active_camp: Camp
@@ -96,9 +115,17 @@ var deposit_camp: Camp
 
 var next_camp_stage_was_affordable := false
 
+var current_hunger := 100.0
+var low_hunger_warning_shown := false
+var critical_hunger_warning_shown := false
+
 func _ready() -> void:
 	_configure_world_layout()
-
+	current_hunger = clampf(
+		starting_hunger,
+		0.0,
+		maximum_hunger
+	)
 	main_menu.visibility_changed.connect(
 		_on_main_menu_visibility_changed
 	)
@@ -184,7 +211,15 @@ func _on_interaction_completed(
 			var resource_type := int(
 				result.get("resource_type", -1)
 			)
-
+			
+			if (
+				resource_type == ResourceTypes.Type.FOOD
+				and current_hunger < maximum_hunger_for_eating
+			):
+				hud.show_tutorial_hint(
+					"Press F to eat carried Food and restore Hunger."
+				)
+			
 			var requested_amount := int(
 				result.get("amount", 1)
 			)
@@ -229,8 +264,6 @@ func _on_interaction_completed(
 				get_viewport().get_canvas_transform()
 				* player.global_position
 			)
-
-
 
 			if resource.is_depleted:
 				player_interaction.remove_target(
@@ -280,6 +313,10 @@ func _update_entire_hud() -> void:
 		backpack.get_current_weight(),
 		backpack.maximum_weight
 	)
+	hud.set_hunger(
+		current_hunger,
+		maximum_hunger
+	)
 
 func _on_interaction_prompt_changed(text: String) -> void:
 	if text.is_empty():
@@ -300,6 +337,10 @@ func _open_camp_menu(camp: Camp) -> void:
 	
 	day_cycle.set_running(false)
 	_refresh_camp_menu()
+	if current_hunger < maximum_hunger_for_eating:
+		camp_menu.show_message(
+			"Press F to eat Food from storage"
+		)
 
 
 func _refresh_camp_menu() -> void:
@@ -441,25 +482,6 @@ func _on_day_ended(day: int) -> void:
 	if game_finished:
 		return
 
-	var food_type := ResourceTypes.Type.FOOD
-
-	if inventory.remove_resource(food_type, 1):
-		print("Consumed 1 Food from camp storage.")
-		return
-
-	if backpack.remove_resource(food_type, 1):
-		hud.show_resource_gain(
-			"-1 Food from backpack",
-			_get_player_screen_position()
-		)
-
-		print("Consumed 1 Food from backpack.")
-		return
-
-	_finish_game(
-		"Defeat",
-		"Your supplies ran out before the cabin was complete."
-	)
 
 
 func _on_survival_period_completed() -> void:
@@ -906,22 +928,9 @@ func _set_tutorial_step(
 			_save_contextual_tutorial_completed()
 
 
-func _process(_delta: float) -> void:
-	if tutorial_step != TutorialStep.MOVEMENT:
-		return
-
-	var distance_moved := (
-		player.global_position.distance_to(
-			tutorial_start_position
-		)
-	)
-
-	if distance_moved < tutorial_movement_distance:
-		return
-
-	_set_tutorial_step(
-		TutorialStep.GATHERING
-	)
+func _process(delta: float) -> void:
+	_update_hunger(delta)
+	_update_movement_tutorial()
 
 func _was_contextual_tutorial_completed() -> bool:
 	var config := ConfigFile.new()
@@ -957,3 +966,191 @@ func _save_contextual_tutorial_completed() -> void:
 			"Could not save tutorial completion."
 
 		)
+
+func _update_hunger(delta: float) -> void:
+	if game_finished:
+		return
+
+	if not day_cycle.running:
+		return
+
+	current_hunger = maxf(
+		current_hunger
+			- hunger_decrease_per_second * delta,
+		0.0
+	)
+
+	hud.set_hunger(
+		current_hunger,
+		maximum_hunger
+	)
+
+	_check_hunger_warnings()
+
+	if current_hunger <= 0.0:
+		_finish_game(
+			"Defeat",
+			"You collapsed from hunger before the cabin was complete."
+		)
+
+func _update_movement_tutorial() -> void:
+	if tutorial_step != TutorialStep.MOVEMENT:
+		return
+
+	var distance_moved := (
+		player.global_position.distance_to(
+			tutorial_start_position
+		)
+	)
+
+	if distance_moved < tutorial_movement_distance:
+		return
+
+	_set_tutorial_step(
+		TutorialStep.GATHERING
+	)
+
+func _check_hunger_warnings() -> void:
+	var hunger_ratio := (
+		current_hunger / maximum_hunger
+	)
+
+	if (
+		hunger_ratio <= 0.30
+		and not critical_hunger_warning_shown
+	):
+		critical_hunger_warning_shown = true
+
+		hud.show_milestone(
+			"STARVING!\nEAT FOOD SOON"
+		)
+
+		return
+
+	if (
+		hunger_ratio <= 0.60
+		and not low_hunger_warning_shown
+	):
+		low_hunger_warning_shown = true
+
+		hud.show_milestone(
+			"YOU ARE GETTING HUNGRY\nPRESS F TO EAT"
+		)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_action_pressed("eat_food"):
+		return
+
+	if event.is_echo():
+		return
+
+	_try_eat_food()
+
+func _try_eat_food() -> void:
+	if game_finished:
+		return
+
+	var camp_menu_is_open := (
+		is_instance_valid(active_camp)
+		and camp_menu.visible
+	)
+
+	if not day_cycle.running and not camp_menu_is_open:
+		return
+
+	if current_hunger >= maximum_hunger_for_eating:
+		_play_ui_denied()
+
+		hud.show_resource_gain(
+			"You are not hungry enough",
+			_get_player_screen_position()
+		)
+
+		return
+
+	var food_type := ResourceTypes.Type.FOOD
+	var food_source := ""
+
+	# Carried food can be eaten anywhere.
+	if backpack.remove_resource(
+		food_type,
+		1
+	):
+		food_source = "backpack"
+
+	# Camp storage can only be used while standing near camp.
+	elif (
+		(
+			player_interaction.has_target(camp)
+			or camp_menu_is_open
+		)
+		and inventory.remove_resource(food_type, 1)
+	):
+		food_source = "camp"
+
+	if food_source.is_empty():
+		_play_ui_denied()
+
+		if player_interaction.has_target(camp):
+			hud.show_resource_gain(
+				"No Food available",
+				_get_player_screen_position()
+			)
+		else:
+			hud.show_resource_gain(
+				"No Food in backpack",
+				_get_player_screen_position()
+			)
+
+		return
+
+	var previous_hunger := current_hunger
+
+	current_hunger = minf(
+		current_hunger + food_hunger_restoration,
+		maximum_hunger
+	)
+
+	var restored_hunger := (
+		current_hunger - previous_hunger
+	)
+
+	hud.set_hunger(
+		current_hunger,
+		maximum_hunger
+	)
+
+	_reset_hunger_warnings()
+	
+	player_animation.play_eating_feedback()
+	hud.play_hunger_gain_feedback()
+	
+	if tutorial_step == TutorialStep.COMPLETE:
+		hud.hide_tutorial_hint()
+
+	var source_text := (
+		"Backpack"
+		if food_source == "backpack"
+		else "Camp storage"
+	)
+
+	hud.show_resource_gain(
+		"+%d Hunger · %s" % [
+			roundi(restored_hunger),
+			source_text
+		],
+		_get_player_screen_position()
+	)
+
+	_play_ui_click()
+
+func _reset_hunger_warnings() -> void:
+	var hunger_ratio := (
+		current_hunger / maximum_hunger
+	)
+
+	if hunger_ratio > 0.60:
+		low_hunger_warning_shown = false
+
+	if hunger_ratio > 0.30:
+		critical_hunger_warning_shown = false

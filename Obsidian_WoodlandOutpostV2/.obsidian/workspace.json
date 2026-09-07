@@ -4,37 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "8052c513a20360b9",
+        "id": "4ab0eaba7e5a6059",
         "type": "tabs",
         "children": [
           {
-            "id": "5f7af5ab7bc37486",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "berry_bush_01.png"
-              },
-              "icon": "lucide-image",
-              "title": "berry_bush_01"
-            }
-          },
-          {
-            "id": "1521d463eb4cc263",
+            "id": "66fdcf3f11d99201",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0.2.1 Make the forest alive/Phase 14.3 --- what happen to the depleted resources.md",
+                "file": "0.2.2 Hunger Games/Phase 4 -- Backpack!.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Phase 14.3 --- what happen to the depleted resources"
+              "title": "Phase 4 -- Backpack!"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -112,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "## Phase 1 — Create the project foundation.md",
+                "file": "0.2.2 Hunger Games/Phase 4 -- Backpack!.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -174,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "## Phase 1 — Create the project foundation.md",
+                "file": "0.2.2 Hunger Games/Phase 4 -- Backpack!.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -183,7 +170,8 @@
               "title": "Struttura"
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -201,8 +189,24 @@
       "bases:Crea nuova Base": false
     }
   },
-  "active": "1521d463eb4cc263",
+  "active": "66fdcf3f11d99201",
   "lastOpenFiles": [
+    "Pasted image 20260907164852.png.import",
+    "Pasted image 20260907164908.png.import",
+    "Pasted image 20260907164908.png",
+    "Pasted image 20260907164852.png",
+    "0.2.2 Hunger Games/Phase 3 -- animation.md",
+    "0.2.2 Hunger Games/Phase 4 -- Backpack!.md",
+    "eat_food_01.wav.import",
+    "eat_food_01.wav",
+    "0.2.1 Make the forest alive/Phase 14.3 --- what happen to the depleted resources.md",
+    "berry_bush_01.png",
+    "Senza nome 1.canvas",
+    "Senza nome.canvas",
+    "0.2.2 Hunger Games/Phase 2 — Eat from camp storage.md",
+    "0.2.2 Hunger Games/Phase 1 — Eat from backpack.md",
+    "0.2.2 Hunger Games/0.2.2 Hunger games!.md",
+    "0.2.2 Hunger Games",
     "empty_bush.png.import",
     "tree_stump.png.import",
     "rock_hole.png.import",
@@ -210,7 +214,6 @@
     "empty_bush.png",
     "tree_stump.png",
     "0.2.1 Make the forest alive/Phase 14.2 --- more resouces, less harvest value.md",
-    "0.2.1 Make the forest alive/Phase 14.3 --- what happen to the depleted resources.md",
     "0.2.1 Make the forest alive/Phase 14 --- renew.md",
     "0.2.1 Make the forest alive/Phase 13.2 — Make clusters form natural islands.md",
     "0.2.1 Make the forest alive/Phase 13.1.2 -- highlight the resources.md",
@@ -222,18 +225,11 @@
     "0.2.1 Make the forest alive/Phase 12.2 — Match interaction feedback to the new sprites.md",
     "0.2.1 Make the forest alive/Phase 12.1 — Deterministic resource variants.md",
     "woodland_resources_v5_connected_shadows.zip",
-    "woodland_resources_v3_padded.zip",
-    "resource_atlas_v3.png.import",
-    "tree_01_v3.png.import",
-    "rock_01_v3.png.import",
-    "berry_bush_01_v3.png.import",
     "rock_01_v3.png",
     "berry_bush_01_v3.png",
     "tree_01_v3.png",
-    "resource_atlas_v3.png",
     "0.2.1 Make the forest alive/Phase 11.4 — Forest-floor variety.md",
     "0.2.1 Make the forest alive/Phase 11.3 — Replace procedural drawings with the sprite atlas.md",
-    "woodland_decorations_atlas.png",
     "0.2.1 Make the forest alive/Phase 11.2 — Dense undergrowth clusters.md",
     "0.2.1 Make the forest alive/Phase 10.7 — Campfire embers.md",
     "0.2.1 Make the forest alive/Phase 10.6 — Drifting leaves.md",
@@ -242,12 +238,6 @@
     "0.2.1 Make the forest alive/Phase 10.3 — Butterflies and fireflies.md",
     "0.2.1 Make the forest alive/Phase 10.2 — Natural decoration clusters.md",
     "0.2.1 Make the forest alive/Phase 10.1 — Procedural forest decorations.md",
-    "Versioning/v0.2.0.1/DevLog - Woodland Outpost v0.2.0 — A Bigger Forest and Better Expeditions!.md",
-    "Versioning/v0.2.0.1/Stats.md",
-    "Versioning/v0.2.0.1/README.md",
-    "Versioning/v0.2.0.1/Itch.io Description.md",
-    "0.2.1 Make the forest alive/0. Roadmap.md",
-    "0. Dev diary/Senza nome.md",
-    "Screenshot 2026-09-02 141934 1.png"
+    "Versioning/v0.2.0.1/DevLog - Woodland Outpost v0.2.0 — A Bigger Forest and Better Expeditions!.md"
   ]
 }

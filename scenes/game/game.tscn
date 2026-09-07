@@ -183,7 +183,19 @@ position = Vector2(640, 352)
 
 [node name="HUD" parent="Interface" unique_id=143992237 instance=ExtResource("3_bdhmt")]
 
-[node name="BackpackLabel" type="Label" parent="Interface/HUD/TopBar/MarginContainer/ResourceRow" parent_id_path=PackedInt32Array(143992237, 533683390) index="8" unique_id=276002666]
+[node name="HungerLabel" type="Label" parent="Interface/HUD/TopBar/MarginContainer/ResourceRow" parent_id_path=PackedInt32Array(143992237, 533683390) index="8" unique_id=2144962277]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Hunger"
+
+[node name="HungerBar" type="ProgressBar" parent="Interface/HUD/TopBar/MarginContainer/ResourceRow" parent_id_path=PackedInt32Array(143992237, 533683390) index="9" unique_id=810242865]
+custom_minimum_size = Vector2(110, 14)
+layout_mode = 2
+mouse_filter = 2
+step = 1.0
+value = 100.0
+
+[node name="BackpackLabel" type="Label" parent="Interface/HUD/TopBar/MarginContainer/ResourceRow" parent_id_path=PackedInt32Array(143992237, 533683390) index="10" unique_id=276002666]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.9490196, 0.81960785, 0.41960785, 1)
@@ -366,7 +378,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
 theme_override_font_sizes/font_size = 12
-text = "E — Gather or interact"
+text = "E — Gather or interact
+F — Eat carried Food"
 vertical_alignment = 1
 autowrap_mode = 3
 
@@ -433,7 +446,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
 theme_override_font_sizes/font_size = 12
-text = "One food is consumed each day.
+text = "Hunger decreases throughout the day.
+Carry Food and press F to eat.
+Near camp, you can also eat from storage.
+If Hunger reaches zero, the game is lost.
 Complete the cabin before winter."
 vertical_alignment = 1
 autowrap_mode = 3

@@ -71,6 +71,12 @@ extends Control
 	$TutorialHint/MarginContainer/TutorialLabel
 )
 
+@onready var hunger_bar: ProgressBar = (
+	$TopBar/MarginContainer/ResourceRow/HungerBar
+)
+
+var hunger_state := ""
+
 var tutorial_hint_tween: Tween
 
 var delivery_tween: Tween
@@ -83,6 +89,8 @@ var resource_label_tweens: Dictionary = {}
 var resource_gain_tween: Tween
 
 var interaction_prompt_tween: Tween
+
+var hunger_feedback_tween: Tween
 
 func set_resource_amount(
 	resource_type: int,
@@ -124,7 +132,10 @@ func _ready() -> void:
 	delivery_popup.hide()
 	milestone_popup.hide()
 	tutorial_hint.hide()
-
+	hunger_bar.min_value = 0.0
+	hunger_bar.max_value = 100.0
+	hunger_bar.value = 100.0
+	hunger_bar.show_percentage = true
 
 
 func set_day(
@@ -558,3 +569,63 @@ func _finish_hiding_tutorial_hint() -> void:
 	tutorial_hint.hide()
 	tutorial_hint.modulate.a = 1.0
 	tutorial_hint.scale = Vector2.ONE
+
+func set_hunger(
+	current_hunger: float,
+	maximum_hunger: float
+) -> void:
+	hunger_bar.max_value = maximum_hunger
+	hunger_bar.value = current_hunger
+
+	var ratio := current_hunger / maximum_hunger
+	var new_state := "well_fed"
+
+	if ratio <= 0.30:
+		new_state = "starving"
+	elif ratio <= 0.60:
+		new_state = "hungry"
+
+	if new_state == hunger_state:
+		return
+
+	hunger_state = new_state
+
+	match hunger_state:
+		"starving":
+			hunger_bar.modulate = Color("#e36b5d")
+
+		"hungry":
+			hunger_bar.modulate = Color("#f2d479")
+
+		_:
+			hunger_bar.modulate = Color("#8fc96b")
+
+func play_hunger_gain_feedback() -> void:
+	if hunger_feedback_tween != null:
+		hunger_feedback_tween.kill()
+
+	hunger_bar.pivot_offset = (
+		hunger_bar.size / 2.0
+	)
+
+	hunger_bar.scale = Vector2.ONE
+
+	hunger_feedback_tween = create_tween()
+
+	hunger_feedback_tween.tween_property(
+		hunger_bar,
+		"scale",
+		Vector2(1.12, 1.20),
+		0.10
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	hunger_feedback_tween.tween_property(
+		hunger_bar,
+		"scale",
+		Vector2.ONE,
+		0.18
+	)

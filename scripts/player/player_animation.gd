@@ -19,12 +19,15 @@ var is_gathering := false
 var gathering_time := 0.0
 var gathering_target_position := Vector2.ZERO
 var resting_position := Vector2.ZERO
+var eating_tween: Tween
 
 @onready var player: Player = get_parent()
 @onready var footstep_sound: AudioStreamPlayer = (
 	$"../FootstepSound"
 )
-
+@onready var eat_sound: AudioStreamPlayer = (
+	$"../EatSound"
+)
 func _ready() -> void:
 	resting_position = position
 	
@@ -203,3 +206,46 @@ func _update_facing_toward(
 func _reset_gathering_transform() -> void:
 	position = resting_position
 	rotation = 0.0
+
+func play_eating_feedback() -> void:
+	if eating_tween != null:
+		eating_tween.kill()
+
+	scale = Vector2.ONE
+
+	eating_tween = create_tween()
+
+	eating_tween.tween_property(
+		self,
+		"scale",
+		Vector2(1.12, 0.90),
+		0.10
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	eating_tween.tween_property(
+		self,
+		"scale",
+		Vector2(0.96, 1.10),
+		0.10
+	)
+
+	eating_tween.tween_property(
+		self,
+		"scale",
+		Vector2.ONE,
+		0.12
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+	if eat_sound.stream != null:
+		eat_sound.pitch_scale = randf_range(
+			0.96,
+			1.04
+		)
+		eat_sound.play()
