@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0.2.2 Hunger Games/Phase 4 -- Backpack!.md",
+                "file": "0.2.2 Hunger Games/Phase 5.2 -- opening animation.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Phase 4 -- Backpack!"
+              "title": "Phase 5.2 -- opening animation"
             }
           }
         ]
@@ -83,7 +83,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "right": {
     "id": "82b6a4700c6a6312",
@@ -191,12 +191,20 @@
   },
   "active": "66fdcf3f11d99201",
   "lastOpenFiles": [
+    "0.2.2 Hunger Games/Phase 5.1 -- Backpack redraw.md",
+    "0.2.2 Hunger Games/Phase 5.2 -- opening animation.md",
+    "Pasted image 20260908140235.png.import",
+    "backpack_view.gd.uid",
+    "backpack_view.gd",
+    "backpack_icons_pack.zip",
+    "Pasted image 20260908140235.png",
+    "0.2.2 Hunger Games/Phase 5 -- Polish the backpack.md",
+    "0.2.2 Hunger Games/Phase 4 -- Backpack!.md",
     "Pasted image 20260907164852.png.import",
     "Pasted image 20260907164908.png.import",
     "Pasted image 20260907164908.png",
     "Pasted image 20260907164852.png",
     "0.2.2 Hunger Games/Phase 3 -- animation.md",
-    "0.2.2 Hunger Games/Phase 4 -- Backpack!.md",
     "eat_food_01.wav.import",
     "eat_food_01.wav",
     "0.2.1 Make the forest alive/Phase 14.3 --- what happen to the depleted resources.md",
@@ -208,8 +216,6 @@
     "0.2.2 Hunger Games/0.2.2 Hunger games!.md",
     "0.2.2 Hunger Games",
     "empty_bush.png.import",
-    "tree_stump.png.import",
-    "rock_hole.png.import",
     "rock_hole.png",
     "empty_bush.png",
     "tree_stump.png",
@@ -218,16 +224,12 @@
     "0.2.1 Make the forest alive/Phase 13.2 — Make clusters form natural islands.md",
     "0.2.1 Make the forest alive/Phase 13.1.2 -- highlight the resources.md",
     "0.2.1 Make the forest alive/Phase 13.1 — Lightweight forest-cluster layer.md",
-    "Pasted image 20260906171110.png.import",
     "0.2.1 Make the forest alive/Phase 13.0 -- more forest!.md",
-    "forest_cluster_pack.zip",
     "Pasted image 20260906171110.png",
     "0.2.1 Make the forest alive/Phase 12.2 — Match interaction feedback to the new sprites.md",
     "0.2.1 Make the forest alive/Phase 12.1 — Deterministic resource variants.md",
-    "woodland_resources_v5_connected_shadows.zip",
     "rock_01_v3.png",
     "berry_bush_01_v3.png",
-    "tree_01_v3.png",
     "0.2.1 Make the forest alive/Phase 11.4 — Forest-floor variety.md",
     "0.2.1 Make the forest alive/Phase 11.3 — Replace procedural drawings with the sprite atlas.md",
     "0.2.1 Make the forest alive/Phase 11.2 — Dense undergrowth clusters.md",
@@ -236,8 +238,6 @@
     "0.2.1 Make the forest alive/Phase 10.5 — Gentle vegetation movement.md",
     "0.2.1 Make the forest alive/Phase 10.4 — Wildlife habitats.md",
     "0.2.1 Make the forest alive/Phase 10.3 — Butterflies and fireflies.md",
-    "0.2.1 Make the forest alive/Phase 10.2 — Natural decoration clusters.md",
-    "0.2.1 Make the forest alive/Phase 10.1 — Procedural forest decorations.md",
-    "Versioning/v0.2.0.1/DevLog - Woodland Outpost v0.2.0 — A Bigger Forest and Better Expeditions!.md"
+    "0.2.1 Make the forest alive/Phase 10.2 — Natural decoration clusters.md"
   ]
 }

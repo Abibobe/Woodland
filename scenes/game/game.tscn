@@ -35,6 +35,9 @@
 [ext_resource type="Script" uid="uid://uqcdgex4frn6" path="res://scripts/game/camp_indicator.gd" id="22_2vph8"]
 [ext_resource type="AudioStream" uid="uid://dr2l8neevixa7" path="res://assets/audio/sfx/forest_night_loop_01.wav" id="22_8b66f"]
 [ext_resource type="Script" uid="uid://dlmujdvsoxu7n" path="res://scripts/ui/backpack_view.gd" id="23_vbi6r"]
+[ext_resource type="Texture2D" uid="uid://b510l4kpm2awq" path="res://assets/ui/backpack/backpack_food.png" id="24_e3lpd"]
+[ext_resource type="Texture2D" uid="uid://dsoxn7cduyjmj" path="res://assets/ui/backpack/backpack_wood.png" id="25_au6n5"]
+[ext_resource type="Texture2D" uid="uid://c8t00sdwcx2ir" path="res://assets/ui/backpack/backpack_stone.png" id="26_tcm0m"]
 [ext_resource type="Script" uid="uid://dr3obmbemhh42" path="res://scripts/game/forest_decorator.gd" id="29_0gkf7"]
 [ext_resource type="Script" uid="uid://cofp1pi5dm41i" path="res://scripts/game/forest_life.gd" id="30_6ehwc"]
 [ext_resource type="Texture2D" uid="uid://cn7nulrnpbbdc" path="res://assets/environment/woodland_decorations_atlas.png" id="30_tyhjx"]
@@ -1204,6 +1207,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("23_vbi6r")
+food_icon = ExtResource("24_e3lpd")
+wood_icon = ExtResource("25_au6n5")
+stone_icon = ExtResource("26_tcm0m")
 
 [node name="Background" type="ColorRect" parent="Interface/BackpackView" unique_id=99764789]
 layout_mode = 1
@@ -1212,7 +1218,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.03137255, 0.0627451, 0.047058824, 0.6509804)
+color = Color(0.03137255, 0.0627451, 0.047058824, 0.8509804)
 
 [node name="CenterContainer" type="CenterContainer" parent="Interface/BackpackView" unique_id=307153397]
 layout_mode = 1
@@ -1242,6 +1248,8 @@ layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content/Header" unique_id=1843122499]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+theme_override_font_sizes/font_size = 18
 text = "BACKPACK"
 
 [node name="Spacer" type="Control" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content/Header" unique_id=780445819]
@@ -1250,13 +1258,11 @@ size_flags_horizontal = 3
 
 [node name="CapacityLabel" type="Label" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content/Header" unique_id=1527194888]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
 text = "0 / 12 KG"
 
-[node name="SlotGrid" type="GridContainer" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content" unique_id=1141792248]
+[node name="SlotGrid" type="Control" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content" unique_id=1786014769]
 layout_mode = 2
-theme_override_constants/h_separation = 6
-theme_override_constants/v_separation = 6
-columns = 4
 
 [node name="SummaryLabel" type="Label" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content" unique_id=335022761]
 layout_mode = 2

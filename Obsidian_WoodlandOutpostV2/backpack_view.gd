@@ -1,6 +1,6 @@
 class_name BackpackView
 extends Control
-signal view_closed
+
 
 @export_category("Resource Icons")
 @export var food_icon: Texture2D
@@ -28,12 +28,6 @@ signal view_closed
 	Content/HintLabel
 )
 
-@onready var background: ColorRect = $Background
-
-@onready var backpack_panel: PanelContainer = (
-	$CenterContainer/BackpackPanel
-)
-
 
 const GRID_COLUMNS := 6
 const SLOT_SIZE := Vector2(56.0, 56.0)
@@ -53,8 +47,6 @@ var background_slots: Array[PanelContainer] = []
 var item_blocks: Array[PanelContainer] = []
 var current_slot_count := 0
 
-var view_tween: Tween
-var is_closing := false
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -67,111 +59,18 @@ func open_view(
 	current_weight: int,
 	maximum_weight: int
 ) -> void:
-	if view_tween != null:
-		view_tween.kill()
-
-	is_closing = false
-
 	_refresh_slots(
 		contents,
 		current_weight,
 		maximum_weight
 	)
 
-	background.modulate.a = 0.0
-	backpack_panel.modulate.a = 0.0
-	backpack_panel.scale = Vector2(0.92, 0.92)
-
 	show()
-
-	backpack_panel.pivot_offset = (
-		backpack_panel.size / 2.0
-	)
-
-	view_tween = create_tween()
-	view_tween.set_parallel(true)
-
-	view_tween.tween_property(
-		background,
-		"modulate:a",
-		1.0,
-		0.16
-	)
-
-	view_tween.tween_property(
-		backpack_panel,
-		"modulate:a",
-		1.0,
-		0.12
-	)
-
-	view_tween.tween_property(
-		backpack_panel,
-		"scale",
-		Vector2.ONE,
-		0.20
-	).set_trans(
-		Tween.TRANS_BACK
-	).set_ease(
-		Tween.EASE_OUT
-	)
 
 
 func close_view() -> void:
-	if not visible:
-		return
-
-	if is_closing:
-		return
-
-	is_closing = true
-
-	if view_tween != null:
-		view_tween.kill()
-
-	view_tween = create_tween()
-	view_tween.set_parallel(true)
-
-	view_tween.tween_property(
-		background,
-		"modulate:a",
-		0.0,
-		0.12
-	)
-
-	view_tween.tween_property(
-		backpack_panel,
-		"modulate:a",
-		0.0,
-		0.10
-	)
-
-	view_tween.tween_property(
-		backpack_panel,
-		"scale",
-		Vector2(0.96, 0.96),
-		0.12
-	).set_trans(
-		Tween.TRANS_QUAD
-	).set_ease(
-		Tween.EASE_IN
-	)
-
-	view_tween.set_parallel(false)
-
-	view_tween.tween_callback(
-		_finish_closing
-	)
-
-func _finish_closing() -> void:
 	hide()
 
-	background.modulate.a = 1.0
-	backpack_panel.modulate.a = 1.0
-	backpack_panel.scale = Vector2.ONE
-
-	is_closing = false
-	view_closed.emit()
 
 func refresh(
 	contents: Dictionary,

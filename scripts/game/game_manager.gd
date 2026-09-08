@@ -193,7 +193,9 @@ func _ready() -> void:
 		_on_deposit_timer_timeout
 	)
 
-
+	backpack_view.view_closed.connect(
+		_on_backpack_view_closed
+	)
 	_update_entire_hud()
 	
 
@@ -1050,6 +1052,10 @@ func _unhandled_input(
 		return
 
 	if backpack_view.visible:
+		if backpack_view.is_closing:
+			get_viewport().set_input_as_handled()
+			return
+			
 		if (
 			event.is_action_pressed(
 				"toggle_backpack"
@@ -1233,6 +1239,7 @@ func _open_backpack_view() -> void:
 
 	day_cycle.set_running(false)
 	hud.hide_interaction_prompt()
+	hud.hide()
 
 	backpack_view.open_view(
 		backpack.get_all_resources(),
@@ -1247,13 +1254,16 @@ func _close_backpack_view() -> void:
 
 	backpack_view.close_view()
 
+func _on_backpack_view_closed() -> void:
 	if game_finished:
 		return
+
+	hud.show()
 
 	player.set_movement_enabled(true)
 
 	player_interaction.set_process_unhandled_input(
-		true
+	true
 	)
 
 	player_interaction.refresh_prompt()
