@@ -34,6 +34,7 @@
 [ext_resource type="AudioStream" uid="uid://bayq26wwpev15" path="res://assets/audio/sfx/forest_ambience_loop_01.wav" id="21_gc57s"]
 [ext_resource type="Script" uid="uid://uqcdgex4frn6" path="res://scripts/game/camp_indicator.gd" id="22_2vph8"]
 [ext_resource type="AudioStream" uid="uid://dr2l8neevixa7" path="res://assets/audio/sfx/forest_night_loop_01.wav" id="22_8b66f"]
+[ext_resource type="Script" uid="uid://dlmujdvsoxu7n" path="res://scripts/ui/backpack_view.gd" id="23_vbi6r"]
 [ext_resource type="Script" uid="uid://dr3obmbemhh42" path="res://scripts/game/forest_decorator.gd" id="29_0gkf7"]
 [ext_resource type="Script" uid="uid://cofp1pi5dm41i" path="res://scripts/game/forest_life.gd" id="30_6ehwc"]
 [ext_resource type="Texture2D" uid="uid://cn7nulrnpbbdc" path="res://assets/environment/woodland_decorations_atlas.png" id="30_tyhjx"]
@@ -1191,6 +1192,80 @@ theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
 theme_override_colors/font_outline_color = Color(0.09019608, 0.13725491, 0.11372549, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+
+[node name="BackpackView" type="Control" parent="Interface" unique_id=1565082177]
+visible = false
+z_index = 80
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("23_vbi6r")
+
+[node name="Background" type="ColorRect" parent="Interface/BackpackView" unique_id=99764789]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03137255, 0.0627451, 0.047058824, 0.6509804)
+
+[node name="CenterContainer" type="CenterContainer" parent="Interface/BackpackView" unique_id=307153397]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackpackPanel" type="PanelContainer" parent="Interface/BackpackView/CenterContainer" unique_id=1968775998]
+custom_minimum_size = Vector2(430, 330)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Interface/BackpackView/CenterContainer/BackpackPanel" unique_id=1585705857]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Content" type="VBoxContainer" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer" unique_id=389475387]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content" unique_id=994257448]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content/Header" unique_id=1843122499]
+layout_mode = 2
+text = "BACKPACK"
+
+[node name="Spacer" type="Control" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content/Header" unique_id=780445819]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CapacityLabel" type="Label" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content/Header" unique_id=1527194888]
+layout_mode = 2
+text = "0 / 12 KG"
+
+[node name="SlotGrid" type="GridContainer" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content" unique_id=1141792248]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 4
+
+[node name="SummaryLabel" type="Label" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content" unique_id=335022761]
+layout_mode = 2
+text = "Food 0  •  Wood 0  •  Stone 0"
+horizontal_alignment = 1
+
+[node name="HintLabel" type="Label" parent="Interface/BackpackView/CenterContainer/BackpackPanel/MarginContainer/Content" unique_id=822973125]
+layout_mode = 2
+text = "TAB — Close    F — Eat Food"
 horizontal_alignment = 1
 
 [node name="World" type="Node2D" parent="." unique_id=822583601]

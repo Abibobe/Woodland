@@ -104,6 +104,9 @@ var maximum_hunger_for_eating := 85.0
 	$Entities/Player/PlayerVisual
 )
 
+@onready var backpack_view: BackpackView = (
+	$Interface/BackpackView
+)
 
 var ambience_crossfade_tween: Tween
 
@@ -174,6 +177,9 @@ func _ready() -> void:
 	backpack.weight_changed.connect(
 		_on_backpack_weight_changed
 	)
+	backpack.resource_changed.connect(
+		_on_backpack_resource_changed
+	)
 
 	player_interaction.interaction_target_entered.connect(
 		_on_interaction_target_entered
@@ -189,7 +195,7 @@ func _ready() -> void:
 
 
 	_update_entire_hud()
-
+	
 
 func _on_interaction_completed(
 	result: Dictionary
@@ -1037,14 +1043,42 @@ func _check_hunger_warnings() -> void:
 			"YOU ARE GETTING HUNGRY\nPRESS F TO EAT"
 		)
 
-func _unhandled_input(event: InputEvent) -> void:
-	if not event.is_action_pressed("eat_food"):
-		return
-
+func _unhandled_input(
+	event: InputEvent
+) -> void:
 	if event.is_echo():
 		return
 
-	_try_eat_food()
+	if backpack_view.visible:
+		if (
+			event.is_action_pressed(
+				"toggle_backpack"
+			)
+			or event.is_action_pressed("ui_cancel")
+		):
+			_close_backpack_view()
+			get_viewport().set_input_as_handled()
+			return
+
+		if event.is_action_pressed("eat_food"):
+			_try_eat_food()
+			_refresh_backpack_view()
+
+			get_viewport().set_input_as_handled()
+			return
+
+		return
+
+	if event.is_action_pressed(
+		"toggle_backpack"
+	):
+		_open_backpack_view()
+		get_viewport().set_input_as_handled()
+		return
+
+	if event.is_action_pressed("eat_food"):
+		_try_eat_food()
+		get_viewport().set_input_as_handled()
 
 func _try_eat_food() -> void:
 	if game_finished:
@@ -1055,7 +1089,15 @@ func _try_eat_food() -> void:
 		and camp_menu.visible
 	)
 
-	if not day_cycle.running and not camp_menu_is_open:
+	var backpack_view_is_open := (
+		backpack_view.visible
+	)
+
+	if (
+		not day_cycle.running
+		and not camp_menu_is_open
+		and not backpack_view_is_open
+	):
 		return
 
 	if current_hunger >= maximum_hunger_for_eating:
@@ -1154,3 +1196,65 @@ func _reset_hunger_warnings() -> void:
 
 	if hunger_ratio > 0.30:
 		critical_hunger_warning_shown = false
+
+func _refresh_backpack_view() -> void:
+	if not backpack_view.visible:
+		return
+
+	backpack_view.refresh(
+		backpack.get_all_resources(),
+		backpack.get_current_weight(),
+		backpack.maximum_weight
+	)
+
+
+func _on_backpack_resource_changed(
+	_resource_type: int,
+	_new_amount: int
+) -> void:
+	_refresh_backpack_view()
+
+
+func _open_backpack_view() -> void:
+	if game_finished:
+		return
+
+	if camp_menu.visible:
+		return
+
+	if main_menu.visible:
+		return
+
+	player.set_movement_enabled(false)
+
+	player_interaction.set_process_unhandled_input(
+		false
+	)
+
+	day_cycle.set_running(false)
+	hud.hide_interaction_prompt()
+
+	backpack_view.open_view(
+		backpack.get_all_resources(),
+		backpack.get_current_weight(),
+		backpack.maximum_weight
+	)
+
+
+func _close_backpack_view() -> void:
+	if not backpack_view.visible:
+		return
+
+	backpack_view.close_view()
+
+	if game_finished:
+		return
+
+	player.set_movement_enabled(true)
+
+	player_interaction.set_process_unhandled_input(
+		true
+	)
+
+	player_interaction.refresh_prompt()
+	day_cycle.set_running(true)
