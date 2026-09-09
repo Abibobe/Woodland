@@ -6,15 +6,18 @@ signal view_closed
 
 
 @onready var capacity_label: Label = (
-	$CenterContainer/BackpackPanel/MarginContainer/Content/Header/CapacityLabel
+	$CenterContainer/BackpackPanel/MarginContainer/
+	Content/Header/CapacityLabel
 )
 
 @onready var backpack_grid: BackpackGrid = (
-	$CenterContainer/BackpackPanel/MarginContainer/Content/BackpackGrid
+	$CenterContainer/BackpackPanel/MarginContainer/
+	Content/BackpackGrid
 )
 
 @onready var summary_label: Label = (
-	$CenterContainer/BackpackPanel/MarginContainer/Content/SummaryLabel
+	$CenterContainer/BackpackPanel/MarginContainer/
+	Content/SummaryLabel
 )
 
 @onready var hint_label: Label = (

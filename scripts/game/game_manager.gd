@@ -1263,7 +1263,7 @@ func _on_backpack_view_closed() -> void:
 	player.set_movement_enabled(true)
 
 	player_interaction.set_process_unhandled_input(
-	true
+		true
 	)
 
 	player_interaction.refresh_prompt()

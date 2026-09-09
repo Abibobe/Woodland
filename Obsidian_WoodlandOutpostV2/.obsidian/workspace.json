@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0.2.2 Hunger Games/Phase 5.2 -- opening animation.md",
+                "file": "0.2.3 Camp storage/Phase 2 — Build the new camp interface shell.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Phase 5.2 -- opening animation"
+              "title": "Phase 2 — Build the new camp interface shell"
             }
           }
         ]
@@ -191,22 +191,27 @@
   },
   "active": "66fdcf3f11d99201",
   "lastOpenFiles": [
-    "0.2.2 Hunger Games/Phase 5.1 -- Backpack redraw.md",
+    "0.2.3 Camp storage/Phase 1.md",
+    "0.2.3 Camp storage/Phase 2 — Build the new camp interface shell.md",
+    "backpack_view 2.gd.uid",
+    "backpack_grid 1.gd.uid",
+    "backpack_grid 1.gd",
+    "backpack_view 2.gd",
+    "backpack_view 1.gd.uid",
+    "backpack_grid.gd.uid",
+    "backpack_grid.gd",
+    "backpack_view 1.gd",
+    "0.2.3 Camp storage/Phase 0 - Planning.md",
     "0.2.2 Hunger Games/Phase 5.2 -- opening animation.md",
+    "0.2.3 Camp storage",
+    "0.2.2 Hunger Games/Phase 5.1 -- Backpack redraw.md",
     "Pasted image 20260908140235.png.import",
-    "backpack_view.gd.uid",
-    "backpack_view.gd",
-    "backpack_icons_pack.zip",
     "Pasted image 20260908140235.png",
     "0.2.2 Hunger Games/Phase 5 -- Polish the backpack.md",
     "0.2.2 Hunger Games/Phase 4 -- Backpack!.md",
-    "Pasted image 20260907164852.png.import",
-    "Pasted image 20260907164908.png.import",
     "Pasted image 20260907164908.png",
     "Pasted image 20260907164852.png",
     "0.2.2 Hunger Games/Phase 3 -- animation.md",
-    "eat_food_01.wav.import",
-    "eat_food_01.wav",
     "0.2.1 Make the forest alive/Phase 14.3 --- what happen to the depleted resources.md",
     "berry_bush_01.png",
     "Senza nome 1.canvas",
@@ -214,8 +219,6 @@
     "0.2.2 Hunger Games/Phase 2 — Eat from camp storage.md",
     "0.2.2 Hunger Games/Phase 1 — Eat from backpack.md",
     "0.2.2 Hunger Games/0.2.2 Hunger games!.md",
-    "0.2.2 Hunger Games",
-    "empty_bush.png.import",
     "rock_hole.png",
     "empty_bush.png",
     "tree_stump.png",
@@ -235,9 +238,6 @@
     "0.2.1 Make the forest alive/Phase 11.2 — Dense undergrowth clusters.md",
     "0.2.1 Make the forest alive/Phase 10.7 — Campfire embers.md",
     "0.2.1 Make the forest alive/Phase 10.6 — Drifting leaves.md",
-    "0.2.1 Make the forest alive/Phase 10.5 — Gentle vegetation movement.md",
-    "0.2.1 Make the forest alive/Phase 10.4 — Wildlife habitats.md",
-    "0.2.1 Make the forest alive/Phase 10.3 — Butterflies and fireflies.md",
-    "0.2.1 Make the forest alive/Phase 10.2 — Natural decoration clusters.md"
+    "0.2.1 Make the forest alive/Phase 10.5 — Gentle vegetation movement.md"
   ]
 }
