@@ -189,12 +189,13 @@ func _ready() -> void:
 		_on_interaction_target_exited
 	)
 
-	deposit_timer.timeout.connect(
-		_on_deposit_timer_timeout
-	)
 
 	backpack_view.view_closed.connect(
 		_on_backpack_view_closed
+	)
+	
+	camp_menu.deposit_all_requested.connect(
+		_on_camp_deposit_all_requested
 	)
 	_update_entire_hud()
 	
@@ -363,6 +364,12 @@ func _refresh_camp_menu() -> void:
 		_format_cost(costs),
 		_can_afford(costs),
 		is_complete
+	)
+	camp_menu.refresh_resources(
+		backpack.get_all_resources(),
+		backpack.get_current_weight(),
+		backpack.maximum_weight,
+		inventory.get_all_resources()
 	)
 
 
@@ -720,27 +727,7 @@ func _show_backpack_full() -> void:
 func _on_interaction_target_entered(
 	target: InteractionTarget
 ) -> void:
-	if game_finished:
-		return
-
 	if not target is Camp:
-		return
-
-	if backpack.is_empty():
-		return
-
-	deposit_camp = target as Camp
-	deposit_timer.start()
-
-	hud.show_interaction_prompt(
-		"Depositing supplies..."
-	)
-
-
-func _on_interaction_target_exited(
-	target: InteractionTarget
-) -> void:
-	if target != deposit_camp:
 		return
 
 	if not deposit_timer.is_stopped():
@@ -748,10 +735,17 @@ func _on_interaction_target_exited(
 
 	deposit_camp = null
 
-	hud.show_resource_gain(
-		"Deposit cancelled",
-		_get_player_screen_position()
-	)
+
+func _on_interaction_target_exited(
+	target: InteractionTarget
+) -> void:
+	if not target is Camp:
+		return
+
+	if not deposit_timer.is_stopped():
+		deposit_timer.stop()
+
+	deposit_camp = null
 
 func _on_deposit_timer_timeout() -> void:
 	if deposit_camp == null:
@@ -1268,3 +1262,49 @@ func _on_backpack_view_closed() -> void:
 
 	player_interaction.refresh_prompt()
 	day_cycle.set_running(true)
+
+func _on_camp_deposit_all_requested() -> void:
+	if active_camp == null:
+		return
+
+	if backpack.is_empty():
+		camp_menu.show_message(
+			"Your backpack is empty"
+		)
+
+		_play_ui_denied()
+		return
+
+	_play_ui_click()
+
+	var delivered_resources := backpack.take_all()
+
+	for resource_type in delivered_resources:
+		var delivered_amount := int(
+			delivered_resources[resource_type]
+		)
+
+		if delivered_amount <= 0:
+			continue
+
+		inventory.add_resource(
+			int(resource_type),
+			delivered_amount
+		)
+
+	camp_menu.show_message(
+		_format_delivery_summary(
+			delivered_resources
+		)
+	)
+
+	if (
+		tutorial_step == TutorialStep.BACKPACK
+		or tutorial_step == TutorialStep.RETURN_TO_CAMP
+	):
+		_set_tutorial_step(
+			TutorialStep.CONSTRUCTION
+		)
+
+	_check_next_camp_stage_affordability()
+	_refresh_camp_menu()

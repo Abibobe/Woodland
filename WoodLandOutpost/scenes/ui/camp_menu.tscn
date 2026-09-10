@@ -1,0 +1,294 @@
+[gd_scene format=3 uid="uid://cqiauisgcm63r"]
+
+[ext_resource type="Script" uid="uid://db8gt014ap2n7" path="res://scripts/ui/camp_menu.gd" id="1_l3imh"]
+[ext_resource type="Texture2D" uid="uid://dvuiso3rw58p0" path="res://assets/ui/hud_resource_icons.png" id="2_1pxcn"]
+[ext_resource type="Texture2D" uid="uid://bv3fdrhx306b1" path="res://assets/building/camp_stages_strip.png" id="2_5dkbc"]
+[ext_resource type="Script" uid="uid://c2yberc7p4dbr" path="res://scripts/ui/backpack_grid.gd" id="4_ph5t1"]
+[ext_resource type="Texture2D" uid="uid://b510l4kpm2awq" path="res://assets/ui/backpack/backpack_food.png" id="5_ihnqk"]
+[ext_resource type="Texture2D" uid="uid://dsoxn7cduyjmj" path="res://assets/ui/backpack/backpack_wood.png" id="6_tin1x"]
+[ext_resource type="Texture2D" uid="uid://c8t00sdwcx2ir" path="res://assets/ui/backpack/backpack_stone.png" id="7_p8lpi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yf5fn"]
+atlas = ExtResource("2_1pxcn")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kt4tq"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.2627451, 0.36078432, 0.24313726, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.09019608, 0.14509805, 0.105882354, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kf6oj"]
+bg_color = Color(0.1882353, 0.26666668, 0.18039216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8862745, 0.7921569, 0.53333336, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ylw15"]
+bg_color = Color(0.34509805, 0.45882353, 0.30588236, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.83137256, 0.7372549, 0.4745098, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qjgc"]
+atlas = ExtResource("2_5dkbc")
+region = Rect2(192, 0, 64, 64)
+
+[node name="CampMenu" type="Control" unique_id=1019713792]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l3imh")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1097532919]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=2066736328]
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="Content" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=235327967]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Panel/MarginContainer/Content" unique_id=2049276205]
+layout_mode = 2
+text = "Build Campfire
+"
+
+[node name="CostRow" type="HBoxContainer" parent="Panel/MarginContainer/Content" unique_id=238346214]
+layout_mode = 2
+
+[node name="WoodCostIcon" type="TextureRect" parent="Panel/MarginContainer/Content/CostRow" unique_id=1305049253]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_yf5fn")
+stretch_mode = 5
+
+[node name="CostLabel" type="Label" parent="Panel/MarginContainer/Content/CostRow" unique_id=1631489784]
+layout_mode = 2
+text = "Cost: 5"
+
+[node name="MessageLabel" type="Label" parent="Panel/MarginContainer/Content" unique_id=1860516540]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/MarginContainer/Content" unique_id=1367119557]
+layout_mode = 2
+alignment = 1
+
+[node name="BuildButton" type="Button" parent="Panel/MarginContainer/Content/Buttons" unique_id=963643579]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.9490196, 0.90588236, 0.7882353, 1)
+theme_override_colors/font_hover_color = Color(1, 0.94509804, 0.7411765, 1)
+theme_override_colors/font_disabled_color = Color(0.4862745, 0.53333336, 0.4745098, 1)
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_kt4tq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kf6oj")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ylw15")
+text = "Build shelter"
+icon = SubResource("AtlasTexture_5qjgc")
+alignment = 0
+expand_icon = true
+
+[node name="CloseButton" type="Button" parent="Panel/MarginContainer/Content/Buttons" unique_id=1978587449]
+layout_mode = 2
+text = "Close"
+
+[node name="Background" type="ColorRect" parent="." unique_id=2055830191]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03137255, 0.0627451, 0.047058824, 0.8509804)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=356356872]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CampWorkspace" type="PanelContainer" parent="CenterContainer" unique_id=457860934]
+custom_minimum_size = Vector2(1040, 430)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/CampWorkspace" unique_id=250347003]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="MainRow" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer" unique_id=1418654286]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="BackpackSide" type="VBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow" unique_id=2146062103]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="BackpackHeader" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/BackpackSide" unique_id=1197434019]
+layout_mode = 2
+
+[node name="BackpackTitle" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/BackpackSide/BackpackHeader" unique_id=823879503]
+layout_mode = 2
+text = "BACKPACK"
+
+[node name="BackpackSpacer" type="Control" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/BackpackSide/BackpackHeader" unique_id=2021888377]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CapacityLabel" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/BackpackSide/BackpackHeader" unique_id=1592569263]
+layout_mode = 2
+text = "0 / 12 KG"
+
+[node name="BackpackGrid" type="Control" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/BackpackSide" unique_id=290647520]
+layout_mode = 2
+script = ExtResource("4_ph5t1")
+food_icon = ExtResource("5_ihnqk")
+wood_icon = ExtResource("6_tin1x")
+stone_icon = ExtResource("7_p8lpi")
+
+[node name="BackpackSummary" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/BackpackSide" unique_id=190874078]
+layout_mode = 2
+text = "Food 0 • Wood 0 • Stone 0"
+
+[node name="DepositAllButton" type="Button" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/BackpackSide" unique_id=966202523]
+layout_mode = 2
+text = "DEPOSIT ALL →"
+
+[node name="Divider" type="VSeparator" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow" unique_id=1102632004]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+
+[node name="CampSide" type="VBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow" unique_id=1043898962]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="CampHeader" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide" unique_id=1395179871]
+layout_mode = 2
+
+[node name="CampTitle" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/CampHeader" unique_id=879040609]
+layout_mode = 2
+text = "CAMP STORAGE"
+
+[node name="CampSpacer" type="Control" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/CampHeader" unique_id=1403573964]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StageLabel" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/CampHeader" unique_id=570670080]
+layout_mode = 2
+text = "SITE"
+
+[node name="StorageTitle" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide" unique_id=1847691565]
+layout_mode = 2
+text = "STORED RESOURCES"
+
+[node name="StorageRows" type="VBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide" unique_id=180524688]
+layout_mode = 2
+
+[node name="FoodRow" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows" unique_id=1056171803]
+layout_mode = 2
+
+[node name="FoodLabel" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/FoodRow" unique_id=950802812]
+layout_mode = 2
+text = "Berries"
+
+[node name="FoodSpacer" type="Control" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/FoodRow" unique_id=133457936]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FoodAmount" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/FoodRow" unique_id=1638389940]
+layout_mode = 2
+text = "x0
+"
+
+[node name="WoodRow" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows" unique_id=2090644967]
+layout_mode = 2
+
+[node name="WoodLabel" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/WoodRow" unique_id=688030752]
+layout_mode = 2
+text = "Wood"
+
+[node name="WoodSpacer" type="Control" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/WoodRow" unique_id=542833644]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WoodAmount" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/WoodRow" unique_id=601593642]
+layout_mode = 2
+text = "x0
+"
+
+[node name="StoneRow" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows" unique_id=757725377]
+layout_mode = 2
+
+[node name="StoneLabel" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/StoneRow" unique_id=1852065141]
+layout_mode = 2
+text = "Stone"
+
+[node name="StoneSpacer" type="Control" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/StoneRow" unique_id=2016579261]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StoneAmount" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/StoneRow" unique_id=1790653574]
+layout_mode = 2
+text = "x0
+"
+
+[node name="ConstructionSeparator" type="HSeparator" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide" unique_id=864294440]
+layout_mode = 2
+
+[node name="NextBuildTitle" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide" unique_id=441155050]
+layout_mode = 2
+text = "NEXT BUILD — CAMPFIRE"
+
+[node name="CostLabel" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide" unique_id=1918795930]
+layout_mode = 2
+text = "Wood 0 / 5"
+
+[node name="MessageLabel" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide" unique_id=1983463117]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide" unique_id=1496506466]
+layout_mode = 2
+
+[node name="BuildButton" type="Button" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/Buttons" unique_id=239261461]
+layout_mode = 2
+text = "BUILD CAMPFIRE"
+
+[node name="CloseButton" type="Button" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/Buttons" unique_id=1981386593]
+layout_mode = 2
+text = "CLOSE"

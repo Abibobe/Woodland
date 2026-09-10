@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0.2.3 Camp storage/Phase 2 — Build the new camp interface shell.md",
+                "file": "0.2.3 Camp storage/Phase 5 — Transfer individual resources.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Phase 2 — Build the new camp interface shell"
+              "title": "Phase 5 — Transfer individual resources"
             }
           }
         ]
@@ -191,8 +191,15 @@
   },
   "active": "66fdcf3f11d99201",
   "lastOpenFiles": [
-    "0.2.3 Camp storage/Phase 1.md",
+    "0.2.3 Camp storage/Phase 4 — Manual “Deposit All”.md",
+    "0.2.3 Camp storage/Phase 5 — Transfer individual resources.md",
+    "Pasted image 20260910113538.png",
+    "Pasted image 20260910113206.png",
+    "Pasted image 20260910112929.png",
+    "0.2.3 Camp storage/Phase 3 — Connect live data to the new camp screen.md",
+    "Pasted image 20260910105550.png",
     "0.2.3 Camp storage/Phase 2 — Build the new camp interface shell.md",
+    "0.2.3 Camp storage/Phase 1.md",
     "backpack_view 2.gd.uid",
     "backpack_grid 1.gd.uid",
     "backpack_grid 1.gd",
@@ -221,23 +228,16 @@
     "0.2.2 Hunger Games/0.2.2 Hunger games!.md",
     "rock_hole.png",
     "empty_bush.png",
-    "tree_stump.png",
     "0.2.1 Make the forest alive/Phase 14.2 --- more resouces, less harvest value.md",
     "0.2.1 Make the forest alive/Phase 14 --- renew.md",
     "0.2.1 Make the forest alive/Phase 13.2 — Make clusters form natural islands.md",
     "0.2.1 Make the forest alive/Phase 13.1.2 -- highlight the resources.md",
     "0.2.1 Make the forest alive/Phase 13.1 — Lightweight forest-cluster layer.md",
     "0.2.1 Make the forest alive/Phase 13.0 -- more forest!.md",
-    "Pasted image 20260906171110.png",
     "0.2.1 Make the forest alive/Phase 12.2 — Match interaction feedback to the new sprites.md",
     "0.2.1 Make the forest alive/Phase 12.1 — Deterministic resource variants.md",
-    "rock_01_v3.png",
-    "berry_bush_01_v3.png",
     "0.2.1 Make the forest alive/Phase 11.4 — Forest-floor variety.md",
     "0.2.1 Make the forest alive/Phase 11.3 — Replace procedural drawings with the sprite atlas.md",
-    "0.2.1 Make the forest alive/Phase 11.2 — Dense undergrowth clusters.md",
-    "0.2.1 Make the forest alive/Phase 10.7 — Campfire embers.md",
-    "0.2.1 Make the forest alive/Phase 10.6 — Drifting leaves.md",
-    "0.2.1 Make the forest alive/Phase 10.5 — Gentle vegetation movement.md"
+    "0.2.1 Make the forest alive/Phase 11.2 — Dense undergrowth clusters.md"
   ]
 }
