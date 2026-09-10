@@ -85,8 +85,6 @@ var maximum_hunger_for_eating := 85.0
 	$NightAmbience
 )
 
-@onready var deposit_timer: Timer = $DepositTimer
-
 @onready var world_generator: WorldGenerator = $World
 
 @onready var player_camera: Camera2D = (
@@ -114,7 +112,6 @@ var world_tint_tween: Tween
 
 var game_finished: bool = false
 var active_camp: Camp
-var deposit_camp: Camp
 
 var next_camp_stage_was_affordable := false
 
@@ -188,15 +185,6 @@ func _ready() -> void:
 	backpack.resource_changed.connect(
 		_on_backpack_resource_changed
 	)
-
-	player_interaction.interaction_target_entered.connect(
-		_on_interaction_target_entered
-	)
-
-	player_interaction.interaction_target_exited.connect(
-		_on_interaction_target_exited
-	)
-
 
 	backpack_view.view_closed.connect(
 		_on_backpack_view_closed
@@ -300,7 +288,6 @@ func _on_interaction_completed(
 				% action
 			)
 
-
 func _on_inventory_resource_changed(
 	resource_type: int,
 	new_amount: int
@@ -310,6 +297,7 @@ func _on_inventory_resource_changed(
 		new_amount
 	)
 
+	_refresh_camp_resource_display()
 
 func _update_entire_hud() -> void:
 	hud.set_resource_amount(
@@ -442,7 +430,6 @@ func _check_next_camp_stage_affordability() -> void:
 		)
 
 		hud.show_milestone(
-			#"NEXT BUILD AVAILABLE\n%s — RETURN TO CAMP"
 			"NEXT BUILD AVAILABLE\n%s !"
 			% next_stage_name.to_upper()
 		)
@@ -730,83 +717,6 @@ func _show_backpack_full() -> void:
 		"Backpack full — return to camp",
 		player_screen_position
 	)
-
-
-func _on_interaction_target_entered(
-	target: InteractionTarget
-) -> void:
-	if not target is Camp:
-		return
-
-	if not deposit_timer.is_stopped():
-		deposit_timer.stop()
-
-	deposit_camp = null
-
-
-func _on_interaction_target_exited(
-	target: InteractionTarget
-) -> void:
-	if not target is Camp:
-		return
-
-	if not deposit_timer.is_stopped():
-		deposit_timer.stop()
-
-	deposit_camp = null
-
-func _on_deposit_timer_timeout() -> void:
-	if deposit_camp == null:
-		return
-
-	if not is_instance_valid(deposit_camp):
-		deposit_camp = null
-		return
-
-	if not player_interaction.has_target(
-		deposit_camp
-	):
-		deposit_camp = null
-		return
-
-	if backpack.is_empty():
-		deposit_camp = null
-		return
-
-	var delivered_resources := backpack.take_all()
-
-	for resource_type in delivered_resources:
-		var delivered_amount := int(
-			delivered_resources[resource_type]
-		)
-
-		if delivered_amount <= 0:
-			continue
-
-		inventory.add_resource(
-			int(resource_type),
-			delivered_amount
-		)
-
-	hud.show_delivery_summary(
-		delivered_resources
-	)
-	
-	if (tutorial_step == TutorialStep.BACKPACK
-		or tutorial_step == TutorialStep.RETURN_TO_CAMP
-	):
-		_set_tutorial_step(
-			TutorialStep.CONSTRUCTION
-		)
-
-	_check_next_camp_stage_affordability()
-
-	if active_camp != null:
-		_refresh_camp_menu()
-
-	deposit_camp = null
-	player_interaction.refresh_prompt()
-
 
 func _format_delivery_summary(
 	delivered_resources: Dictionary
@@ -1215,12 +1125,12 @@ func _refresh_backpack_view() -> void:
 		backpack.maximum_weight
 	)
 
-
 func _on_backpack_resource_changed(
 	_resource_type: int,
 	_new_amount: int
 ) -> void:
 	_refresh_backpack_view()
+	_refresh_camp_resource_display()
 
 
 func _open_backpack_view() -> void:
@@ -1420,4 +1330,18 @@ func _on_camp_withdraw_resource_requested(
 	camp_menu.show_transfer_feedback(
 		resource_type,
 		false
+	)
+
+func _refresh_camp_resource_display() -> void:
+	if active_camp == null:
+		return
+
+	if not camp_menu.visible:
+		return
+
+	camp_menu.refresh_resources(
+		backpack.get_all_resources(),
+		backpack.get_current_weight(),
+		backpack.maximum_weight,
+		inventory.get_all_resources()
 	)

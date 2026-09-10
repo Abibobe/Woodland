@@ -9,6 +9,9 @@ extends Control
 @export var result_screen: ResultScreen
 @export var tutorial_prompt: TutorialPrompt
 
+@export var backpack_view: Control
+@export var camp_menu: Control
+
 @onready var resume_button: Button = (
 	$CenterContainer/Panel/MarginContainer/Content/ResumeButton
 )
@@ -78,13 +81,6 @@ func _ready() -> void:
 	tutorial_prompt.visibility_changed.connect(
 		_on_secondary_panel_visibility_changed
 	)
-
-
-func _process(_delta: float) -> void:
-	if not Input.is_action_just_pressed("ui_cancel"):
-		return
-
-	_handle_pause_input()
 
 func _is_another_modal_open() -> bool:
 	if main_menu.visible:
@@ -365,3 +361,38 @@ func _handle_pause_input() -> void:
 		return
 
 	_open_pause_menu()
+
+func _unhandled_input(
+	event: InputEvent
+) -> void:
+	if event.is_echo():
+		return
+
+	if not event.is_action_pressed(
+		"ui_cancel"
+	):
+		return
+
+	# Let GameManager handle Escape while the backpack
+	# or camp interface is open.
+	if (
+		is_instance_valid(backpack_view)
+		and backpack_view.visible
+	):
+		return
+
+	if (
+		is_instance_valid(camp_menu)
+		and camp_menu.visible
+	):
+		return
+
+	_handle_pause_input()
+
+	get_viewport().set_input_as_handled()
+
+func _process(_delta: float) -> void:
+	if not Input.is_action_just_pressed("ui_cancel"):
+		return
+
+	_handle_pause_input()

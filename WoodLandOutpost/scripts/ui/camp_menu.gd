@@ -84,28 +84,6 @@ signal withdraw_resource_requested(
 	MainRow/CampSide/Buttons/CloseButton
 )
 
-@onready var panel: PanelContainer = $Panel
-
-@onready var title_label: Label = (
-	$Panel/MarginContainer/Content/TitleLabel
-)
-
-@onready var cost_label: Label = (
-	$Panel/MarginContainer/Content/CostRow/CostLabel
-)
-
-@onready var message_label: Label = (
-	$Panel/MarginContainer/Content/MessageLabel
-)
-
-@onready var build_button: Button = (
-	$Panel/MarginContainer/Content/Buttons/BuildButton
-)
-
-@onready var close_button: Button = (
-	$Panel/MarginContainer/Content/Buttons/CloseButton
-)
-
 @onready var take_food_button: Button = (
 	$CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/FoodRow/TakeFoodButton
 )
@@ -151,7 +129,6 @@ func _ready() -> void:
 		_on_take_stone_pressed
 	)
 	
-	panel.hide()
 	background.hide()
 	center_container.hide()
 	hide()
@@ -167,7 +144,6 @@ func open_menu(
 	can_build: bool,
 	is_complete: bool
 ) -> void:
-	panel.hide()
 	new_message_label.text = ""
 
 	if is_complete:

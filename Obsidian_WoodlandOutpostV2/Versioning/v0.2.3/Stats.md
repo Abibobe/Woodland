@@ -1,0 +1,1 @@
+Ore di sviluppo: ~18

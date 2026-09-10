@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0.2.3 Camp storage/Phase 7 -- Cleanup phase — Remove the old deposit system.md",
+                "file": "Versioning/v0.2.3/Stats.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Phase 7 -- Cleanup phase — Remove the old deposit system"
+              "title": "Stats"
             }
           }
         ]
@@ -191,8 +191,25 @@
   },
   "active": "66fdcf3f11d99201",
   "lastOpenFiles": [
-    "0.2.3 Camp storage/Phase 6.1 -- Polish.md",
+    "Versioning/v0.2.3.md",
+    "Versioning/v0.2.3/Stats.md",
+    "Versioning/v0.2.3/Itch.io Description.md",
+    "Versioning/v0.2.3/DevLog -- Woodland Outpost v0.2.3 — I Opened the Backpack and Accidentally Rebuilt the Camp.md",
+    "Versioning/v0.2.0.1/Stats.md",
+    "Versioning/v0.2.0/Stats.md",
+    "Versioning/v0.2.3/READ ME.md",
+    "Versioning/v0.2.0.1/Itch.io Description.md",
+    "Versioning/v0.2.0.1/DevLog - Woodland Outpost v0.2.0 — A Bigger Forest and Better Expeditions!.md",
+    "Versioning/v0.2.0.1/README.md",
+    "Stats.md",
+    "README.md",
+    "Itch.io Description.md",
+    "DevLog - Woodland Outpost v0.2.0 — A Bigger Forest and Better Expeditions!.md",
+    "Versioning/v0.2.3",
+    "0.2.3 Camp storage/phase 9 --- Checklist pre release.md",
+    "0.2.3 Camp storage/Phase 8 -- Bug fixing.md",
     "0.2.3 Camp storage/Phase 7 -- Cleanup phase — Remove the old deposit system.md",
+    "0.2.3 Camp storage/Phase 6.1 -- Polish.md",
     "0.2.3 Camp storage/Phase 6 — Polish the camp inventories.md",
     "0.2.3 Camp storage/Phase 5 — Transfer individual resources.md",
     "0.2.3 Camp storage/Phase 4 — Manual “Deposit All”.md",
@@ -214,30 +231,13 @@
     "0.2.3 Camp storage/Phase 0 - Planning.md",
     "0.2.2 Hunger Games/Phase 5.2 -- opening animation.md",
     "0.2.3 Camp storage",
-    "0.2.2 Hunger Games/Phase 5.1 -- Backpack redraw.md",
-    "Pasted image 20260908140235.png.import",
     "Pasted image 20260908140235.png",
-    "0.2.2 Hunger Games/Phase 5 -- Polish the backpack.md",
-    "0.2.2 Hunger Games/Phase 4 -- Backpack!.md",
     "Pasted image 20260907164908.png",
     "Pasted image 20260907164852.png",
-    "0.2.2 Hunger Games/Phase 3 -- animation.md",
-    "0.2.1 Make the forest alive/Phase 14.3 --- what happen to the depleted resources.md",
     "berry_bush_01.png",
     "Senza nome 1.canvas",
     "Senza nome.canvas",
-    "0.2.2 Hunger Games/Phase 2 — Eat from camp storage.md",
-    "0.2.2 Hunger Games/Phase 1 — Eat from backpack.md",
-    "0.2.2 Hunger Games/0.2.2 Hunger games!.md",
     "rock_hole.png",
-    "empty_bush.png",
-    "0.2.1 Make the forest alive/Phase 14.2 --- more resouces, less harvest value.md",
-    "0.2.1 Make the forest alive/Phase 14 --- renew.md",
-    "0.2.1 Make the forest alive/Phase 13.2 — Make clusters form natural islands.md",
-    "0.2.1 Make the forest alive/Phase 13.1.2 -- highlight the resources.md",
-    "0.2.1 Make the forest alive/Phase 13.1 — Lightweight forest-cluster layer.md",
-    "0.2.1 Make the forest alive/Phase 13.0 -- more forest!.md",
-    "0.2.1 Make the forest alive/Phase 12.2 — Match interaction feedback to the new sprites.md",
-    "0.2.1 Make the forest alive/Phase 12.1 — Deterministic resource variants.md"
+    "empty_bush.png"
   ]
 }

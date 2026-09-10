@@ -1,2 +1,2 @@
-##### Ore sviluppo:  30.5
+##### Ore sviluppo:  ~7.5
 ##### Dimensione .exe : 

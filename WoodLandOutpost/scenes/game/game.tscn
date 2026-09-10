@@ -475,10 +475,10 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_34cou")
 theme_override_styles/focus = SubResource("StyleBoxFlat_r15l8")
 text = "Close"
 
-[node name="PauseMenu" type="Control" parent="Interface" unique_id=723385990 node_paths=PackedStringArray("main_menu", "audio_settings_panel", "help_center", "result_screen", "tutorial_prompt")]
+[node name="PauseMenu" type="Control" parent="Interface" unique_id=723385990 node_paths=PackedStringArray("main_menu", "audio_settings_panel", "help_center", "result_screen", "tutorial_prompt", "backpack_view", "camp_menu")]
 process_mode = 3
 visible = false
-z_index = 75
+z_index = 1000
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -491,6 +491,8 @@ audio_settings_panel = NodePath("../AudioSettingsPanel")
 help_center = NodePath("../HelpCenter")
 result_screen = NodePath("../ResultScreen")
 tutorial_prompt = NodePath("../TutorialPrompt")
+backpack_view = NodePath("../BackpackView")
+camp_menu = NodePath("../CampMenu")
 
 [node name="Backdrop" type="ColorRect" parent="Interface/PauseMenu" unique_id=381595891]
 layout_mode = 1
@@ -1340,8 +1342,5 @@ bus = &"Ambience"
 
 [node name="PlayerBackpack" type="Node2D" parent="." unique_id=748736467]
 script = ExtResource("34_mumkj")
-
-[node name="DepositTimer" type="Timer" parent="." unique_id=1371946218]
-one_shot = true
 
 [editable path="Interface/HUD"]
