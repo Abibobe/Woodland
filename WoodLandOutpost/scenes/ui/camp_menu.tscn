@@ -184,6 +184,13 @@ stone_icon = ExtResource("7_p8lpi")
 layout_mode = 2
 text = "Food 0 • Wood 0 • Stone 0"
 
+[node name="BackpackHint" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/BackpackSide" unique_id=1062117101]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7254902, 0.78039217, 0.72156864, 1)
+theme_override_font_sizes/font_size = 11
+text = "Click an item to deposit one unit"
+horizontal_alignment = 1
+
 [node name="DepositAllButton" type="Button" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/BackpackSide" unique_id=966202523]
 layout_mode = 2
 text = "DEPOSIT ALL →"
@@ -221,11 +228,23 @@ text = "STORED RESOURCES"
 layout_mode = 2
 
 [node name="FoodRow" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows" unique_id=1056171803]
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="FoodIcon" type="TextureRect" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/FoodRow" unique_id=819342079]
+texture_filter = 1
+custom_minimum_size = Vector2(86, 46)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_ihnqk")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="FoodLabel" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/FoodRow" unique_id=950802812]
 layout_mode = 2
-text = "Berries"
+text = "Berries · 1 KG"
 
 [node name="FoodSpacer" type="Control" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/FoodRow" unique_id=133457936]
 layout_mode = 2
@@ -236,12 +255,30 @@ layout_mode = 2
 text = "x0
 "
 
-[node name="WoodRow" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows" unique_id=2090644967]
+[node name="TakeFoodButton" type="Button" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/FoodRow" unique_id=1744951561]
+custom_minimum_size = Vector2(96, 38)
 layout_mode = 2
+tooltip_text = "Move 1 Food to backpack · Requires 1 KG"
+text = "← TAKE ONE"
+
+[node name="WoodRow" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows" unique_id=2090644967]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="WoodIcon" type="TextureRect" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/WoodRow" unique_id=76232970]
+texture_filter = 1
+custom_minimum_size = Vector2(86, 46)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_tin1x")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="WoodLabel" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/WoodRow" unique_id=688030752]
 layout_mode = 2
-text = "Wood"
+text = "Wood · 2 KG"
 
 [node name="WoodSpacer" type="Control" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/WoodRow" unique_id=542833644]
 layout_mode = 2
@@ -252,12 +289,30 @@ layout_mode = 2
 text = "x0
 "
 
-[node name="StoneRow" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows" unique_id=757725377]
+[node name="TakeWoodButton" type="Button" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/WoodRow" unique_id=1092083742]
+custom_minimum_size = Vector2(96, 38)
 layout_mode = 2
+tooltip_text = "Move 1 Wood to backpack · Requires 2 KG"
+text = "← TAKE ONE"
+
+[node name="StoneRow" type="HBoxContainer" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows" unique_id=757725377]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="StoneIcon" type="TextureRect" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/StoneRow" unique_id=1811968886]
+texture_filter = 1
+custom_minimum_size = Vector2(86, 46)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("7_p8lpi")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="StoneLabel" type="Label" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/StoneRow" unique_id=1852065141]
 layout_mode = 2
-text = "Stone"
+text = "Stone · 3 KG"
 
 [node name="StoneSpacer" type="Control" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/StoneRow" unique_id=2016579261]
 layout_mode = 2
@@ -267,6 +322,12 @@ size_flags_horizontal = 3
 layout_mode = 2
 text = "x0
 "
+
+[node name="TakeStoneButton" type="Button" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/StoneRow" unique_id=1312536061]
+custom_minimum_size = Vector2(96, 38)
+layout_mode = 2
+tooltip_text = "Move 1 Stone to backpack · Requires 1 KG"
+text = "← TAKE ONE"
 
 [node name="ConstructionSeparator" type="HSeparator" parent="CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide" unique_id=864294440]
 layout_mode = 2

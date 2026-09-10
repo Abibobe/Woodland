@@ -1,6 +1,7 @@
 class_name BackpackGrid
 extends Control
 
+signal resource_selected(resource_type: int)
 
 @export_category("Resource Icons")
 @export var food_icon: Texture2D
@@ -107,7 +108,7 @@ func _ensure_slot_count(required_slots: int) -> void:
 		return
 
 	for child in get_children():
-		child.free()
+		child.queue_free()
 
 	background_slots.clear()
 	item_blocks.clear()
@@ -146,11 +147,17 @@ func _ensure_slot_count(required_slots: int) -> void:
 		add_child(panel)
 		background_slots.append(panel)
 
-
 func _clear_item_blocks() -> void:
 	for item_block in item_blocks:
-		if is_instance_valid(item_block):
-			item_block.free()
+		if not is_instance_valid(item_block):
+			continue
+
+		# Prevent another click while waiting for deletion.
+		item_block.mouse_filter = (
+			Control.MOUSE_FILTER_IGNORE
+		)
+
+		item_block.queue_free()
 
 	item_blocks.clear()
 
@@ -169,7 +176,41 @@ func _create_item_block(
 		weight * SLOT_SIZE.x + (weight - 1) * SLOT_GAP,
 		SLOT_SIZE.y
 	)
-	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	panel.mouse_default_cursor_shape = (
+		Control.CURSOR_POINTING_HAND
+	)
+
+	panel.tooltip_text = (
+		"Deposit 1 %s — %d KG"
+		% [
+			ResourceTypes.get_display_name(
+				resource_type
+			),
+			weight
+		]
+	)
+
+	panel.gui_input.connect(
+		_on_item_block_gui_input.bind(
+			resource_type
+		)
+	)
+	
+	panel.mouse_entered.connect(
+		_on_item_mouse_entered.bind(
+			panel,
+			resource_type
+		)
+	)
+
+	panel.mouse_exited.connect(
+		_on_item_mouse_exited.bind(
+			panel,
+			resource_type
+		)
+	)
+	
 	panel.z_index = 2
 	panel.add_theme_stylebox_override(
 		"panel",
@@ -247,3 +288,61 @@ func _get_resource_weight(resource_type: int) -> int:
 		ResourceTypes.Type.STONE:
 			return 3
 	return 0
+
+func _on_item_block_gui_input(
+	event: InputEvent,
+	resource_type: int
+) -> void:
+	if not event is InputEventMouseButton:
+		return
+
+	var mouse_event := (
+		event as InputEventMouseButton
+	)
+
+	if mouse_event.button_index != MOUSE_BUTTON_LEFT:
+		return
+
+	if not mouse_event.pressed:
+		return
+
+	resource_selected.emit(resource_type)
+	accept_event()
+
+
+func _on_item_mouse_entered(
+	panel: PanelContainer,
+	resource_type: int
+) -> void:
+	if not is_instance_valid(panel):
+		return
+
+	panel.add_theme_stylebox_override(
+		"panel",
+		_create_slot_style(
+			_get_resource_color(
+				resource_type
+			).lightened(0.10),
+			Color("#fff0a3"),
+			2
+		)
+	)
+
+
+func _on_item_mouse_exited(
+	panel: PanelContainer,
+	resource_type: int
+) -> void:
+	if not is_instance_valid(panel):
+		return
+
+	panel.add_theme_stylebox_override(
+		"panel",
+		_create_slot_style(
+			_get_resource_color(
+				resource_type
+			),
+			ACTIVE_BORDER_COLOR,
+			2
+		)
+	)

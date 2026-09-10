@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "0.2.3 Camp storage/Phase 5 — Transfer individual resources.md",
+                "file": "0.2.3 Camp storage/Phase 7 -- Cleanup phase — Remove the old deposit system.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Phase 5 — Transfer individual resources"
+              "title": "Phase 7 -- Cleanup phase — Remove the old deposit system"
             }
           }
         ]
@@ -191,8 +191,11 @@
   },
   "active": "66fdcf3f11d99201",
   "lastOpenFiles": [
-    "0.2.3 Camp storage/Phase 4 — Manual “Deposit All”.md",
+    "0.2.3 Camp storage/Phase 6.1 -- Polish.md",
+    "0.2.3 Camp storage/Phase 7 -- Cleanup phase — Remove the old deposit system.md",
+    "0.2.3 Camp storage/Phase 6 — Polish the camp inventories.md",
     "0.2.3 Camp storage/Phase 5 — Transfer individual resources.md",
+    "0.2.3 Camp storage/Phase 4 — Manual “Deposit All”.md",
     "Pasted image 20260910113538.png",
     "Pasted image 20260910113206.png",
     "Pasted image 20260910112929.png",
@@ -235,9 +238,6 @@
     "0.2.1 Make the forest alive/Phase 13.1 — Lightweight forest-cluster layer.md",
     "0.2.1 Make the forest alive/Phase 13.0 -- more forest!.md",
     "0.2.1 Make the forest alive/Phase 12.2 — Match interaction feedback to the new sprites.md",
-    "0.2.1 Make the forest alive/Phase 12.1 — Deterministic resource variants.md",
-    "0.2.1 Make the forest alive/Phase 11.4 — Forest-floor variety.md",
-    "0.2.1 Make the forest alive/Phase 11.3 — Replace procedural drawings with the sprite atlas.md",
-    "0.2.1 Make the forest alive/Phase 11.2 — Dense undergrowth clusters.md"
+    "0.2.1 Make the forest alive/Phase 12.1 — Deterministic resource variants.md"
   ]
 }

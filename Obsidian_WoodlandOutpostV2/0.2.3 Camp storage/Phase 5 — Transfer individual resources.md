@@ -218,29 +218,10 @@ take_stone_button.disabled = (
 			ResourceTypes.Type.STONE,
 			0
 		)
-	) <=elf 0
-)
-```
-
-There is a typo to avoid in that last condition—the correct line is:
-
-```
 	) <= 0
 )
 ```
 
-So the complete stone section is:
-
-```
-take_stone_button.disabled = (
-	int(
-		camp_contents.get(
-			ResourceTypes.Type.STONE,
-			0
-		)
-	) <= 0
-)
-```
 
 ### 5. Connect the requests in `GameManager`
 
@@ -361,3 +342,50 @@ func _on_camp_withdraw_resource_requested(
 - `Deposit All` continues working.
 
 Now the camp is a genuine transfer interface rather than an automatic unloading point.
+
+### Issue: error when click on resources
+
+The click signal immediately refreshes the grid while Godot is still processing that item’s `gui_input`. `_clear_item_blocks()` tries to destroy the exact panel currently handling the click, but Godot temporarily locks signal-emitting objects.
+
+Use `queue_free()` so removal happens safely at the end of the frame.
+
+In `backpack_grid.gd`, replace `_clear_item_blocks()` with:
+
+```
+func _clear_item_blocks() -> void:
+	for item_block in item_blocks:
+		if not is_instance_valid(item_block):
+			continue
+
+		# Prevent another click while waiting for deletion.
+		item_block.mouse_filter = (
+			Control.MOUSE_FILTER_IGNORE
+		)
+
+		item_block.queue_free()
+
+	item_blocks.clear()
+```
+
+For consistency, also update `_ensure_slot_count()`. Replace:
+
+```
+for child in get_children():
+	child.free()
+```
+
+with:
+
+```
+for child in get_children():
+	child.queue_free()
+```
+
+Why this works:
+
+- `free()` destroys the object immediately, which is unsafe during its input callback.
+- `queue_free()` schedules destruction after the current input event finishes.
+- The old block stops receiving mouse input immediately.
+- The refreshed resource blocks can be created safely during the same frame.
+
+After this change, clicking a resource should transfer it and refresh both sides without the locked-object error.

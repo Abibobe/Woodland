@@ -153,6 +153,14 @@ func _ready() -> void:
 		_close_camp_menu
 	)
 	
+	camp_menu.deposit_resource_requested.connect(
+		_on_camp_deposit_resource_requested
+	)
+
+	camp_menu.withdraw_resource_requested.connect(
+		_on_camp_withdraw_resource_requested
+	)
+	
 	day_cycle.display_changed.connect(
 		_on_time_display_changed
 	)
@@ -1305,6 +1313,111 @@ func _on_camp_deposit_all_requested() -> void:
 		_set_tutorial_step(
 			TutorialStep.CONSTRUCTION
 		)
+	for resource_type in delivered_resources:
+		if int(delivered_resources[resource_type]) <= 0:
+			continue
+
+		camp_menu.show_transfer_feedback(
+			int(resource_type),
+			true
+		)
 
 	_check_next_camp_stage_affordability()
 	_refresh_camp_menu()
+
+
+func _on_camp_deposit_resource_requested(
+	resource_type: int
+) -> void:
+	if active_camp == null:
+		return
+
+	if not backpack.remove_resource(
+		resource_type,
+		1
+	):
+		_play_ui_denied()
+		return
+
+	inventory.add_resource(
+		resource_type,
+		1
+	)
+
+	_play_ui_click()
+	camp_menu.show_transfer_feedback(
+		resource_type,
+		true
+	)
+
+	camp_menu.show_message(
+		"Deposited 1 %s"
+		% ResourceTypes.get_display_name(
+			resource_type
+		)
+	)
+
+	_check_next_camp_stage_affordability()
+	_refresh_camp_menu()
+
+
+func _on_camp_withdraw_resource_requested(
+	resource_type: int
+) -> void:
+	if active_camp == null:
+		return
+
+	if not inventory.has_resources(
+		resource_type,
+		1
+	):
+		camp_menu.show_message(
+			"No resources available"
+		)
+
+		_play_ui_denied()
+		return
+
+	if not backpack.can_add(
+		resource_type,
+		1
+	):
+		camp_menu.show_message(
+			"Not enough backpack space"
+		)
+
+		_play_ui_denied()
+		return
+
+	if not inventory.remove_resource(
+		resource_type,
+		1
+	):
+		return
+
+	if not backpack.add_resource(
+		resource_type,
+		1
+	):
+		# Defensive rollback if backpack capacity changed.
+		inventory.add_resource(
+			resource_type,
+			1
+		)
+		return
+
+	_play_ui_click()
+
+	camp_menu.show_message(
+		"Took 1 %s"
+		% ResourceTypes.get_display_name(
+			resource_type
+		)
+	)
+
+	_check_next_camp_stage_affordability()
+	_refresh_camp_menu()
+	camp_menu.show_transfer_feedback(
+		resource_type,
+		false
+	)

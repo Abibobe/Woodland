@@ -5,7 +5,13 @@ extends Control
 signal build_requested
 signal close_requested
 signal deposit_all_requested
+signal deposit_resource_requested(
+	resource_type: int
+)
 
+signal withdraw_resource_requested(
+	resource_type: int
+)
 
 @onready var background: ColorRect = $Background
 
@@ -100,6 +106,17 @@ signal deposit_all_requested
 	$Panel/MarginContainer/Content/Buttons/CloseButton
 )
 
+@onready var take_food_button: Button = (
+	$CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/FoodRow/TakeFoodButton
+)
+
+@onready var take_wood_button: Button = (
+	$CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/WoodRow/TakeWoodButton
+)
+
+@onready var take_stone_button: Button = (
+	$CenterContainer/CampWorkspace/MarginContainer/MainRow/CampSide/StorageRows/StoneRow/TakeStoneButton
+)
 
 func _ready() -> void:
 	new_build_button.pressed.connect(
@@ -116,6 +133,22 @@ func _ready() -> void:
 
 	deposit_all_button.pressed.connect(
 		_on_deposit_all_button_pressed
+	)
+	
+	backpack_grid.resource_selected.connect(
+		_on_backpack_resource_selected
+	)
+
+	take_food_button.pressed.connect(
+		_on_take_food_pressed
+	)
+
+	take_wood_button.pressed.connect(
+		_on_take_wood_pressed
+	)
+
+	take_stone_button.pressed.connect(
+		_on_take_stone_pressed
 	)
 	
 	panel.hide()
@@ -184,8 +217,6 @@ func close_menu() -> void:
 
 func show_message(text: String) -> void:
 	new_message_label.text = text
-
-
 
 
 func _on_build_button_pressed() -> void:
@@ -274,6 +305,33 @@ func refresh_resources(
 			"DEPOSIT ALL — %d KG →"
 			% current_weight
 		)
+	
+	take_food_button.disabled = (
+		int(
+			camp_contents.get(
+				ResourceTypes.Type.FOOD,
+				0
+			)
+		) <= 0
+	)
+
+	take_wood_button.disabled = (
+		int(
+			camp_contents.get(
+				ResourceTypes.Type.WOOD,
+				0
+			)
+		) <= 0
+	)
+
+	take_stone_button.disabled = (
+		int(
+			camp_contents.get(
+				ResourceTypes.Type.STONE,
+				0
+			)
+		) <= 0
+	)
 
 func _apply_layout() -> void:
 	set_anchors_and_offsets_preset(
@@ -286,4 +344,62 @@ func _apply_layout() -> void:
 
 	center_container.set_anchors_and_offsets_preset(
 		Control.PRESET_FULL_RECT
+	)
+
+func _on_backpack_resource_selected(
+	resource_type: int
+) -> void:
+	deposit_resource_requested.emit(
+		resource_type
+	)
+
+
+func _on_take_food_pressed() -> void:
+	withdraw_resource_requested.emit(
+		ResourceTypes.Type.FOOD
+	)
+
+
+func _on_take_wood_pressed() -> void:
+	withdraw_resource_requested.emit(
+		ResourceTypes.Type.WOOD
+	)
+
+
+func _on_take_stone_pressed() -> void:
+	withdraw_resource_requested.emit(
+		ResourceTypes.Type.STONE
+	)
+
+func show_transfer_feedback(
+	resource_type: int,
+	deposited: bool
+) -> void:
+	var target: Control
+
+	if deposited:
+		match resource_type:
+			ResourceTypes.Type.FOOD:
+				target = food_amount
+
+			ResourceTypes.Type.WOOD:
+				target = wood_amount
+
+			ResourceTypes.Type.STONE:
+				target = stone_amount
+	else:
+		target = backpack_grid
+
+	if target == null:
+		return
+
+	var tween := create_tween()
+
+	target.modulate = Color("#fff0a3")
+
+	tween.tween_property(
+		target,
+		"modulate",
+		Color.WHITE,
+		0.25
 	)
