@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://u5i0l7jwer37" path="res://scenes/ui/hud.tscn" id="3_bdhmt"]
 [ext_resource type="Script" uid="uid://cwgqet65ub2gk" path="res://scripts/game/resource_spawner.gd" id="3_kelw5"]
 [ext_resource type="PackedScene" uid="uid://cqiauisgcm63r" path="res://scenes/ui/camp_menu.tscn" id="4_2a8rs"]
+[ext_resource type="Script" uid="uid://45xyy4ramfsx" path="res://scripts/buildings/camp_placement_controller.gd" id="4_tcm0m"]
 [ext_resource type="PackedScene" uid="uid://duyh0un27umb6" path="res://scenes/ui/result_screen.tscn" id="5_kp23o"]
 [ext_resource type="Script" uid="uid://c1qwsvjbln17i" path="res://scripts/game/resource_inventory.gd" id="5_lfrn8"]
 [ext_resource type="Texture2D" uid="uid://c1ldwjqdg0n3u" path="res://assets/ground/grass_tile_01.png" id="7_5jirj"]
@@ -40,6 +41,7 @@
 [ext_resource type="Texture2D" uid="uid://c8t00sdwcx2ir" path="res://assets/ui/backpack/backpack_stone.png" id="26_tcm0m"]
 [ext_resource type="Script" uid="uid://c2yberc7p4dbr" path="res://scripts/ui/backpack_grid.gd" id="27_au6n5"]
 [ext_resource type="Script" uid="uid://dr3obmbemhh42" path="res://scripts/game/forest_decorator.gd" id="29_0gkf7"]
+[ext_resource type="PackedScene" uid="uid://h8rvhxmjx0pn" path="res://scenes/ui/build_menu.tscn" id="29_yy23q"]
 [ext_resource type="Script" uid="uid://cofp1pi5dm41i" path="res://scripts/game/forest_life.gd" id="30_6ehwc"]
 [ext_resource type="Texture2D" uid="uid://cn7nulrnpbbdc" path="res://assets/environment/woodland_decorations_atlas.png" id="30_tyhjx"]
 [ext_resource type="Script" uid="uid://y3oowqq1ftkf" path="res://scripts/world/forest_cluster_layer.gd" id="31_jiu3o"]
@@ -181,6 +183,11 @@ position = Vector2(640, 440)
 [node name="Camp" parent="Entities" unique_id=1349754192 instance=ExtResource("7_87uf6")]
 texture_filter = 1
 position = Vector2(640, 352)
+
+[node name="CampPlacementController" type="Node2D" parent="Entities" unique_id=1114074911 node_paths=PackedStringArray("player", "existing_camp")]
+script = ExtResource("4_tcm0m")
+player = NodePath("../Player")
+existing_camp = NodePath("../Camp")
 
 [node name="WorldTint" type="CanvasModulate" parent="." unique_id=1739035885]
 
@@ -1277,6 +1284,8 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "TAB — Close    F — Eat Food"
 horizontal_alignment = 1
+
+[node name="BuildMenu" parent="Interface" unique_id=1369451793 instance=ExtResource("29_yy23q")]
 
 [node name="World" type="Node2D" parent="." unique_id=822583601]
 script = ExtResource("1_sul5r")

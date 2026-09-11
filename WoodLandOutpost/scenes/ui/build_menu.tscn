@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://h8rvhxmjx0pn"]
+
+[ext_resource type="Script" uid="uid://nbcfohjmr0og" path="res://scripts/ui/build_menu.gd" id="1_3xaa5"]
+
+[node name="BuildMenu" type="Control" unique_id=1369451793]
+visible = false
+z_index = 85
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3xaa5")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1886898959]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03137255, 0.0627451, 0.047058824, 0.8666667)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=170235904]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="CenterContainer" unique_id=577697441]
+custom_minimum_size = Vector2(440, 400)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel" unique_id=34439455]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/Panel/MarginContainer" unique_id=869152264]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/Panel/MarginContainer/Content" unique_id=1070977699]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9490196, 0.83137256, 0.4745098, 1)
+text = "BUILD MENU"
+
+[node name="DescriptionLabel" type="Label" parent="CenterContainer/Panel/MarginContainer/Content" unique_id=1406281131]
+layout_mode = 2
+text = "Choose a structure to place in the woodland."
+
+[node name="MainCampButton" type="Button" parent="CenterContainer/Panel/MarginContainer/Content" unique_id=1168479328]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+text = "MAIN CAMP — ALREADY ESTABLISHED"
+
+[node name="CampfireButton" type="Button" parent="CenterContainer/Panel/MarginContainer/Content" unique_id=589035]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+text = "CAMPFIRE
+Cost: 3 Wood"
+
+[node name="RabbitTrapButton" type="Button" parent="CenterContainer/Panel/MarginContainer/Content" unique_id=813417956]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+text = "RABBIT TRAP — LOCKED"
+
+[node name="Separator" type="HSeparator" parent="CenterContainer/Panel/MarginContainer/Content" unique_id=1167723844]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="CenterContainer/Panel/MarginContainer/Content" unique_id=1925898425]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+text = "CLOSE"

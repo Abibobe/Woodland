@@ -38,6 +38,10 @@ func _process(_delta: float) -> void:
 		hide()
 		return
 
+	if not camp.visible:
+		hide()
+		return
+
 	var viewport_size := (
 		get_viewport().get_visible_rect().size
 	)

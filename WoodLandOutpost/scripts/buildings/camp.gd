@@ -42,6 +42,12 @@ const SHADOW_COLOR := Color(0.05, 0.08, 0.06, 0.32)
 
 @onready var warm_light: PointLight2D = $WarmLight
 
+@onready var collision_shape: CollisionShape2D = (
+	$CollisionShape2D
+)
+var is_established := true
+
+
 var night_lighting_enabled: bool = false
 var light_animation_time: float = 0.0
 
@@ -54,6 +60,9 @@ func _ready() -> void:
 
 
 func get_interaction_text() -> String:
+	if not is_established:
+		return ""
+
 	if current_stage == CampStage.CABIN:
 		return "E — Inspect cabin"
 
@@ -61,6 +70,9 @@ func get_interaction_text() -> String:
 
 
 func interact() -> Dictionary:
+	if not is_established:
+		return {}
+
 	return {
 		"action": "camp_opened",
 		"camp": self
@@ -418,6 +430,7 @@ func _process(delta: float) -> void:
 		+ primary_flicker * 0.35
 	)
 	
+	
 	queue_redraw()
 
 func _play_construction_animation() -> void:
@@ -459,3 +472,19 @@ func _play_build_sound() -> void:
 	)
 
 	build_sound.play()
+
+func set_established(
+	established: bool
+) -> void:
+	is_established = established
+	visible = established
+
+	collision_shape.set_deferred(
+		"disabled",
+		not established
+	)
+
+	if not established:
+		warm_light.hide()
+	else:
+		_update_stage_light()

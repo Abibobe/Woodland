@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cnm6oqvdiymy8"]
+
+[ext_resource type="Script" uid="uid://c6a3jjoo1bk2b" path="res://scripts/buildings/buildable_campfire.gd" id="1_45rs7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4v7s"]
+
+[node name="BuildableCampfire" type="StaticBody2D" unique_id=78003538]
+z_index = 5
+collision_mask = 0
+script = ExtResource("1_45rs7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=221160036]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_g4v7s")
+
+[node name="WarmLight" type="PointLight2D" parent="." unique_id=534024168]
+position = Vector2(0, -5)

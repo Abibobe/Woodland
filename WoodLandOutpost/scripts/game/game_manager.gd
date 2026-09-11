@@ -106,6 +106,17 @@ var maximum_hunger_for_eating := 85.0
 	$Interface/BackpackView
 )
 
+@onready var camp_placement_controller: CampPlacementController = (
+	$Entities/CampPlacementController
+)
+
+@onready var build_menu: BuildMenu = (
+	$Interface/BuildMenu
+)
+
+var camp_is_placed := false
+var scouting_started := false
+
 var ambience_crossfade_tween: Tween
 
 var world_tint_tween: Tween
@@ -121,6 +132,18 @@ var critical_hunger_warning_shown := false
 
 func _ready() -> void:
 	_configure_world_layout()
+	
+	camp_is_placed = false
+	scouting_started = false
+
+	camp.set_established(false)
+
+	camp_placement_controller.lock_placement()
+
+	camp_placement_controller.placement_confirmed.connect(
+		_on_camp_placement_confirmed
+	)
+	
 	current_hunger = clampf(
 		starting_hunger,
 		0.0,
@@ -193,6 +216,15 @@ func _ready() -> void:
 	camp_menu.deposit_all_requested.connect(
 		_on_camp_deposit_all_requested
 	)
+	
+	build_menu.close_requested.connect(
+		_close_build_menu
+	)
+
+	build_menu.campfire_requested.connect(
+		_on_campfire_build_requested
+	)
+	
 	_update_entire_hud()
 	
 
@@ -769,6 +801,11 @@ func _configure_world_layout() -> void:
 
 	camp.global_position = world_center
 
+	camp_placement_controller.configure(
+		world_size,
+		world_center
+	)
+
 	player.global_position = (
 		world_center + Vector2(0.0, 88.0)
 	)
@@ -792,25 +829,13 @@ func _on_main_menu_visibility_changed() -> void:
 	if main_menu.visible:
 		return
 
-	if not tutorial_enabled:
-		tutorial_step = TutorialStep.COMPLETE
-		hud.hide_tutorial_hint()
+	if not camp_is_placed:
+		_begin_camp_scouting()
 		return
 
-	if tutorial_step != TutorialStep.WAITING:
-		return
-
-	if _was_contextual_tutorial_completed():
-		tutorial_step = TutorialStep.COMPLETE
-		hud.hide_tutorial_hint()
-		return
-
-	tutorial_start_position = player.global_position
-
-	_set_tutorial_step(
-		TutorialStep.MOVEMENT
-	)
-
+	_start_contextual_tutorial()
+	
+	
 
 func _set_tutorial_step(
 	new_step: TutorialStep
@@ -963,6 +988,20 @@ func _unhandled_input(
 	if event.is_echo():
 		return
 
+	if build_menu.visible:
+		if (
+			event.is_action_pressed(
+				"toggle_build_mode"
+			)
+			or event.is_action_pressed(
+				"ui_cancel"
+			)
+		):
+			_close_build_menu()
+			get_viewport().set_input_as_handled()
+
+		return
+		
 	if backpack_view.visible:
 		if backpack_view.is_closing:
 			get_viewport().set_input_as_handled()
@@ -991,6 +1030,16 @@ func _unhandled_input(
 		"toggle_backpack"
 	):
 		_open_backpack_view()
+		get_viewport().set_input_as_handled()
+		return
+
+	if (
+		camp_is_placed
+		and event.is_action_pressed(
+			"toggle_build_mode"
+		)
+	):
+		_open_build_menu()
 		get_viewport().set_input_as_handled()
 		return
 
@@ -1345,3 +1394,131 @@ func _refresh_camp_resource_display() -> void:
 		backpack.maximum_weight,
 		inventory.get_all_resources()
 	)
+
+func _begin_camp_scouting() -> void:
+	if scouting_started:
+		return
+
+	scouting_started = true
+
+	day_cycle.set_running(false)
+
+	camp_placement_controller.enable_placement()
+
+	hud.set_day(
+		0,
+		"Scouting"
+	)
+
+	hud.show_tutorial_hint(
+		"Explore the area, then press B to place your Main Camp."
+	)
+
+func _start_contextual_tutorial() -> void:
+	if not tutorial_enabled:
+		tutorial_step = TutorialStep.COMPLETE
+		hud.hide_tutorial_hint()
+		return
+
+	if tutorial_step != TutorialStep.WAITING:
+		return
+
+	if _was_contextual_tutorial_completed():
+		tutorial_step = TutorialStep.COMPLETE
+		hud.hide_tutorial_hint()
+		return
+
+	tutorial_start_position = player.global_position
+
+	_set_tutorial_step(
+		TutorialStep.MOVEMENT
+	)
+
+func _on_camp_placement_confirmed(
+	camp_position: Vector2
+) -> void:
+	if camp_is_placed:
+		return
+
+	camp.global_position = camp_position
+	camp.set_established(true)
+
+	camp_is_placed = true
+
+	camp_placement_controller.lock_placement()
+
+	day_cycle.set_running(true)
+
+	_on_time_display_changed(
+		day_cycle.current_day,
+		day_cycle.get_phase_name()
+	)
+
+	hud.show_milestone(
+		"MAIN CAMP ESTABLISHED\nPREPARE FOR WINTER"
+	)
+
+	_start_contextual_tutorial()
+
+func _open_build_menu() -> void:
+	if game_finished:
+		return
+
+	if not camp_is_placed:
+		return
+
+	if camp_menu.visible:
+		return
+
+	if backpack_view.visible:
+		return
+
+	if main_menu.visible:
+		return
+
+	player.set_movement_enabled(false)
+
+	player_interaction.set_process_unhandled_input(
+		false
+	)
+
+	day_cycle.set_running(false)
+	hud.hide_interaction_prompt()
+	hud.hide()
+
+	build_menu.open_menu()
+
+
+func _close_build_menu() -> void:
+	build_menu.close_menu()
+
+	if game_finished:
+		return
+
+	hud.show()
+
+	player.set_movement_enabled(true)
+
+	player_interaction.set_process_unhandled_input(
+		true
+	)
+
+	player_interaction.refresh_prompt()
+	day_cycle.set_running(true)
+
+func _on_campfire_build_requested() -> void:
+	build_menu.close_menu()
+
+	hud.show()
+	hud.show_milestone(
+		"CAMPFIRE SELECTED\nPLACEMENT COMING NEXT"
+	)
+
+	player.set_movement_enabled(true)
+
+	player_interaction.set_process_unhandled_input(
+		true
+	)
+
+	player_interaction.refresh_prompt()
+	day_cycle.set_running(true)
